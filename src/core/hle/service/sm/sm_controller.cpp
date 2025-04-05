@@ -13,6 +13,8 @@
 #include "core/hle/service/server_manager.h"
 #include "core/hle/service/sm/sm_controller.h"
 
+#include <limits>
+
 namespace Service::SM {
 
 void Controller::ConvertCurrentObjectToDomain(HLERequestContext& ctx) {
@@ -68,11 +70,11 @@ void Controller::CloneCurrentObjectEx(HLERequestContext& ctx) {
 }
 
 void Controller::QueryPointerBufferSize(HLERequestContext& ctx) {
-    LOG_WARNING(Service, "(STUBBED) called");
+    LOG_DEBUG(Service, "(STUBBED) called");
 
     IPC::ResponseBuilder rb{ctx, 3};
     rb.Push(ResultSuccess);
-    rb.Push<u16>(0x8000);
+    rb.Push<u16>(std::numeric_limits<u16>::max()); // use max value for now
 }
 
 // https://switchbrew.org/wiki/IPC_Marshalling

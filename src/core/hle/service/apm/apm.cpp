@@ -16,6 +16,8 @@ void LoopProcess(Core::System& system) {
     auto server_manager = std::make_unique<ServerManager>(system);
 
     server_manager->RegisterNamedService(
+        "apm", std::make_shared<APM>(system, module, system.GetAPMController(), "apm"));
+    server_manager->RegisterNamedService(
         "apm:am", std::make_shared<APM>(system, module, system.GetAPMController(), "apm:am"));
     server_manager->RegisterNamedService(
         "apm:sys", std::make_shared<APM_Sys>(system, system.GetAPMController()));

@@ -470,6 +470,7 @@ GMainWindow::GMainWindow(std::unique_ptr<QtConfig> config_, bool has_broken_vulk
 
     QString game_path;
     bool has_gamepath = false;
+    bool should_launch_qlaunch = false;
     bool is_fullscreen = false;
 
     for (int i = 1; i < args.size(); ++i) {
@@ -537,6 +538,9 @@ GMainWindow::GMainWindow(std::unique_ptr<QtConfig> config_, bool has_broken_vulk
             game_path = args[++i];
             has_gamepath = true;
         }
+
+        if (args[i] == QStringLiteral("-qlaunch"))
+            should_launch_qlaunch = true;
     }
 
     // Override fullscreen setting if gamepath or argument is provided
@@ -545,7 +549,13 @@ GMainWindow::GMainWindow(std::unique_ptr<QtConfig> config_, bool has_broken_vulk
     }
 
     if (!game_path.isEmpty()) {
-        BootGame(game_path, ApplicationAppletParameters());
+        if (should_launch_qlaunch)
+            OnQLaunch();
+        else
+            BootGame(game_path, ApplicationAppletParameters());
+    } else {
+        if (should_launch_qlaunch)
+            OnQLaunch();
     }
 }
 
@@ -3061,7 +3071,7 @@ void GMainWindow::OnGameListCreateShortcut(u64 program_id, const std::string& ga
             this, GMainWindow::CREATE_SHORTCUT_MSGBOX_FULLSCREEN_YES, qt_game_title)) {
         arguments = "-f " + arguments;
     }
-    const std::string comment = fmt::format("Start {:s} with the yuzu Emulator", game_title);
+    const std::string comment = fmt::format("Start {:s} with the sudachi Emulator", game_title);
     const std::string categories = "Game;Emulator;Qt;";
     const std::string keywords = "Switch;Nintendo;";
 

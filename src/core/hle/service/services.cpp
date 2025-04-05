@@ -25,6 +25,7 @@
 #include "core/hle/service/hid/hid.h"
 #include "core/hle/service/ipc_helpers.h"
 #include "core/hle/service/jit/jit.h"
+#include "core/hle/service/lbl/lbl.h"
 #include "core/hle/service/ldn/ldn.h"
 #include "core/hle/service/ldr/ldr.h"
 #include "core/hle/service/lm/lm.h"
@@ -59,7 +60,6 @@
 #include "core/hle/service/spl/spl_module.h"
 #include "core/hle/service/ssl/ssl.h"
 #include "core/hle/service/usb/usb.h"
-#include "core/hle/service/vi/lbl.h"
 #include "core/hle/service/vi/vi.h"
 
 namespace Service {

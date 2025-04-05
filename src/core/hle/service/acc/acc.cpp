@@ -19,14 +19,14 @@
 #include "core/file_sys/patch_manager.h"
 #include "core/hle/service/acc/acc.h"
 #include "core/hle/service/acc/acc_aa.h"
+#include "core/hle/service/acc/acc_su.h"
+#include "core/hle/service/acc/acc_u0.h"
+#include "core/hle/service/acc/acc_u1.h"
 #include "core/hle/service/acc/async_context.h"
 #include "core/hle/service/acc/errors.h"
 #include "core/hle/service/acc/profile_manager.h"
 #include "core/hle/service/cmif_serialization.h"
 #include "core/hle/service/glue/glue_manager.h"
-#include "core/hle/service/ns/acc_su.h"
-#include "core/hle/service/ns/acc_u0.h"
-#include "core/hle/service/ns/acc_u1.h"
 #include "core/hle/service/server_manager.h"
 #include "core/loader/loader.h"
 
@@ -1056,6 +1056,29 @@ void Module::Interface::StoreSaveDataThumbnail(HLERequestContext& ctx, const Com
 
     // TODO(ogniK): Construct save data thumbnail
     rb.Push(ResultSuccess);
+}
+
+void Module::Interface::TrySelectUserWithoutInteractionDeprecated(HLERequestContext& ctx) {
+    LOG_DEBUG(Service_ACC, "called");
+    // A u8 is passed into this function which we can safely ignore. It's to determine if we have
+    // access to use the network or not by the looks of it
+    IPC::ResponseBuilder rb{ctx, 6};
+    if (profile_manager->GetUserCount() != 1) {
+        rb.Push(ResultSuccess);
+        rb.PushRaw(Common::InvalidUUID);
+        return;
+    }
+
+    const auto user_list = profile_manager->GetAllUsers();
+    if (std::ranges::all_of(user_list, [](const auto& user) { return user.IsInvalid(); })) {
+        rb.Push(ResultUnknown); // TODO(ogniK): Find the correct error code
+        rb.PushRaw(Common::InvalidUUID);
+        return;
+    }
+
+    // Select the first user we have
+    rb.Push(ResultSuccess);
+    rb.PushRaw(profile_manager->GetUser(0)->uuid);
 }
 
 void Module::Interface::TrySelectUserWithoutInteraction(HLERequestContext& ctx) {

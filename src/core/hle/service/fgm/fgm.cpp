@@ -49,7 +49,6 @@ private:
     }
 };
 
-/*
 class FGM_DBG final : public ServiceFramework<FGM_DBG> {
 public:
     explicit FGM_DBG(Core::System& system_) : ServiceFramework{system_, "fgm:dbg"} {
@@ -64,7 +63,6 @@ public:
         RegisterHandlers(functions);
     }
 };
-*/
 
 void LoopProcess(Core::System& system) {
     auto server_manager = std::make_unique<ServerManager>(system);
@@ -72,7 +70,7 @@ void LoopProcess(Core::System& system) {
     server_manager->RegisterNamedService("fgm", std::make_shared<FGM>(system, "fgm"));
     server_manager->RegisterNamedService("fgm:0", std::make_shared<FGM>(system, "fgm:0"));
     server_manager->RegisterNamedService("fgm:9", std::make_shared<FGM>(system, "fgm:9"));
-    // server_manager->RegisterNamedService("fgm:dbg", std::make_shared<FGM_DBG>(system));
+    server_manager->RegisterNamedService("fgm:dbg", std::make_shared<FGM_DBG>(system));
     ServerManager::RunServer(std::move(server_manager));
 }
 

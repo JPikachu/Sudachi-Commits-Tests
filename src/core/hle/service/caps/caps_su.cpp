@@ -4,7 +4,7 @@
 #include "common/logging/log.h"
 #include "core/core.h"
 #include "core/hle/service/caps/caps_manager.h"
-#include "core/hle/service/am/caps_su.h"
+#include "core/hle/service/caps/caps_su.h"
 #include "core/hle/service/caps/caps_types.h"
 #include "core/hle/service/cmif_serialization.h"
 #include "core/hle/service/ipc_helpers.h"

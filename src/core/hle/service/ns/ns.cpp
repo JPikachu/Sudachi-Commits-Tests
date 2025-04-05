@@ -36,6 +36,8 @@ void LoopProcess(Core::System& system) {
 
     server_manager->RegisterNamedService("pl:s",
                                          std::make_shared<IPlatformServiceManager>(system, "pl:s"));
+    server_manager->RegisterNamedService("pl:u",
+                                         std::make_shared<IPlatformServiceManager>(system, "pl:u"));
     ServerManager::RunServer(std::move(server_manager));
 }
 

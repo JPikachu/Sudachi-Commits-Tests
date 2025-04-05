@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: Copyright 2018 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#include "core/hle/service/ns/acc_u1.h"
+#include "core/hle/service/acc/acc_u1.h"
 
 namespace Service::Account {
 

@@ -92,7 +92,7 @@ public:
             {1453, nullptr, "IsPlayTimerEnabled"},
             {1454, nullptr, "GetPlayTimerRemainingTime"},
             {1455, nullptr, "IsRestrictedByPlayTimer"},
-            {1456, &IParentalControlService::GetPlayTimerSettings, "GetPlayTimerSettings"},
+            {1456, &IParentalControlService::GetPlayTimerSettingsOld, "GetPlayTimerSettingsOld"},
             {1457, &IParentalControlService::GetPlayTimerEventToRequestSuspension, "GetPlayTimerEventToRequestSuspension"},
             {1458, &IParentalControlService::IsPlayTimerAlarmDisabled, "IsPlayTimerAlarmDisabled"},
             {1471, nullptr, "NotifyWrongPinCodeInputManyTimes"},
@@ -130,6 +130,7 @@ public:
             {2014, nullptr, "FinishSynchronizeParentalControlSettings"},
             {2015, nullptr, "FinishSynchronizeParentalControlSettingsWithLastUpdated"},
             {2016, nullptr, "RequestUpdateExemptionListAsync"},
+            {145601, D<&IParentalControlService::GetPlayTimerSettings>, "GetPlayTimerSettings"} // 18.0.0+
         };
         // clang-format on
         RegisterHandlers(functions);
@@ -376,6 +377,16 @@ private:
         IPC::ResponseBuilder rb{ctx, 2, 1};
         rb.Push(ResultSuccess);
         rb.PushCopyObjects(synchronization_event->GetReadableEvent());
+    }
+
+    void GetPlayTimerSettingsOld(HLERequestContext& ctx) {
+        LOG_WARNING(Service_PCTL, "(STUBBED) called");
+
+        const PlayTimerSettings timer_settings{};
+
+        IPC::ResponseBuilder rb{ctx, 15};
+        rb.Push(ResultSuccess);
+        rb.PushRaw(timer_settings);
     }
 
     void GetPlayTimerSettings(HLERequestContext& ctx) {

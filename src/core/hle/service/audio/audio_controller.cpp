@@ -180,10 +180,11 @@ Result IAudioController::AcquireTargetNotification(
     R_SUCCEED();
 }
 
-Result IAudioController::Unknown5000() {
+Result IAudioController::Unknown5000(Out<SharedPointer<IAudioController>> out_audio_controller) {
     LOG_DEBUG(Service_AM, "(STUBBED) called.");
 
     // TODO (jarrodnorwell)
+    *out_audio_controller = std::static_pointer_cast<IAudioController>(shared_from_this());
 
     R_SUCCEED();
 }

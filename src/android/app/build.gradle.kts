@@ -27,7 +27,7 @@ android {
     namespace = "org.sudachi.sudachi_emu"
     compileSdk = 35
 
-    ndkVersion = "27.1.12297006"
+    ndkVersion = "26.3.11579264"
 
     buildFeatures {
         viewBinding = true
