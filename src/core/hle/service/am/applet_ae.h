@@ -29,6 +29,7 @@ private:
     void OpenSystemAppletProxy(HLERequestContext& ctx);
     void OpenLibraryAppletProxy(HLERequestContext& ctx);
     void OpenLibraryAppletProxyOld(HLERequestContext& ctx);
+    void OpenSystemApplicationProxy(HLERequestContext& ctx);
 
     std::shared_ptr<Applet> GetAppletFromContext(HLERequestContext& ctx);
 

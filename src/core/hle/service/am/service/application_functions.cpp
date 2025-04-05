@@ -456,7 +456,7 @@ Result IApplicationFunctions::GetFriendInvitationStorageChannelEvent(
 
 Result IApplicationFunctions::TryPopFromFriendInvitationStorageChannel(
     Out<SharedPointer<IStorage>> out_storage) {
-    LOG_INFO(Service_AM, "(STUBBED) called");
+    LOG_DEBUG(Service_AM, "(STUBBED) called");
     R_THROW(AM::ResultNoDataInChannel);
 }
 

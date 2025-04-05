@@ -609,12 +609,12 @@ struct Values {
                                            Category::Network};
 
     // WebService
-    Setting<bool> enable_telemetry{linkage, true, "enable_telemetry", Category::WebService};
     Setting<std::string> web_api_url{linkage, "https://api.sudachi-emu.org", "web_api_url",
                                      Category::WebService};
     Setting<std::string> sudachi_username{linkage, std::string(), "sudachi_username",
+                                          Category::WebService};
+    Setting<std::string> sudachi_token{linkage, std::string(), "sudachi_token",
                                        Category::WebService};
-    Setting<std::string> sudachi_token{linkage, std::string(), "sudachi_token", Category::WebService};
 
     // Add-Ons
     std::map<u64, std::vector<std::string>> disabled_addons;

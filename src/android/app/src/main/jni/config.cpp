@@ -126,17 +126,17 @@ void Config::ReadValues() {
     // Data Storage
     ReadSetting("Data Storage", Settings::values.use_virtual_sd);
     FS::SetSudachiPath(FS::SudachiPath::NANDDir,
-                    config->Get("Data Storage", "nand_directory",
-                                FS::GetSudachiPathString(FS::SudachiPath::NANDDir)));
+                       config->Get("Data Storage", "nand_directory",
+                                   FS::GetSudachiPathString(FS::SudachiPath::NANDDir)));
     FS::SetSudachiPath(FS::SudachiPath::SDMCDir,
-                    config->Get("Data Storage", "sdmc_directory",
-                                FS::GetSudachiPathString(FS::SudachiPath::SDMCDir)));
+                       config->Get("Data Storage", "sdmc_directory",
+                                   FS::GetSudachiPathString(FS::SudachiPath::SDMCDir)));
     FS::SetSudachiPath(FS::SudachiPath::LoadDir,
-                    config->Get("Data Storage", "load_directory",
-                                FS::GetSudachiPathString(FS::SudachiPath::LoadDir)));
+                       config->Get("Data Storage", "load_directory",
+                                   FS::GetSudachiPathString(FS::SudachiPath::LoadDir)));
     FS::SetSudachiPath(FS::SudachiPath::DumpDir,
-                    config->Get("Data Storage", "dump_directory",
-                                FS::GetSudachiPathString(FS::SudachiPath::DumpDir)));
+                       config->Get("Data Storage", "dump_directory",
+                                   FS::GetSudachiPathString(FS::SudachiPath::DumpDir)));
     ReadSetting("Data Storage", Settings::values.gamecard_inserted);
     ReadSetting("Data Storage", Settings::values.gamecard_current_game);
     ReadSetting("Data Storage", Settings::values.gamecard_path);
@@ -296,7 +296,6 @@ void Config::ReadValues() {
     }
 
     // Web Service
-    ReadSetting("WebService", Settings::values.enable_telemetry);
     ReadSetting("WebService", Settings::values.web_api_url);
     ReadSetting("WebService", Settings::values.sudachi_username);
     ReadSetting("WebService", Settings::values.sudachi_token);

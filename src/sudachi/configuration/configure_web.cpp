@@ -5,10 +5,13 @@
 #include <QMessageBox>
 #include <QtConcurrent/QtConcurrentRun>
 #include "common/settings.h"
-#include "core/telemetry_session.h"
 #include "sudachi/configuration/configure_web.h"
 #include "sudachi/uisettings.h"
 #include "ui_configure_web.h"
+
+#ifdef ENABLE_WEB_SERVICE
+#include "web_service/verify_login.h"
+#endif
 
 static constexpr char token_delimiter{':'};
 
@@ -34,6 +37,16 @@ static std::string TokenFromDisplayToken(const std::string& display_token) {
         QByteArray::fromBase64(display_token.c_str()).toStdString()};
     return unencoded_display_token.substr(unencoded_display_token.find(token_delimiter) + 1);
 }
+
+namespace Core {
+static bool VerifyLogin(const std::string& username, const std::string& token) {
+#ifdef ENABLE_WEB_SERVICE
+    return WebService::VerifyLogin(Settings::values.web_api_url.GetValue(), username, token);
+#else
+    return false;
+#endif
+}
+} // namespace Core
 
 ConfigureWeb::ConfigureWeb(QWidget* parent)
     : QWidget(parent), ui(std::make_unique<Ui::ConfigureWeb>()) {

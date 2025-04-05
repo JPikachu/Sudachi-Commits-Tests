@@ -6,7 +6,7 @@
 #include "core/hle/service/am/am_results.h"
 #include "core/hle/service/am/frontend/applets.h"
 #include "core/hle/service/am/service/self_controller.h"
-#include "core/hle/service/caps/caps_su.h"
+#include "core/hle/service/caps/su/caps_su.h"
 #include "core/hle/service/cmif_serialization.h"
 #include "core/hle/service/nvnflinger/nvnflinger.h"
 #include "core/hle/service/sm/sm.h"
@@ -388,8 +388,9 @@ Result ISelfController::SaveCurrentScreenshot(Capture::AlbumReportOption album_r
         system.ServiceManager().GetService<Service::Capture::IScreenShotApplicationService>(
             "caps:su");
 
+    // TODO (jarrodnorwell)
     if (screenshot_service) {
-        screenshot_service->CaptureAndSaveScreenshot(album_report_option);
+        screenshot_service->CaptureAndSaveScreenShot(/*album_report_option*/);
     }
 
     R_SUCCEED();

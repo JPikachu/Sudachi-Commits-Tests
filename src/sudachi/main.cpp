@@ -112,7 +112,6 @@ static FileSys::VirtualFile VfsDirectoryCreateFileWrapper(const FileSys::Virtual
 #include "common/x64/cpu_detect.h"
 #endif
 #include "common/settings.h"
-#include "common/telemetry.h"
 #include "core/core.h"
 #include "core/core_timing.h"
 #include "core/crypto/key_manager.h"
@@ -198,10 +197,7 @@ constexpr size_t CopyBufferSize = 1_MiB;
  * is a bitfield "callout_flags" options, used to track if a message has already been shown to the
  * user. This is 32-bits - if we have more than 32 callouts, we should retire and recycle old ones.
  */
-enum class CalloutFlag : uint32_t {
-    Telemetry = 0x1,
-    DRDDeprecation = 0x2,
-};
+enum class CalloutFlag : uint32_t { DRDDeprecation = 0x2 };
 
 const int GMainWindow::max_recent_files_item;
 
@@ -471,6 +467,7 @@ GMainWindow::GMainWindow(std::unique_ptr<QtConfig> config_, bool has_broken_vulk
     QString game_path;
     bool has_gamepath = false;
     bool should_launch_qlaunch = false;
+    bool should_launch_setup = false;
     bool is_fullscreen = false;
 
     for (int i = 1; i < args.size(); ++i) {
@@ -541,6 +538,9 @@ GMainWindow::GMainWindow(std::unique_ptr<QtConfig> config_, bool has_broken_vulk
 
         if (args[i] == QStringLiteral("-qlaunch"))
             should_launch_qlaunch = true;
+
+        if (args[i] == QStringLiteral("-setup"))
+            should_launch_setup = true;
     }
 
     // Override fullscreen setting if gamepath or argument is provided
@@ -548,14 +548,18 @@ GMainWindow::GMainWindow(std::unique_ptr<QtConfig> config_, bool has_broken_vulk
         ui->action_Fullscreen->setChecked(is_fullscreen);
     }
 
-    if (!game_path.isEmpty()) {
-        if (should_launch_qlaunch)
-            OnQLaunch();
-        else
-            BootGame(game_path, ApplicationAppletParameters());
+    if (should_launch_setup) {
+        OnInitialSetup();
     } else {
-        if (should_launch_qlaunch)
-            OnQLaunch();
+        if (!game_path.isEmpty()) {
+            if (should_launch_qlaunch)
+                OnQLaunch();
+            else
+                BootGame(game_path, ApplicationAppletParameters());
+        } else {
+            if (should_launch_qlaunch)
+                OnQLaunch();
+        }
     }
 }
 
@@ -1577,6 +1581,7 @@ void GMainWindow::ConnectMenuEvents() {
     connect_menu(ui->action_Load_Mii_Edit, &GMainWindow::OnMiiEdit);
     connect_menu(ui->action_Load_QLaunch, &GMainWindow::OnQLaunch);
     connect_menu(ui->action_Load_MyPage, &GMainWindow::OnMyPage);
+    connect_menu(ui->action_Load_InitialSetup, &GMainWindow::OnInitialSetup);
     connect_menu(ui->action_Open_Controller_Menu, &GMainWindow::OnOpenControllerMenu);
     connect_menu(ui->action_Capture_Screenshot, &GMainWindow::OnCaptureScreenshot);
 
@@ -4430,7 +4435,7 @@ void GMainWindow::OnQLaunch() {
     auto bis_system = system->GetFileSystemController().GetSystemNANDContents();
     if (!bis_system) {
         QMessageBox::warning(this, tr("No firmware available"),
-                             tr("Please install the firmware to use the Mii editor."));
+                             tr("Please install the firmware to use QLaunch."));
         return;
     }
 
@@ -4469,6 +4474,29 @@ void GMainWindow::OnMyPage() {
     const auto filename = QString::fromStdString((my_page_nca->GetFullPath()));
     UISettings::values.roms_path = QFileInfo(filename).path().toStdString();
     BootGame(filename, LibraryAppletParameters(MyPageId, Service::AM::AppletId::MyPage));
+}
+
+void GMainWindow::OnInitialSetup() {
+    constexpr u64 Starter = static_cast<u64>(Service::AM::AppletProgramId::Starter);
+    auto bis_system = system->GetFileSystemController().GetSystemNANDContents();
+    if (!bis_system) {
+        QMessageBox::warning(this, tr("No firmware available"),
+                             tr("Please install the firmware to use Starter."));
+        return;
+    }
+
+    auto qlaunch_nca = bis_system->GetEntry(Starter, FileSys::ContentRecordType::Program);
+    if (!qlaunch_nca) {
+        QMessageBox::warning(this, tr("Starter Applet"),
+                             tr("Starter is not available. Please reinstall firmware."));
+        return;
+    }
+
+    system->GetFrontendAppletHolder().SetCurrentAppletId(Service::AM::AppletId::Starter);
+
+    const auto filename = QString::fromStdString((qlaunch_nca->GetFullPath()));
+    UISettings::values.roms_path = QFileInfo(filename).path().toStdString();
+    BootGame(filename, LibraryAppletParameters(Starter, Service::AM::AppletId::Starter));
 }
 
 void GMainWindow::OnOpenControllerMenu() {

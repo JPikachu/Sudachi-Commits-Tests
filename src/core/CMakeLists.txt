@@ -586,22 +586,36 @@ add_library(core STATIC
     hle/service/btm/btm_user_core.h
     hle/service/caps/caps.cpp
     hle/service/caps/caps.h
-    hle/service/caps/caps_a.cpp
-    hle/service/caps/caps_a.h
-    hle/service/caps/caps_c.cpp
-    hle/service/caps/caps_c.h
+    hle/service/caps/a/caps_a.cpp
+    hle/service/caps/a/caps_a.h
+    hle/service/caps/ss/caps_ss.cpp
+    hle/service/caps/ss/caps_ss.h
+    hle/service/caps/su/caps_su.cpp
+    hle/service/caps/su/caps_su.h
+    hle/service/caps/u/caps_u.cpp
+    hle/service/caps/u/caps_u.h
     hle/service/caps/caps_manager.cpp
     hle/service/caps/caps_manager.h
     hle/service/caps/caps_result.h
-    hle/service/caps/caps_sc.cpp
-    hle/service/caps/caps_sc.h
-    hle/service/caps/caps_ss.cpp
-    hle/service/caps/caps_ss.h
-    hle/service/caps/caps_su.cpp
-    hle/service/caps/caps_su.h
     hle/service/caps/caps_types.h
-    hle/service/caps/caps_u.cpp
-    hle/service/caps/caps_u.h
+    # hle/service/caps/caps.cpp
+    # hle/service/caps/caps.h
+    # hle/service/caps/caps_a.cpp
+    # hle/service/caps/caps_a.h
+    # hle/service/caps/caps_c.cpp
+    # hle/service/caps/caps_c.h
+    # hle/service/caps/caps_manager.cpp
+    # hle/service/caps/caps_manager.h
+    # hle/service/caps/caps_result.h
+    # hle/service/caps/caps_sc.cpp
+    # hle/service/caps/caps_sc.h
+    # hle/service/caps/caps_ss.cpp
+    # hle/service/caps/caps_ss.h
+    # hle/service/caps/caps_su.cpp
+    # hle/service/caps/caps_su.h
+    # hle/service/caps/caps_types.h
+    # hle/service/caps/caps_u.cpp
+    # hle/service/caps/caps_u.h
     hle/service/cmif_serialization.h
     hle/service/cmif_types.h
     hle/service/erpt/erpt.cpp
@@ -1142,8 +1156,6 @@ add_library(core STATIC
     precompiled_headers.h
     reporter.cpp
     reporter.h
-    telemetry_session.cpp
-    telemetry_session.h
     tools/freezer.cpp
     tools/freezer.h
     tools/renderdoc.cpp

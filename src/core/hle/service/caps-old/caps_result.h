@@ -7,14 +7,11 @@
 
 namespace Service::Capture {
 
-constexpr Result ShimLibraryVersionAlreadySet(ErrorModule::Capture, (7 << 9) | 206);
-constexpr Result OutOfRange(ErrorModule::Capture, (8 << 9) | 206);
-
 constexpr Result ResultWorkMemoryError(ErrorModule::Capture, 3);
 constexpr Result ResultUnknown5(ErrorModule::Capture, 5);
 constexpr Result ResultUnknown6(ErrorModule::Capture, 6);
 constexpr Result ResultUnknown7(ErrorModule::Capture, 7);
-
+constexpr Result ResultOutOfRange(ErrorModule::Capture, 8);
 constexpr Result ResultInvalidTimestamp(ErrorModule::Capture, 12);
 constexpr Result ResultInvalidStorage(ErrorModule::Capture, 13);
 constexpr Result ResultInvalidFileContents(ErrorModule::Capture, 14);

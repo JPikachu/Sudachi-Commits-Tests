@@ -592,6 +592,15 @@ void IGeneralService::ConfirmSystemAvailability(HLERequestContext& ctx) {
     rb.Push(ResultSuccess);
 }
 
+void IGeneralService::SetBackgroundRequestEnabled(HLERequestContext& ctx) {
+    LOG_WARNING(Service_NIFM, "(STUBBED) called.");
+
+    // TODO (jarrodnorwell)
+
+    IPC::ResponseBuilder rb{ctx, 2};
+    rb.Push(ResultSuccess);
+}
+
 IGeneralService::IGeneralService(Core::System& system_)
     : ServiceFramework{system_, "IGeneralService"}, network{system_.GetRoomNetwork()} {
     // clang-format off
@@ -628,7 +637,7 @@ IGeneralService::IGeneralService(Core::System& system_)
         {31, nullptr, "GetTelemetorySystemEventReadableHandle"},
         {32, nullptr, "GetTelemetryInfo"},
         {33, &IGeneralService::ConfirmSystemAvailability, "ConfirmSystemAvailability"}, // 2.0.0+
-        {34, nullptr, "SetBackgroundRequestEnabled"},
+        {34, &IGeneralService::SetBackgroundRequestEnabled, "SetBackgroundRequestEnabled"}, // 4.0.0+
         {35, nullptr, "GetScanData"},
         {36, nullptr, "GetCurrentAccessPoint"},
         {37, nullptr, "Shutdown"},

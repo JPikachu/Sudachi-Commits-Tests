@@ -54,9 +54,9 @@ public:
     Result LoadAlbumScreenShotImage(LoadAlbumScreenShotImageOutput& out_image_output,
                                     std::span<u8> out_image, const AlbumFileId& file_id,
                                     const ScreenShotDecodeOption& decoder_options) const;
-    Result LoadAlbumScreenShotThumbnailImage(LoadAlbumScreenShotImageOutput& out_image_output,
-                                             std::span<u8> out_image, const AlbumFileId& file_id,
-                                             const ScreenShotDecodeOption& decoder_options) const;
+    Result LoadAlbumScreenShotThumbnail(LoadAlbumScreenShotImageOutput& out_image_output,
+                                        std::span<u8> out_image, const AlbumFileId& file_id,
+                                        const ScreenShotDecodeOption& decoder_options) const;
 
     Result SaveScreenShot(ApplicationAlbumEntry& out_entry, const ScreenShotAttribute& attribute,
                           AlbumReportOption report_option, std::span<const u8> image_data,

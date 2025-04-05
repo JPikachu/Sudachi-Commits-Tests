@@ -197,7 +197,7 @@ Result AlbumManager::LoadAlbumScreenShotImage(LoadAlbumScreenShotImageOutput& ou
                      +static_cast<int>(out_image_output.height), decoder_options.flags);
 }
 
-Result AlbumManager::LoadAlbumScreenShotThumbnailImage(
+Result AlbumManager::LoadAlbumScreenShotThumbnail(
     LoadAlbumScreenShotImageOutput& out_image_output, std::span<u8> out_image,
     const AlbumFileId& file_id, const ScreenShotDecodeOption& decoder_options) const {
     if (file_id.storage > AlbumStorage::Sd) {
@@ -303,8 +303,7 @@ void AlbumManager::FindScreenshots() {
     album_files.clear();
 
     // TODO: Swap this with a blocking operation.
-    const auto screenshots_dir =
-        Common::FS::GetSudachiPath(Common::FS::SudachiPath::ScreenshotsDir);
+    const auto screenshots_dir = Common::FS::GetSudachiPath(Common::FS::SudachiPath::ScreenshotsDir);
     Common::FS::IterateDirEntries(
         screenshots_dir,
         [this](const std::filesystem::path& full_path) {

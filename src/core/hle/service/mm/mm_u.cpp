@@ -127,7 +127,7 @@ private:
                 IPC::ResponseBuilder rb{ctx, 2};
                 rb.Push(ResultSuccess);
                 rb.Push(session.min);
-                break;
+                return;
             }
         }
 
@@ -200,7 +200,7 @@ private:
                 IPC::ResponseBuilder rb{ctx, 3};
                 rb.Push(ResultSuccess);
                 rb.Push(session.min);
-                break;
+                return;
             }
         }
 

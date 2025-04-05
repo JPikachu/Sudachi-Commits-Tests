@@ -31,7 +31,7 @@ set(QT6_LOCATION "" CACHE PATH "Additional Location to search for Qt6 libraries 
 option(ENABLE_QT_TRANSLATION "Enable translations for the Qt frontend" OFF)
 CMAKE_DEPENDENT_OPTION(SUDACHI_USE_BUNDLED_QT "Download bundled Qt binaries" "${MSVC}" "ENABLE_QT" OFF)
 
-option(ENABLE_WEB_SERVICE "Enable web services (telemetry, etc.)" ON)
+option(ENABLE_WEB_SERVICE "Enable web services" ON)
 
 option(SUDACHI_USE_BUNDLED_FFMPEG "Download/Build bundled FFmpeg" "${WIN32}")
 
@@ -277,12 +277,13 @@ endif()
 # boost asio's concept usage doesn't play nicely with some compilers yet.
 add_definitions(-DBOOST_ASIO_DISABLE_CONCEPTS)
 if (MSVC)
-    add_compile_options($<$<COMPILE_LANGUAGE:CXX>:/std:c++20>)
+    set(CMAKE_CXX_STANDARD 23)
+    # add_compile_options($<$<COMPILE_LANGUAGE:CXX>:/std:c++23>)
 
     # boost still makes use of deprecated result_of.
     add_definitions(-D_HAS_DEPRECATED_RESULT_OF)
 else()
-    set(CMAKE_CXX_STANDARD 20)
+    set(CMAKE_CXX_STANDARD 23)
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
 endif()
 

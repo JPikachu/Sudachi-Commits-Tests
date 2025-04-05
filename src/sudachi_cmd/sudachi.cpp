@@ -19,7 +19,6 @@
 #include "common/scope_exit.h"
 #include "common/settings.h"
 #include "common/string_util.h"
-#include "common/telemetry.h"
 #include "core/core.h"
 #include "core/core_timing.h"
 #include "core/cpu_manager.h"
@@ -29,16 +28,15 @@
 #include "core/hle/service/am/applet_manager.h"
 #include "core/hle/service/filesystem/filesystem.h"
 #include "core/loader/loader.h"
-#include "core/telemetry_session.h"
 #include "frontend_common/config.h"
 #include "input_common/main.h"
 #include "network/network.h"
 #include "sdl_config.h"
-#include "video_core/renderer_base.h"
 #include "sudachi_cmd/emu_window/emu_window_sdl2.h"
 #include "sudachi_cmd/emu_window/emu_window_sdl2_gl.h"
 #include "sudachi_cmd/emu_window/emu_window_sdl2_null.h"
 #include "sudachi_cmd/emu_window/emu_window_sdl2_vk.h"
+#include "video_core/renderer_base.h"
 
 #ifdef _WIN32
 // windows.h needs to be included before shellapi.h
@@ -394,16 +392,15 @@ int main(int argc, char** argv) {
             static_cast<u32>(Core::SystemResultStatus::ErrorLoader)) {
             const u16 loader_id = static_cast<u16>(Core::SystemResultStatus::ErrorLoader);
             const u16 error_id = static_cast<u16>(load_result) - loader_id;
-            LOG_CRITICAL(Frontend,
-                         "While attempting to load the ROM requested, an error occurred. Please "
-                         "refer to the sudachi wiki for more information or the sudachi discord for "
-                         "additional help.\n\nError Code: {:04X}-{:04X}\nError Description: {}",
-                         loader_id, error_id, static_cast<Loader::ResultStatus>(error_id));
+            LOG_CRITICAL(
+                Frontend,
+                "While attempting to load the ROM requested, an error occurred. Please "
+                "refer to the sudachi wiki for more information or the sudachi discord for "
+                "additional help.\n\nError Code: {:04X}-{:04X}\nError Description: {}",
+                loader_id, error_id, static_cast<Loader::ResultStatus>(error_id));
         }
         break;
     }
-
-    system.TelemetrySession().AddField(Common::Telemetry::FieldType::App, "Frontend", "SDL");
 
     if (use_multiplayer) {
         if (auto member = system.GetRoomNetwork().GetRoomMember().lock()) {

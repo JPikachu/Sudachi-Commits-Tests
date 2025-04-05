@@ -3,6 +3,7 @@
 
 #include "core/hle/service/am/applet_ae.h"
 #include "core/hle/service/am/applet_manager.h"
+#include "core/hle/service/am/application_proxy.h"
 #include "core/hle/service/am/library_applet_proxy.h"
 #include "core/hle/service/am/system_applet_proxy.h"
 #include "core/hle/service/ipc_helpers.h"
@@ -17,7 +18,7 @@ AppletAE::AppletAE(Nvnflinger::Nvnflinger& nvnflinger_, Core::System& system_)
         {200, &AppletAE::OpenLibraryAppletProxyOld, "OpenLibraryAppletProxyOld"},
         {201, &AppletAE::OpenLibraryAppletProxy, "OpenLibraryAppletProxy"},
         {300, nullptr, "OpenOverlayAppletProxy"},
-        {350, nullptr, "OpenSystemApplicationProxy"},
+        {350, &AppletAE::OpenSystemApplicationProxy, "OpenSystemApplicationProxy"},
         {400, nullptr, "CreateSelfLibraryAppletCreatorForDevelop"},
         {410, nullptr, "GetSystemAppletControllerForDebug"},
         {1000, nullptr, "GetDebugFunctions"},
@@ -63,6 +64,21 @@ void AppletAE::OpenLibraryAppletProxyOld(HLERequestContext& ctx) {
     LOG_DEBUG(Service_AM, "called");
 
     return OpenLibraryAppletProxy(ctx);
+}
+
+void AppletAE::OpenSystemApplicationProxy(HLERequestContext& ctx) {
+    LOG_DEBUG(Service_AM, "called");
+
+    if (const auto applet = GetAppletFromContext(ctx)) {
+        IPC::ResponseBuilder rb{ctx, 2, 0, 1};
+        rb.Push(ResultSuccess);
+        rb.PushIpcInterface<IApplicationProxy>(nvnflinger, applet, system);
+    } else {
+        UNIMPLEMENTED();
+
+        IPC::ResponseBuilder rb{ctx, 2};
+        rb.Push(ResultUnknown);
+    }
 }
 
 std::shared_ptr<Applet> AppletAE::GetAppletFromContext(HLERequestContext& ctx) {

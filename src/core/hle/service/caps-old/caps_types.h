@@ -193,6 +193,4 @@ struct LoadAlbumScreenShotImageOutputForApplication {
 static_assert(sizeof(LoadAlbumScreenShotImageOutputForApplication) == 0x500,
               "LoadAlbumScreenShotImageOutput is an invalid size");
 
-using UserId = u128;
-
 } // namespace Service::Capture

@@ -4,6 +4,7 @@
 #include "core/core.h"
 #include "core/hle/service/am/applet_manager.h"
 #include "core/hle/service/am/service/all_system_applet_proxies_service.h"
+#include "core/hle/service/am/service/application_proxy.h"
 #include "core/hle/service/am/service/library_applet_proxy.h"
 #include "core/hle/service/am/service/system_applet_proxy.h"
 #include "core/hle/service/am/window_system.h"
@@ -20,7 +21,7 @@ IAllSystemAppletProxiesService::IAllSystemAppletProxiesService(Core::System& sys
         {200, D<&IAllSystemAppletProxiesService::OpenLibraryAppletProxyOld>, "OpenLibraryAppletProxyOld"},
         {201, D<&IAllSystemAppletProxiesService::OpenLibraryAppletProxy>, "OpenLibraryAppletProxy"},
         {300, nullptr, "OpenOverlayAppletProxy"},
-        {350, nullptr, "OpenSystemApplicationProxy"},
+        {350, D<&IAllSystemAppletProxiesService::OpenSystemApplicationProxy>, "OpenSystemApplicationProxy"},
         {400, nullptr, "CreateSelfLibraryAppletCreatorForDevelop"},
         {410, nullptr, "GetSystemAppletControllerForDebug"},
         {450, D<&IAllSystemAppletProxiesService::GetSystemProcessCommonFunctions>, "GetSystemProcessCommonFunctions"}, // 19.0.0+
@@ -56,6 +57,22 @@ Result IAllSystemAppletProxiesService::OpenLibraryAppletProxy(
 
     if (const auto applet = this->GetAppletFromProcessId(pid); applet) {
         *out_library_applet_proxy = std::make_shared<ILibraryAppletProxy>(
+            system, applet, process_handle.Get(), m_window_system);
+        R_SUCCEED();
+    } else {
+        UNIMPLEMENTED();
+        R_THROW(ResultUnknown);
+    }
+}
+
+Result IAllSystemAppletProxiesService::OpenSystemApplicationProxy(
+    Out<SharedPointer<IApplicationProxy>> out_system_application_proxy, ClientProcessId pid,
+    InCopyHandle<Kernel::KProcess> process_handle,
+    InLargeData<AppletAttribute, BufferAttr_HipcMapAlias> attribute) {
+    LOG_DEBUG(Service_AM, "called");
+
+    if (const auto applet = this->GetAppletFromProcessId(pid); applet) {
+        *out_system_application_proxy = std::make_shared<IApplicationProxy>(
             system, applet, process_handle.Get(), m_window_system);
         R_SUCCEED();
     } else {

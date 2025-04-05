@@ -6,7 +6,6 @@
 #include <QPushButton>
 #include <QtConcurrent/qtconcurrentrun.h>
 #include "common/logging/log.h"
-#include "common/telemetry.h"
 #include "sudachi/compatdb.h"
 #include "ui_compatdb.h"
 

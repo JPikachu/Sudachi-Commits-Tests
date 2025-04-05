@@ -396,6 +396,7 @@ private slots:
     void OnMiiEdit();
     void OnQLaunch();
     void OnMyPage();
+    void OnInitialSetup();
     void OnOpenControllerMenu();
     void OnCaptureScreenshot();
     void OnCheckFirmwareDecryption();

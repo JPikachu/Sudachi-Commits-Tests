@@ -39,6 +39,7 @@ private:
     void IsAnyInternetRequestAccepted(HLERequestContext& ctx);
     void IsAnyForegroundRequestAccepted(HLERequestContext& ctx);
     void ConfirmSystemAvailability(HLERequestContext& ctx);
+    void SetBackgroundRequestEnabled(HLERequestContext& ctx);
 
     Network::RoomNetwork& network;
 };

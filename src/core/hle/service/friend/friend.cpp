@@ -22,7 +22,7 @@ public:
         // clang-format off
         static const FunctionInfo functions[] = {
             {0, &IFriendService::GetCompletionEvent, "GetCompletionEvent"},
-            {1, nullptr, "Cancel"},
+            {1, &IFriendService::Cancel, "Cancel"},
             {10100, nullptr, "GetFriendListIds"},
             {10101, &IFriendService::GetFriendList, "GetFriendList"},
             {10102, nullptr, "UpdateFriendInfo"},
@@ -144,6 +144,15 @@ private:
         IPC::ResponseBuilder rb{ctx, 2, 1};
         rb.Push(readable_event.Signal());
         rb.PushCopyObjects(readable_event);
+    }
+
+    void Cancel(HLERequestContext& ctx) {
+        LOG_DEBUG(Service_Friend, "(STUBBED) called.");
+
+        // TODO (jarrodnorwell)
+
+        IPC::ResponseBuilder rb{ctx, 2};
+        rb.Push(ResultSuccess);
     }
 
     void GetFriendList(HLERequestContext& ctx) {

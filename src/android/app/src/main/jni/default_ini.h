@@ -485,9 +485,6 @@ use_gdbstub=false
 gdbstub_port=6543
 
 [WebService]
-# Whether or not to enable telemetry
-# 0: No, 1 (default): Yes
-enable_telemetry =
 # URL for Web API
 web_api_url = https://api.sudachi-emu.org
 # Username and token for sudachi Web Service
