@@ -144,12 +144,6 @@ public:
     bool IsSplitterBugFixed() const;
 
     /**
-     *
-     *
-     */
-    bool IsSplitterPrevVolumeResetSupported() const;
-
-    /**
      * Check if effects version 2 are supported.
      * This gives support for returning effect states from the AudioRenderer, currently only used
      * for Limiter statistics.

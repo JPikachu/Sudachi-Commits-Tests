@@ -33,6 +33,7 @@ private:
     Result OpenLibraryAppletProxyOld(
         Out<SharedPointer<ILibraryAppletProxy>> out_library_applet_proxy, ClientProcessId pid,
         InCopyHandle<Kernel::KProcess> process_handle);
+    Result GetSystemProcessCommonFunctions();
 
 private:
     std::shared_ptr<Applet> GetAppletFromProcessId(ProcessId pid);

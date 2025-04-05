@@ -10,7 +10,7 @@
 #include <type_traits>
 #include <glad/glad.h>
 
-#include <QtCore/qglobal.h>
+#include <QtGlobal>
 #include "common/settings_enums.h"
 #include "uisettings.h"
 #if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0)) && SUDACHI_USE_QT_MULTIMEDIA

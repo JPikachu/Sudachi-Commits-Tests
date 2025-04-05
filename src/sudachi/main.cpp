@@ -87,6 +87,7 @@ static FileSys::VirtualFile VfsDirectoryCreateFileWrapper(const FileSys::Virtual
 #include <QSysInfo>
 #include <QUrl>
 #include <QtConcurrent/QtConcurrent>
+#include <QtGlobal>
 
 #ifdef HAVE_SDL2
 #include <SDL.h> // For SDL ScreenSaver functions

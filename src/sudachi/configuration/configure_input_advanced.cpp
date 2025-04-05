@@ -2,12 +2,13 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <QColorDialog>
+#include <QtGlobal>
 #include "common/settings.h"
 #include "core/core.h"
 #include "hid_core/frontend/emulated_controller.h"
 #include "hid_core/hid_core.h"
-#include "ui_configure_input_advanced.h"
 #include "sudachi/configuration/configure_input_advanced.h"
+#include "ui_configure_input_advanced.h"
 
 ConfigureInputAdvanced::ConfigureInputAdvanced(Core::HID::HIDCore& hid_core_, QWidget* parent)
     : QWidget(parent), ui(std::make_unique<Ui::ConfigureInputAdvanced>()), hid_core{hid_core_} {
@@ -74,6 +75,16 @@ ConfigureInputAdvanced::ConfigureInputAdvanced(Core::HID::HIDCore& hid_core_, QW
         }
     }
 
+#if QT_VERSION > QT_VERSION_CHECK(6, 7, 0)
+    connect(ui->mouse_enabled, &QCheckBox::checkStateChanged, this,
+            &ConfigureInputAdvanced::UpdateUIEnabled);
+    connect(ui->debug_enabled, &QCheckBox::checkStateChanged, this,
+            &ConfigureInputAdvanced::UpdateUIEnabled);
+    connect(ui->touchscreen_enabled, &QCheckBox::checkStateChanged, this,
+            &ConfigureInputAdvanced::UpdateUIEnabled);
+    connect(ui->enable_ring_controller, &QCheckBox::checkStateChanged, this,
+            &ConfigureInputAdvanced::UpdateUIEnabled);
+#else
     connect(ui->mouse_enabled, &QCheckBox::stateChanged, this,
             &ConfigureInputAdvanced::UpdateUIEnabled);
     connect(ui->debug_enabled, &QCheckBox::stateChanged, this,
@@ -82,6 +93,7 @@ ConfigureInputAdvanced::ConfigureInputAdvanced(Core::HID::HIDCore& hid_core_, QW
             &ConfigureInputAdvanced::UpdateUIEnabled);
     connect(ui->enable_ring_controller, &QCheckBox::stateChanged, this,
             &ConfigureInputAdvanced::UpdateUIEnabled);
+#endif
 
     connect(ui->debug_configure, &QPushButton::clicked, this,
             [this] { CallDebugControllerDialog(); });

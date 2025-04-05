@@ -171,7 +171,7 @@ private:
      */
     void Setup(std::span<SplitterInfo> splitter_infos, u32 splitter_info_count,
                SplitterDestinationData* splitter_destinations, u32 destination_count,
-               bool splitter_bug_fixed, bool prev_volume_reset_supported);
+               bool splitter_bug_fixed);
 
     /// Workbuffer for splitters
     std::span<SplitterInfo> splitter_infos{};
@@ -183,8 +183,6 @@ private:
     s32 destinations_count{};
     /// Is the splitter bug fixed?
     bool splitter_bug_fixed{};
-    ///
-    bool prev_reset_volume_supported{};
 };
 
 } // namespace Renderer

@@ -57,6 +57,7 @@ IAudioController::IAudioController(Core::System& system_)
         {40, nullptr, "GetSystemInformationForDebug"},
         {41, nullptr, "SetVolumeButtonLongPressTime"},
         {42, nullptr, "SetNativeVolumeForDebug"},
+        {5000, D<&IAudioController::Unknown5000>, "Unknown5000"}, // 19.0.0+
         {10000, nullptr, "NotifyAudioOutputTargetForPlayReport"},
         {10001, nullptr, "NotifyAudioOutputChannelCountForPlayReport"},
         {10002, nullptr, "NotifyUnsupportedUsbOutputDeviceAttachedForPlayReport"},
@@ -68,6 +69,9 @@ IAudioController::IAudioController(Core::System& system_)
         {10105, nullptr, "BindAudioOutputChannelCountUpdateEventForPlayReport"},
         {10106, nullptr, "GetDefaultAudioOutputTargetForPlayReport"},
         {50000, nullptr, "SetAnalogInputBoostGainForPrototyping"},
+        {50001, nullptr, "OverrideDefaultTargetForDebug"}, // 19.0.0+
+        {50003, nullptr, "SetForceOverrideExternalDeviceNameForDebug"}, // 19.0.0+
+        {50004, nullptr, "ClearForceOverrideExternalDeviceNameForDebug"} // 19.0.0+
     };
     // clang-format on
 
@@ -173,6 +177,14 @@ Result IAudioController::AcquireTargetNotification(
     LOG_WARNING(Service_AM, "(STUBBED) called");
 
     *out_notification_event = &notification_event->GetReadableEvent();
+    R_SUCCEED();
+}
+
+Result IAudioController::Unknown5000() {
+    LOG_DEBUG(Service_AM, "(STUBBED) called.");
+
+    // TODO (jarrodnorwell)
+
     R_SUCCEED();
 }
 

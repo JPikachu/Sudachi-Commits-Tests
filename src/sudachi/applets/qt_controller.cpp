@@ -14,7 +14,6 @@
 #include "hid_core/hid_core.h"
 #include "hid_core/hid_types.h"
 #include "hid_core/resources/npad/npad.h"
-#include "ui_qt_controller.h"
 #include "sudachi/applets/qt_controller.h"
 #include "sudachi/configuration/configure_input.h"
 #include "sudachi/configuration/configure_input_profile_dialog.h"
@@ -23,6 +22,7 @@
 #include "sudachi/configuration/input_profiles.h"
 #include "sudachi/main.h"
 #include "sudachi/util/controller_navigation.h"
+#include "ui_qt_controller.h"
 
 namespace {
 
@@ -184,6 +184,17 @@ QtControllerSelectorDialog::QtControllerSelectorDialog(
                     CheckIfParametersMet();
                 });
 
+#if QT_VERSION > QT_VERSION_CHECK(6, 7, 0)
+        connect(connected_controller_checkboxes[i], &QCheckBox::checkStateChanged,
+                [this, i](Qt::CheckState state) {
+                    player_groupboxes[i]->setChecked(state == Qt::Checked);
+                    UpdateControllerIcon(i);
+                    UpdateControllerState(i);
+                    UpdateLEDPattern(i);
+                    UpdateBorderColor(i);
+                    CheckIfParametersMet();
+                });
+#else
         connect(connected_controller_checkboxes[i], &QCheckBox::stateChanged, [this, i](int state) {
             player_groupboxes[i]->setChecked(state == Qt::Checked);
             UpdateControllerIcon(i);
@@ -192,6 +203,7 @@ QtControllerSelectorDialog::QtControllerSelectorDialog(
             UpdateBorderColor(i);
             CheckIfParametersMet();
         });
+#endif
 
         if (i == 0) {
             connect(emulated_controllers[i], qOverload<int>(&QComboBox::currentIndexChanged),

@@ -16,18 +16,15 @@ namespace AudioCore::Renderer {
  */
 class SplitterDestinationData {
 public:
-#pragma pack(push, 1)
     struct InParameter {
         /* 0x00 */ u32 magic; // 'SNDD'
         /* 0x04 */ s32 id;
         /* 0x08 */ std::array<f32, MaxMixBuffers> mix_volumes;
         /* 0x68 */ u32 mix_id;
         /* 0x6C */ bool in_use;
-        /* 0x6D */ bool prev_volume_reset_supported;
     };
-    static_assert(sizeof(InParameter) == 0x6E,
+    static_assert(sizeof(InParameter) == 0x70,
                   "SplitterDestinationData::InParameter has the wrong size!");
-#pragma pack(pop)
 
     SplitterDestinationData(s32 id);
 
@@ -92,7 +89,7 @@ public:
      *
      * @param params - Input parameters to update the destination.
      */
-    void Update(const InParameter& params, bool prev_volume_reset_supported);
+    void Update(const InParameter& params);
 
     /**
      * Mark this destination as needing its volumes updated.

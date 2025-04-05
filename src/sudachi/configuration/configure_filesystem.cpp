@@ -3,12 +3,13 @@
 
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QtGlobal>
 #include "common/fs/fs.h"
 #include "common/fs/path_util.h"
 #include "common/settings.h"
-#include "ui_configure_filesystem.h"
 #include "sudachi/configuration/configure_filesystem.h"
 #include "sudachi/uisettings.h"
+#include "ui_configure_filesystem.h"
 
 ConfigureFilesystem::ConfigureFilesystem(QWidget* parent)
     : QWidget(parent), ui(std::make_unique<Ui::ConfigureFilesystem>()) {
@@ -29,10 +30,17 @@ ConfigureFilesystem::ConfigureFilesystem(QWidget* parent)
     connect(ui->reset_game_list_cache, &QPushButton::pressed, this,
             &ConfigureFilesystem::ResetMetadata);
 
+#if QT_VERSION > QT_VERSION_CHECK(6, 7, 0)
+    connect(ui->gamecard_inserted, &QCheckBox::checkStateChanged, this,
+            &ConfigureFilesystem::UpdateEnabledControls);
+    connect(ui->gamecard_current_game, &QCheckBox::checkStateChanged, this,
+            &ConfigureFilesystem::UpdateEnabledControls);
+#else
     connect(ui->gamecard_inserted, &QCheckBox::stateChanged, this,
             &ConfigureFilesystem::UpdateEnabledControls);
     connect(ui->gamecard_current_game, &QCheckBox::stateChanged, this,
             &ConfigureFilesystem::UpdateEnabledControls);
+#endif
 }
 
 ConfigureFilesystem::~ConfigureFilesystem() = default;
@@ -69,13 +77,13 @@ void ConfigureFilesystem::SetConfiguration() {
 
 void ConfigureFilesystem::ApplyConfiguration() {
     Common::FS::SetSudachiPath(Common::FS::SudachiPath::NANDDir,
-                            ui->nand_directory_edit->text().toStdString());
+                               ui->nand_directory_edit->text().toStdString());
     Common::FS::SetSudachiPath(Common::FS::SudachiPath::SDMCDir,
-                            ui->sdmc_directory_edit->text().toStdString());
+                               ui->sdmc_directory_edit->text().toStdString());
     Common::FS::SetSudachiPath(Common::FS::SudachiPath::DumpDir,
-                            ui->dump_path_edit->text().toStdString());
+                               ui->dump_path_edit->text().toStdString());
     Common::FS::SetSudachiPath(Common::FS::SudachiPath::LoadDir,
-                            ui->load_path_edit->text().toStdString());
+                               ui->load_path_edit->text().toStdString());
 
     Settings::values.gamecard_inserted = ui->gamecard_inserted->isChecked();
     Settings::values.gamecard_current_game = ui->gamecard_current_game->isChecked();

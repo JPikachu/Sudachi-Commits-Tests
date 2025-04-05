@@ -18,6 +18,7 @@
 #include <QString>
 #include <QToolButton>
 #include <QVariant>
+#include <QtGlobal>
 
 #include "common/common_types.h"
 #include "common/fs/path_util.h"
@@ -26,8 +27,8 @@
 #include "common/settings_enums.h"
 #include "core/core.h"
 #include "core/frontend/framebuffer_layout.h"
-#include "ui_configure_ui.h"
 #include "sudachi/uisettings.h"
+#include "ui_configure_ui.h"
 
 namespace {
 constexpr std::array default_game_icon_sizes{
@@ -118,13 +119,27 @@ ConfigureUi::ConfigureUi(Core::System& system_, QWidget* parent)
 
     SetConfiguration();
 
-    // Force game list reload if any of the relevant settings are changed.
+#if QT_VERSION > QT_VERSION_CHECK(6, 7, 0)
+    connect(ui->show_add_ons, &QCheckBox::checkStateChanged, this,
+            &ConfigureUi::RequestGameListUpdate);
+    connect(ui->show_compat, &QCheckBox::checkStateChanged, this,
+            &ConfigureUi::RequestGameListUpdate);
+    connect(ui->show_size, &QCheckBox::checkStateChanged, this,
+            &ConfigureUi::RequestGameListUpdate);
+    connect(ui->show_types, &QCheckBox::checkStateChanged, this,
+            &ConfigureUi::RequestGameListUpdate);
+    connect(ui->show_play_time, &QCheckBox::checkStateChanged, this,
+            &ConfigureUi::RequestGameListUpdate);
+#else
     connect(ui->show_add_ons, &QCheckBox::stateChanged, this, &ConfigureUi::RequestGameListUpdate);
     connect(ui->show_compat, &QCheckBox::stateChanged, this, &ConfigureUi::RequestGameListUpdate);
     connect(ui->show_size, &QCheckBox::stateChanged, this, &ConfigureUi::RequestGameListUpdate);
     connect(ui->show_types, &QCheckBox::stateChanged, this, &ConfigureUi::RequestGameListUpdate);
     connect(ui->show_play_time, &QCheckBox::stateChanged, this,
             &ConfigureUi::RequestGameListUpdate);
+#endif
+
+    // Force game list reload if any of the relevant settings are changed.
     connect(ui->game_icon_size_combobox, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
             &ConfigureUi::RequestGameListUpdate);
     connect(ui->folder_icon_size_combobox, QOverload<int>::of(&QComboBox::currentIndexChanged),
@@ -142,10 +157,10 @@ ConfigureUi::ConfigureUi(Core::System& system_, QWidget* parent)
 
     // Set screenshot path to user specification.
     connect(ui->screenshot_path_button, &QToolButton::pressed, this, [this] {
-        auto dir =
-            QFileDialog::getExistingDirectory(this, tr("Select Screenshots Path..."),
-                                              QString::fromStdString(Common::FS::GetSudachiPathString(
-                                                  Common::FS::SudachiPath::ScreenshotsDir)));
+        auto dir = QFileDialog::getExistingDirectory(
+            this, tr("Select Screenshots Path..."),
+            QString::fromStdString(
+                Common::FS::GetSudachiPathString(Common::FS::SudachiPath::ScreenshotsDir)));
         if (!dir.isEmpty()) {
             if (dir.back() != QChar::fromLatin1('/')) {
                 dir.append(QChar::fromLatin1('/'));
@@ -177,7 +192,7 @@ void ConfigureUi::ApplyConfiguration() {
 
     UISettings::values.enable_screenshot_save_as = ui->enable_screenshot_save_as->isChecked();
     Common::FS::SetSudachiPath(Common::FS::SudachiPath::ScreenshotsDir,
-                            ui->screenshot_path_edit->text().toStdString());
+                               ui->screenshot_path_edit->text().toStdString());
 
     const u32 height = ScreenshotDimensionToInt(ui->screenshot_height->currentText());
     UISettings::values.screenshot_height.SetValue(height);

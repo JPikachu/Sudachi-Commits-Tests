@@ -31,8 +31,8 @@
 #include <QStyle>
 #include <QValidator>
 #include <QVariant>
-#include <QtCore/qglobal.h>
 #include <QtCore/qobjectdefs.h>
+#include <QtGlobal>
 #include <fmt/core.h>
 #include <qglobal.h>
 #include <qnamespace.h>
@@ -699,7 +699,11 @@ void Widget::SetupComponent(const QString& label, std::function<void()>& load_fu
                 restore_func();
             }
         };
+#if QT_VERSION > QT_VERSION_CHECK(6, 7, 0)
+        connect(checkbox, &QCheckBox::checkStateChanged, reset);
+#else
         connect(checkbox, &QCheckBox::stateChanged, reset);
+#endif
         reset(checkbox->checkState());
     }
 }
@@ -766,8 +770,8 @@ Widget::Widget(Settings::BasicSetting* setting_, const TranslationMap& translati
 
 Builder::Builder(QWidget* parent_, bool runtime_lock_)
     : translations{InitializeTranslations(parent_)},
-      combobox_translations{ComboboxEnumeration(parent_)}, parent{parent_}, runtime_lock{
-                                                                                runtime_lock_} {}
+      combobox_translations{ComboboxEnumeration(parent_)}, parent{parent_},
+      runtime_lock{runtime_lock_} {}
 
 Builder::~Builder() = default;
 

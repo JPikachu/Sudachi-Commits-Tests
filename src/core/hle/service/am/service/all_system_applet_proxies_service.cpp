@@ -23,6 +23,7 @@ IAllSystemAppletProxiesService::IAllSystemAppletProxiesService(Core::System& sys
         {350, nullptr, "OpenSystemApplicationProxy"},
         {400, nullptr, "CreateSelfLibraryAppletCreatorForDevelop"},
         {410, nullptr, "GetSystemAppletControllerForDebug"},
+        {450, D<&IAllSystemAppletProxiesService::GetSystemProcessCommonFunctions>, "GetSystemProcessCommonFunctions"}, // 19.0.0+
         {1000, nullptr, "GetDebugFunctions"},
     };
     // clang-format on
@@ -71,6 +72,14 @@ Result IAllSystemAppletProxiesService::OpenLibraryAppletProxyOld(
     AppletAttribute attribute{};
     R_RETURN(
         this->OpenLibraryAppletProxy(out_library_applet_proxy, pid, process_handle, attribute));
+}
+
+Result IAllSystemAppletProxiesService::GetSystemProcessCommonFunctions() {
+    LOG_DEBUG(Service_AM, "(STUBBED) called.");
+
+    // TODO (jarrodnorwell)
+
+    R_SUCCEED();
 }
 
 std::shared_ptr<Applet> IAllSystemAppletProxiesService::GetAppletFromProcessId(

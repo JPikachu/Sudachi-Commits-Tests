@@ -12,9 +12,6 @@
 #include "core/hle/service/sm/sm.h"
 #include "hid_core/frontend/emulated_controller.h"
 #include "hid_core/hid_core.h"
-#include "ui_configure_input.h"
-#include "ui_configure_input_advanced.h"
-#include "ui_configure_input_player.h"
 #include "sudachi/configuration/configure_camera.h"
 #include "sudachi/configuration/configure_debug_controller.h"
 #include "sudachi/configuration/configure_input.h"
@@ -25,6 +22,11 @@
 #include "sudachi/configuration/configure_touchscreen_advanced.h"
 #include "sudachi/configuration/configure_vibration.h"
 #include "sudachi/configuration/input_profiles.h"
+#include "ui_configure_input.h"
+#include "ui_configure_input_advanced.h"
+#include "ui_configure_input_player.h"
+
+#include <QtGlobal>
 
 namespace {
 template <typename Dialog, typename... Args>
@@ -121,10 +123,18 @@ void ConfigureInput::Initialize(InputCommon::InputSubsystem* input_subsystem,
                 &ConfigureInput::UpdateAllInputDevices);
         connect(player_controllers[i], &ConfigureInputPlayer::RefreshInputProfiles, this,
                 &ConfigureInput::UpdateAllInputProfiles, Qt::QueuedConnection);
+#if QT_VERSION > QT_VERSION_CHECK(6, 7, 0)
+        connect(connected_controller_checkboxes[i], &QCheckBox::checkStateChanged,
+                [this, i](Qt::CheckState state) {
+                    // Keep activated controllers synced with the "Connected Controllers" checkboxes
+                    player_controllers[i]->ConnectPlayer(state == Qt::Checked);
+                });
+#else
         connect(connected_controller_checkboxes[i], &QCheckBox::stateChanged, [this, i](int state) {
             // Keep activated controllers synced with the "Connected Controllers" checkboxes
             player_controllers[i]->ConnectPlayer(state == Qt::Checked);
         });
+#endif
 
         // Remove/hide all the elements that exceed max_players, if applicable.
         if (i >= max_players) {

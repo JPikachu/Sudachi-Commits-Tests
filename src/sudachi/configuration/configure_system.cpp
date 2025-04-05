@@ -13,13 +13,14 @@
 #include <QLineEdit>
 #include <QMessageBox>
 #include <QSpinBox>
+#include <QtGlobal>
 
 #include "common/settings.h"
 #include "core/core.h"
-#include "ui_configure_system.h"
 #include "sudachi/configuration/configuration_shared.h"
 #include "sudachi/configuration/configure_system.h"
 #include "sudachi/configuration/shared_widget.h"
+#include "ui_configure_system.h"
 
 constexpr std::array<u32, 7> LOCALE_BLOCKLIST{
     // pzzefezrpnkzeidfej
@@ -83,7 +84,11 @@ ConfigureSystem::ConfigureSystem(Core::System& system_,
 
     connect(combo_language, qOverload<int>(&QComboBox::currentIndexChanged), this, locale_check);
     connect(combo_region, qOverload<int>(&QComboBox::currentIndexChanged), this, locale_check);
-    connect(checkbox_rtc, qOverload<int>(&QCheckBox::stateChanged), this, update_rtc_date);
+#if QT_VERSION > QT_VERSION_CHECK(6, 7, 0)
+    connect(checkbox_rtc, &QCheckBox::checkStateChanged, this, update_rtc_date);
+#else
+    connect(checkbox_rtc, &QCheckBox::stateChanged, this, update_rtc_date);
+#endif
     connect(date_rtc_offset, qOverload<int>(&QSpinBox::valueChanged), this, update_rtc_date);
     connect(date_rtc, &QDateTimeEdit::dateTimeChanged, this, update_date_offset);
 

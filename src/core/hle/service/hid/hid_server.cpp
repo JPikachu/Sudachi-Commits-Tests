@@ -89,6 +89,7 @@ IHidServer::IHidServer(Core::System& system_, std::shared_ptr<ResourceManager> r
         {88, C<&IHidServer::GetSixAxisSensorIcInformation>, "GetSixAxisSensorIcInformation"},
         {89, C<&IHidServer::ResetIsSixAxisSensorDeviceNewlyAssigned>, "ResetIsSixAxisSensorDeviceNewlyAssigned"},
         {91, C<&IHidServer::ActivateGesture>, "ActivateGesture"},
+        {92, C<&IHidServer::SetGestureOutputRanges>, "SetGestureOutputRanges"}, // 18.0.0+
         {100, C<&IHidServer::SetSupportedNpadStyleSet>, "SetSupportedNpadStyleSet"},
         {101, C<&IHidServer::GetSupportedNpadStyleSet>, "GetSupportedNpadStyleSet"},
         {102, C<&IHidServer::SetSupportedNpadIdType>, "SetSupportedNpadIdType"},
@@ -574,6 +575,14 @@ Result IHidServer::ActivateGesture(u32 basic_gesture_id, ClientAppletResourceUse
     }
 
     R_RETURN(GetResourceManager()->GetGesture()->Activate(aruid.pid, basic_gesture_id));
+}
+
+Result IHidServer::SetGestureOutputRanges(/* unknown */) {
+    LOG_DEBUG(Service_HID, "(STUBBED) called");
+
+    // TODO (jarrodnorwell)
+
+    R_SUCCEED();
 }
 
 Result IHidServer::SetSupportedNpadStyleSet(Core::HID::NpadStyleSet supported_style_set,
