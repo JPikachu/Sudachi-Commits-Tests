@@ -74,6 +74,10 @@ bool BehaviorInfo::IsSplitterBugFixed() const {
     return CheckFeatureSupported(SupportTags::SplitterBugFix, user_revision);
 }
 
+bool BehaviorInfo::IsSplitterPrevVolumeResetSupported() const {
+    return CheckFeatureSupported(SupportTags::SplitterPrevVolumeReset, user_revision);
+}
+
 bool BehaviorInfo::IsEffectInfoVersion2Supported() const {
     return CheckFeatureSupported(SupportTags::EffectInfoVer2, user_revision);
 }

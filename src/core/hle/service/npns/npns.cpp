@@ -56,7 +56,7 @@ public:
             {153, nullptr, "GetDropEventWithHandover"},
             {154, nullptr, "CreateTokenAsync"},
             {155, nullptr, "CreateTokenAsyncWithApplicationId"},
-            {161, nullptr, "GetRequestChangeStateCancelEvent"},
+            {161, C<&INpnsSystem::GetRequestChangeStateCancelEvent>, "GetRequestChangeStateCancelEvent"}, // 10.0.0+
             {162, nullptr, "RequestChangeStateForceTimedWithCancelEvent"},
             {201, nullptr, "RequestChangeStateForceTimed"},
             {202, nullptr, "RequestChangeStateForceAsync"},
@@ -66,35 +66,49 @@ public:
         RegisterHandlers(functions);
 
         get_receive_event = service_context.CreateEvent("npns:s:GetReceiveEvent");
+        get_request_change_state_cancel_event =
+            service_context.CreateEvent("npns:s:GetRequestChangeStateCancelEvent");
     }
 
     ~INpnsSystem() override {
         service_context.CloseEvent(get_receive_event);
+        service_context.CloseEvent(get_request_change_state_cancel_event);
     }
 
 private:
     Result ListenTo(u32 program_id) {
-        LOG_WARNING(Service_AM, "(STUBBED) called, program_id={}", program_id);
+        LOG_WARNING(Service_NPNS, "(STUBBED) called, program_id={}", program_id);
         R_SUCCEED();
     }
 
     Result GetReceiveEvent(OutCopyHandle<Kernel::KReadableEvent> out_event) {
-        LOG_WARNING(Service_AM, "(STUBBED) called");
+        LOG_WARNING(Service_NPNS, "(STUBBED) called");
 
         *out_event = &get_receive_event->GetReadableEvent();
         R_SUCCEED();
     }
 
     Result ListenToByName() {
-        LOG_DEBUG(Service_AM, "(STUBBED) called.");
+        LOG_DEBUG(Service_NPNS, "(STUBBED) called.");
 
         // TODO (jarrodnorwell)
 
         R_SUCCEED();
     }
 
+    Result GetRequestChangeStateCancelEvent(OutCopyHandle<Kernel::KReadableEvent> out_event) {
+        LOG_DEBUG(Service_NPNS, "(STUBBED) called.");
+
+        // TODO (jarrodnorwell)
+
+        *out_event = &get_request_change_state_cancel_event->GetReadableEvent();
+
+        R_SUCCEED();
+    }
+
     KernelHelpers::ServiceContext service_context;
     Kernel::KEvent* get_receive_event;
+    Kernel::KEvent* get_request_change_state_cancel_event;
 };
 
 class INpnsUser final : public ServiceFramework<INpnsUser> {

@@ -6,6 +6,7 @@
 #include "audio_core/renderer/behavior/behavior_info.h"
 #include "audio_core/renderer/splitter/splitter_context.h"
 #include "common/alignment.h"
+#include "common/logging/log.h"
 
 namespace AudioCore::Renderer {
 
@@ -32,12 +33,14 @@ SplitterDestinationData& SplitterContext::GetData(const u32 index) {
 
 void SplitterContext::Setup(std::span<SplitterInfo> splitter_infos_, const u32 splitter_info_count_,
                             SplitterDestinationData* splitter_destinations_,
-                            const u32 destination_count_, const bool splitter_bug_fixed_) {
+                            const u32 destination_count_, const bool splitter_bug_fixed_,
+                            const bool prev_volume_reset_supported_) {
     splitter_infos = splitter_infos_;
     info_count = splitter_info_count_;
     splitter_destinations = splitter_destinations_;
     destinations_count = destination_count_;
     splitter_bug_fixed = splitter_bug_fixed_;
+    prev_reset_volume_supported = prev_volume_reset_supported_;
 }
 
 bool SplitterContext::UsingSplitter() const {
@@ -81,7 +84,8 @@ bool SplitterContext::Initialize(const BehaviorInfo& behavior,
         }
 
         Setup(splitter_infos, params.splitter_infos, splitter_destinations,
-              params.splitter_destinations, behavior.IsSplitterBugFixed());
+              params.splitter_destinations, behavior.IsSplitterBugFixed(),
+              behavior.IsSplitterPrevVolumeResetSupported());
     }
     return true;
 }
@@ -132,10 +136,13 @@ u32 SplitterContext::UpdateInfo(const u8* input, u32 offset, const u32 splitter_
     return offset;
 }
 
+// TODO (jarrodnorwell) fix prev_volume_reset not being called
 u32 SplitterContext::UpdateData(const u8* input, u32 offset, const u32 count) {
     for (u32 i = 0; i < count; i++) {
         auto data_header{
             reinterpret_cast<const SplitterDestinationData::InParameter*>(input + offset)};
+        bool is_reset = data_header->prev_volume_reset_supported;
+        LOG_CRITICAL(Service_Audio, "prev_volume_reset_supported={}", is_reset);
 
         if (data_header->magic != GetSplitterSendDataMagic()) {
             continue;
@@ -145,7 +152,7 @@ u32 SplitterContext::UpdateData(const u8* input, u32 offset, const u32 count) {
             continue;
         }
 
-        splitter_destinations[data_header->id].Update(*data_header);
+        splitter_destinations[data_header->id].Update(*data_header, prev_reset_volume_supported);
         offset += sizeof(SplitterDestinationData::InParameter);
     }
 

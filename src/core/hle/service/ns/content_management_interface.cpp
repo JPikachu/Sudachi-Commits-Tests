@@ -2,7 +2,11 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "common/common_funcs.h"
+#include "common/fs/fs.h"
 #include "core/core.h"
+#include "core/file_sys/content_archive.h"
+#include "core/file_sys/nca_metadata.h"
+#include "core/file_sys/registered_cache.h"
 #include "core/hle/service/cmif_serialization.h"
 #include "core/hle/service/filesystem/filesystem.h"
 #include "core/hle/service/ns/content_management_interface.h"
@@ -32,13 +36,27 @@ IContentManagementInterface::~IContentManagementInterface() = default;
 
 Result IContentManagementInterface::CalculateApplicationOccupiedSize(
     Out<ApplicationOccupiedSize> out_size, u64 application_id) {
-    LOG_WARNING(Service_NS, "(STUBBED) called, application_id={:016X}", application_id);
+    LOG_DEBUG(Service_NS, "(STUBBED) called, application_id={:016X}", application_id);
+
+    // TODO (jarrodnorwell)
 
     using namespace Common::Literals;
 
-    constexpr ApplicationOccupiedSizeEntity stub_entity{
+    const auto& file_system_controller = system.GetFileSystemController();
+    const auto& user_nand = file_system_controller.GetUserNANDContents();
+
+    u64 size = 0;
+    if (user_nand->HasEntry(application_id, FileSys::ContentRecordType::Program)) {
+        const auto& entry =
+            user_nand->GetEntryUnparsed(application_id, FileSys::ContentRecordType::Program);
+        size = Common::FS::GetSize(entry->GetFullPath());
+    } else {
+        size = 8_GiB;
+    }
+
+    ApplicationOccupiedSizeEntity stub_entity{
         .storage_id = FileSys::StorageId::SdCard,
-        .app_size = 8_GiB,
+        .app_size = size,
         .patch_size = 2_GiB,
         .aoc_size = 12_MiB,
     };

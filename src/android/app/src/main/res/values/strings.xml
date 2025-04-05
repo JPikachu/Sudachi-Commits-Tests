@@ -162,6 +162,8 @@
     <string name="cabinet_game_data_eraser">Game data eraser</string>
     <string name="cabinet_restorer">Restorer</string>
     <string name="cabinet_formatter">Formatter</string>
+    <string name="my_page_applet">MyPage</string>
+    <string name="my_page_applet_description">Boot the profile menu</string>
     <string name="qlaunch_applet">QLaunch</string>
     <string name="qlaunch_applet_description">Boot the Nintendo Switch home menu</string>
 

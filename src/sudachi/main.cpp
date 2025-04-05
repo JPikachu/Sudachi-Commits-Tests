@@ -42,6 +42,7 @@
 #include "core/frontend/applets/controller.h"
 #include "core/frontend/applets/general.h"
 #include "core/frontend/applets/mii_edit.h"
+#include "core/frontend/applets/my_page.h"
 #include "core/frontend/applets/software_keyboard.h"
 #include "core/hle/service/acc/profile_manager.h"
 #include "core/hle/service/am/frontend/applets.h"
@@ -129,16 +130,10 @@ static FileSys::VirtualFile VfsDirectoryCreateFileWrapper(const FileSys::Virtual
 #include "core/hle/service/sm/sm.h"
 #include "core/loader/loader.h"
 #include "core/perf_stats.h"
-#include "core/telemetry_session.h"
 #include "frontend_common/config.h"
 #include "input_common/drivers/tas_input.h"
 #include "input_common/drivers/virtual_amiibo.h"
 #include "input_common/main.h"
-#include "ui_main.h"
-#include "util/overlay_dialog.h"
-#include "video_core/gpu.h"
-#include "video_core/renderer_base.h"
-#include "video_core/shader_notify.h"
 #include "sudachi/about_dialog.h"
 #include "sudachi/bootmanager.h"
 #include "sudachi/compatdb.h"
@@ -162,6 +157,11 @@ static FileSys::VirtualFile VfsDirectoryCreateFileWrapper(const FileSys::Virtual
 #include "sudachi/uisettings.h"
 #include "sudachi/util/clickable_label.h"
 #include "sudachi/vk_device_info.h"
+#include "ui_main.h"
+#include "util/overlay_dialog.h"
+#include "video_core/gpu.h"
+#include "video_core/renderer_base.h"
+#include "video_core/shader_notify.h"
 
 #ifdef SUDACHI_CRASH_DUMPS
 #include "sudachi/breakpad.h"
@@ -201,24 +201,6 @@ enum class CalloutFlag : uint32_t {
     Telemetry = 0x1,
     DRDDeprecation = 0x2,
 };
-
-void GMainWindow::ShowTelemetryCallout() {
-    if (UISettings::values.callout_flags.GetValue() &
-        static_cast<uint32_t>(CalloutFlag::Telemetry)) {
-        return;
-    }
-
-    UISettings::values.callout_flags =
-        UISettings::values.callout_flags.GetValue() | static_cast<uint32_t>(CalloutFlag::Telemetry);
-    const QString telemetry_message =
-        tr("<a href='https://sudachi-emu.org/help/feature/telemetry/'>Anonymous "
-           "data is collected</a> to help improve sudachi. "
-           "<br/><br/>Would you like to share your usage data with us?");
-    if (!question(this, tr("Telemetry"), telemetry_message)) {
-        Settings::values.enable_telemetry = false;
-        system->ApplySettings();
-    }
-}
 
 const int GMainWindow::max_recent_files_item;
 
@@ -370,7 +352,8 @@ GMainWindow::GMainWindow(std::unique_ptr<QtConfig> config_, bool has_broken_vulk
     const auto description = std::string(Common::g_scm_desc);
     const auto build_id = std::string(Common::g_build_id);
 
-    const auto sudachi_build = fmt::format("sudachi Development Build | {}-{}", branch_name, description);
+    const auto sudachi_build =
+        fmt::format("sudachi Development Build | {}-{}", branch_name, description);
     const auto override_build =
         fmt::format(fmt::runtime(std::string(Common::g_title_bar_format_idle)), build_id);
     const auto sudachi_build_version = override_build.empty() ? sudachi_build : override_build;
@@ -427,9 +410,6 @@ GMainWindow::GMainWindow(std::unique_ptr<QtConfig> config_, bool has_broken_vulk
     game_list->LoadCompatibilityList();
     game_list->PopulateAsync(UISettings::values.game_dirs);
 
-    // Show one-time "callout" messages to the user
-    ShowTelemetryCallout();
-
     // make sure menubar has the arrow cursor instead of inheriting from this
     ui->menubar->setCursor(QCursor());
     statusBar()->setCursor(QCursor());
@@ -448,10 +428,7 @@ GMainWindow::GMainWindow(std::unique_ptr<QtConfig> config_, bool has_broken_vulk
         UISettings::values.has_broken_vulkan = true;
 
         QMessageBox::warning(this, tr("Broken Vulkan Installation Detected"),
-                             tr("Vulkan initialization failed during boot.<br><br>Click <a "
-                                "href='https://sudachi-emu.org/wiki/faq/"
-                                "#sudachi-starts-with-the-error-broken-vulkan-installation-detected'>"
-                                "here for instructions to fix the issue</a>."));
+                             tr("Vulkan failed to initialize during boot."));
 
 #ifdef HAS_OPENGL
         Settings::values.renderer_backend = Settings::RendererBackend::OpenGL;
@@ -1545,9 +1522,6 @@ void GMainWindow::ConnectMenuEvents() {
     connect_menu(ui->action_Pause, &GMainWindow::OnPauseContinueGame);
     connect_menu(ui->action_Stop, &GMainWindow::OnStopGame);
     connect_menu(ui->action_Report_Compatibility, &GMainWindow::OnMenuReportCompatibility);
-    connect_menu(ui->action_Open_Mods_Page, &GMainWindow::OnOpenModsPage);
-    connect_menu(ui->action_Open_Quickstart_Guide, &GMainWindow::OnOpenQuickstartGuide);
-    connect_menu(ui->action_Open_FAQ, &GMainWindow::OnOpenFAQ);
     connect_menu(ui->action_Restart, &GMainWindow::OnRestartGame);
     connect_menu(ui->action_Configure, &GMainWindow::OnConfigure);
     connect_menu(ui->action_Configure_Current_Game, &GMainWindow::OnConfigurePerGame);
@@ -1591,6 +1565,7 @@ void GMainWindow::ConnectMenuEvents() {
                  [this]() { OnCabinet(Service::NFP::CabinetMode::StartFormatter); });
     connect_menu(ui->action_Load_Mii_Edit, &GMainWindow::OnMiiEdit);
     connect_menu(ui->action_Load_QLaunch, &GMainWindow::OnQLaunch);
+    connect_menu(ui->action_Load_MyPage, &GMainWindow::OnMyPage);
     connect_menu(ui->action_Open_Controller_Menu, &GMainWindow::OnOpenControllerMenu);
     connect_menu(ui->action_Capture_Screenshot, &GMainWindow::OnCaptureScreenshot);
 
@@ -1628,6 +1603,7 @@ void GMainWindow::UpdateMenuState() {
                                     ui->action_Load_Cabinet_Formatter,
                                     ui->action_Load_Mii_Edit,
                                     ui->action_Load_QLaunch,
+                                    ui->action_Load_MyPage,
                                     ui->action_Open_Controller_Menu};
 
     for (QAction* action : running_actions) {
@@ -1795,6 +1771,7 @@ bool GMainWindow::LoadROM(const QString& filename, Service::AM::FrontendAppletPa
             : std::make_unique<QtControllerSelector>(*this), // Controller Selector
         std::make_unique<QtErrorDisplay>(*this),             // Error Display
         nullptr,                                             // Mii Editor
+        nullptr,                                             // My Page
         nullptr,                                             // Parental Controls
         nullptr,                                             // Photo Viewer
         std::make_unique<QtProfileSelector>(*this),          // Profile Selector
@@ -1818,9 +1795,7 @@ bool GMainWindow::LoadROM(const QString& filename, Service::AM::FrontendAppletPa
             tr("You are using the deconstructed ROM directory format for this game, which is an "
                "outdated format that has been superseded by others such as NCA, NAX, XCI, or "
                "NSP. Deconstructed ROM directories lack icons, metadata, and update "
-               "support.<br><br>For an explanation of the various Switch formats sudachi supports, <a "
-               "href='https://sudachi-emu.org/wiki/overview-of-switch-game-formats'>check out our "
-               "wiki</a>. This message will not be shown again."));
+               "support."));
     }
 
     if (result != Core::SystemResultStatus::Success) {
@@ -1835,10 +1810,7 @@ bool GMainWindow::LoadROM(const QString& filename, Service::AM::FrontendAppletPa
                 this, tr("An error occurred initializing the video core."),
                 tr("sudachi has encountered an error while running the video core. "
                    "This is usually caused by outdated GPU drivers, including integrated ones. "
-                   "Please see the log for more details. "
-                   "For more information on accessing the log, please see the following page: "
-                   "<a href='https://sudachi-emu.org/help/reference/log-files/'>"
-                   "How to Upload the Log File</a>. "));
+                   "Please see the log for more details."));
             break;
         default:
             if (result > Core::SystemResultStatus::ErrorLoader) {
@@ -1850,13 +1822,9 @@ bool GMainWindow::LoadROM(const QString& filename, Service::AM::FrontendAppletPa
                 const auto title =
                     tr("Error while loading ROM! %1", "%1 signifies a numeric error code.")
                         .arg(QString::fromStdString(error_code));
-                const auto description =
-                    tr("%1<br>Please follow <a href='https://sudachi-emu.org/help/quickstart/'>the "
-                       "sudachi quickstart guide</a> to redump your files.<br>You can refer "
-                       "to the sudachi wiki</a> or the sudachi Discord</a> for help.",
-                       "%1 signifies an error string.")
-                        .arg(QString::fromStdString(
-                            GetResultStatusString(static_cast<Loader::ResultStatus>(error_id))));
+                const auto description = tr("%1<br>Please redump your files.")
+                                             .arg(QString::fromStdString(GetResultStatusString(
+                                                 static_cast<Loader::ResultStatus>(error_id))));
 
                 QMessageBox::critical(this, title, description);
             } else {
@@ -1870,7 +1838,6 @@ bool GMainWindow::LoadROM(const QString& filename, Service::AM::FrontendAppletPa
     }
     current_game_path = filename;
 
-    system->TelemetrySession().AddField(Common::Telemetry::FieldType::App, "Frontend", "Qt");
     return true;
 }
 
@@ -2651,7 +2618,8 @@ void GMainWindow::RemoveCustomConfiguration(u64 program_id, const std::string& g
         program_id == 0 ? Common::FS::PathToUTF8String(file_path.filename()).append(".ini")
                         : fmt::format("{:016X}.ini", program_id);
     const auto custom_config_file_path =
-        Common::FS::GetSudachiPath(Common::FS::SudachiPath::ConfigDir) / "custom" / config_file_name;
+        Common::FS::GetSudachiPath(Common::FS::SudachiPath::ConfigDir) / "custom" /
+        config_file_name;
 
     if (!Common::FS::Exists(custom_config_file_path)) {
         QMessageBox::warning(this, tr("Error Removing Custom Configuration"),
@@ -2725,10 +2693,10 @@ void GMainWindow::OnGameListDumpRomFS(u64 program_id, const std::string& game_pa
     }
 
     const auto base_romfs = base_nca->GetRomFS();
-    const auto dump_dir =
-        target == DumpRomFSTarget::Normal
-            ? Common::FS::GetSudachiPath(Common::FS::SudachiPath::DumpDir)
-            : Common::FS::GetSudachiPath(Common::FS::SudachiPath::SDMCDir) / "atmosphere" / "contents";
+    const auto dump_dir = target == DumpRomFSTarget::Normal
+                              ? Common::FS::GetSudachiPath(Common::FS::SudachiPath::DumpDir)
+                              : Common::FS::GetSudachiPath(Common::FS::SudachiPath::SDMCDir) /
+                                    "atmosphere" / "contents";
     const auto romfs_dir = fmt::format("{:016X}/romfs", title_id);
 
     const auto path = Common::FS::PathToUTF8String(dump_dir / romfs_dir);
@@ -3003,8 +2971,9 @@ bool GMainWindow::MakeShortcutIcoPath(const u64 program_id, const std::string_vi
     }
 
     // Create icon file path
-    out_icon_path /= (program_id == 0 ? fmt::format("sudachi-{}.{}", game_file_name, ico_extension)
-                                      : fmt::format("sudachi-{:016X}.{}", program_id, ico_extension));
+    out_icon_path /=
+        (program_id == 0 ? fmt::format("sudachi-{}.{}", game_file_name, ico_extension)
+                         : fmt::format("sudachi-{:016X}.{}", program_id, ico_extension));
     return true;
 }
 
@@ -3108,14 +3077,14 @@ void GMainWindow::OnGameListCreateShortcut(u64 program_id, const std::string& ga
 void GMainWindow::OnGameListOpenDirectory(const QString& directory) {
     std::filesystem::path fs_path;
     if (directory == QStringLiteral("SDMC")) {
-        fs_path =
-            Common::FS::GetSudachiPath(Common::FS::SudachiPath::SDMCDir) / "Nintendo/Contents/registered";
+        fs_path = Common::FS::GetSudachiPath(Common::FS::SudachiPath::SDMCDir) /
+                  "Nintendo/Contents/registered";
     } else if (directory == QStringLiteral("UserNAND")) {
-        fs_path =
-            Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) / "user/Contents/registered";
+        fs_path = Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) /
+                  "user/Contents/registered";
     } else if (directory == QStringLiteral("SysNAND")) {
-        fs_path =
-            Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) / "system/Contents/registered";
+        fs_path = Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) /
+                  "system/Contents/registered";
     } else {
         fs_path = directory.toStdString();
     }
@@ -3556,7 +3525,7 @@ void GMainWindow::OnMenuReportCompatibility() {
 
     if (!Settings::values.sudachi_token.GetValue().empty() &&
         !Settings::values.sudachi_username.GetValue().empty()) {
-        CompatDB compatdb{system->TelemetrySession(), this};
+        CompatDB compatdb{this};
         compatdb.exec();
     } else {
         QMessageBox::critical(
@@ -3579,18 +3548,6 @@ void GMainWindow::OpenURL(const QUrl& url) {
         QMessageBox::warning(this, tr("Error opening URL"),
                              tr("Unable to open the URL \"%1\".").arg(url.toString()));
     }
-}
-
-void GMainWindow::OnOpenModsPage() {
-    OpenURL(QUrl(QStringLiteral("https://github.com/sudachi-emu/sudachi/wiki/Switch-Mods")));
-}
-
-void GMainWindow::OnOpenQuickstartGuide() {
-    OpenURL(QUrl(QStringLiteral("https://sudachi-emu.org/help/quickstart/")));
-}
-
-void GMainWindow::OnOpenFAQ() {
-    OpenURL(QUrl(QStringLiteral("https://sudachi-emu.org/wiki/faq/")));
 }
 
 void GMainWindow::ToggleFullscreen() {
@@ -3786,8 +3743,6 @@ void GMainWindow::OnConfigure() {
 
         SetDefaultUIGeometry();
         RestoreUIState();
-
-        ShowTelemetryCallout();
     }
     InitializeHotkeys();
 
@@ -4122,8 +4077,8 @@ void GMainWindow::LoadAmiibo(const QString& filename) {
 }
 
 void GMainWindow::OnOpenSudachiFolder() {
-    QDesktopServices::openUrl(QUrl::fromLocalFile(
-        QString::fromStdString(Common::FS::GetSudachiPathString(Common::FS::SudachiPath::SudachiDir))));
+    QDesktopServices::openUrl(QUrl::fromLocalFile(QString::fromStdString(
+        Common::FS::GetSudachiPathString(Common::FS::SudachiPath::SudachiDir))));
 }
 
 void GMainWindow::OnVerifyInstalledContents() {
@@ -4164,9 +4119,9 @@ void GMainWindow::OnInstallFirmware() {
 
     // Check for installed keys, error out, suggest restart?
     if (!ContentManager::AreKeysPresent()) {
-        QMessageBox::information(
-            this, tr("Keys not installed"),
-            tr("Install decryption keys and restart sudachi before attempting to install firmware."));
+        QMessageBox::information(this, tr("Keys not installed"),
+                                 tr("Install decryption keys and restart sudachi before attempting "
+                                    "to install firmware."));
         return;
     }
 
@@ -4482,6 +4437,29 @@ void GMainWindow::OnQLaunch() {
     BootGame(filename, LibraryAppletParameters(QLaunchId, Service::AM::AppletId::QLaunch));
 }
 
+void GMainWindow::OnMyPage() {
+    constexpr u64 MyPageId = static_cast<u64>(Service::AM::AppletProgramId::MyPage);
+    auto bis_system = system->GetFileSystemController().GetSystemNANDContents();
+    if (!bis_system) {
+        QMessageBox::warning(this, tr("No firmware available"),
+                             tr("Please install the firmware to use My Page."));
+        return;
+    }
+
+    auto my_page_nca = bis_system->GetEntry(MyPageId, FileSys::ContentRecordType::Program);
+    if (!my_page_nca) {
+        QMessageBox::warning(this, tr("MyPage Applet"),
+                             tr("MyPage is not available. Please reinstall firmware."));
+        return;
+    }
+
+    system->GetFrontendAppletHolder().SetCurrentAppletId(Service::AM::AppletId::MyPage);
+
+    const auto filename = QString::fromStdString((my_page_nca->GetFullPath()));
+    UISettings::values.roms_path = QFileInfo(filename).path().toStdString();
+    BootGame(filename, LibraryAppletParameters(MyPageId, Service::AM::AppletId::MyPage));
+}
+
 void GMainWindow::OnOpenControllerMenu() {
     constexpr u64 ControllerAppletId = static_cast<u64>(Service::AM::AppletProgramId::Controller);
     auto bis_system = system->GetFileSystemController().GetSystemNANDContents();
@@ -4513,8 +4491,8 @@ void GMainWindow::OnCaptureScreenshot() {
     }
 
     const u64 title_id = system->GetApplicationProcessProgramID();
-    const auto screenshot_path =
-        QString::fromStdString(Common::FS::GetSudachiPathString(Common::FS::SudachiPath::ScreenshotsDir));
+    const auto screenshot_path = QString::fromStdString(
+        Common::FS::GetSudachiPathString(Common::FS::SudachiPath::ScreenshotsDir));
     const auto date =
         QDateTime::currentDateTime().toString(QStringLiteral("yyyy-MM-dd_hh-mm-ss-zzz"));
     QString filename = QStringLiteral("%1/%2_%3.png")
@@ -4812,12 +4790,8 @@ void GMainWindow::OnMouseActivity() {
 void GMainWindow::OnCheckFirmwareDecryption() {
     system->GetFileSystemController().CreateFactories(*vfs);
     if (!ContentManager::AreKeysPresent()) {
-        QMessageBox::warning(
-            this, tr("Derivation Components Missing"),
-            tr("Encryption keys are missing. "
-               "<br>Please follow <a href='https://sudachi-emu.org/help/quickstart/'>the sudachi "
-               "quickstart guide</a> to get all your keys, firmware and "
-               "games."));
+        QMessageBox::warning(this, tr("Derivation Components Missing"),
+                             tr("Encryption keys are missing."));
     }
     SetFirmwareVersion();
     UpdateMenuState();

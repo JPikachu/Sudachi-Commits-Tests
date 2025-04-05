@@ -46,6 +46,7 @@
 #include "core/frontend/applets/error.h"
 #include "core/frontend/applets/general.h"
 #include "core/frontend/applets/mii_edit.h"
+#include "core/frontend/applets/my_page.h"
 #include "core/frontend/applets/profile_select.h"
 #include "core/frontend/applets/software_keyboard.h"
 #include "core/frontend/applets/web_browser.h"
@@ -242,6 +243,7 @@ Core::SystemResultStatus EmulationSession::InitializeEmulation(const std::string
         nullptr,                     // Controller Selector
         nullptr,                     // Error Display
         nullptr,                     // Mii Editor
+        nullptr,                     // MyPage
         nullptr,                     // Parental Controls
         nullptr,                     // Photo Viewer
         nullptr,                     // Profile Selector

@@ -89,6 +89,7 @@ static_assert(sizeof(ApplicationViewWithPromotionInfo) == 0x70,
 
 struct ApplicationOccupiedSizeEntity {
     FileSys::StorageId storage_id;
+    INSERT_PADDING_BYTES(0x7);
     u64 app_size;
     u64 patch_size;
     u64 aoc_size;

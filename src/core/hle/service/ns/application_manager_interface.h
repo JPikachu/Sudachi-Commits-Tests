@@ -49,6 +49,8 @@ public:
                                         u64 application_id);
     Result CheckApplicationLaunchVersion(u64 application_id);
     Result GetApplicationTerminateResult(Out<Result> out_result, u64 application_id);
+    Result DeleteApplicationCompletely(u64 application_id);
+    Result CleanupOrphanContents(u64 application_id);
 
 private:
     KernelHelpers::ServiceContext service_context;

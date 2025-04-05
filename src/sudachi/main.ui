@@ -173,6 +173,7 @@
     <addaction name="action_Load_Album"/>
     <addaction name="action_Load_Mii_Edit"/>
     <addaction name="action_Load_QLaunch"/>
+    <addaction name="action_Load_MyPage"/>
     <addaction name="action_Open_Controller_Menu"/>
     <addaction name="separator"/>
     <addaction name="action_Capture_Screenshot"/>
@@ -183,9 +184,6 @@
      <string>&amp;Help</string>
     </property>
     <addaction name="action_Report_Compatibility"/>
-    <addaction name="action_Open_Mods_Page"/>
-    <addaction name="action_Open_Quickstart_Guide"/>
-    <addaction name="action_Open_FAQ"/>
     <addaction name="separator"/>
     <addaction name="action_About"/>
    </widget>
@@ -360,21 +358,6 @@
     <bool>false</bool>
    </property>
   </action>
-  <action name="action_Open_Mods_Page">
-   <property name="text">
-    <string>Open &amp;Mods Page</string>
-   </property>
-  </action>
-  <action name="action_Open_Quickstart_Guide">
-   <property name="text">
-    <string>Open &amp;Quickstart Guide</string>
-   </property>
-  </action>
-  <action name="action_Open_FAQ">
-   <property name="text">
-    <string>&amp;FAQ</string>
-   </property>
-  </action>
   <action name="action_Open_sudachi_Folder">
    <property name="text">
     <string>Open &amp;sudachi Folder</string>
@@ -421,6 +404,11 @@
   <action name="action_Load_QLaunch">
    <property name="text">
     <string>Open &amp;QLaunch</string>
+   </property>
+  </action>
+  <action name="action_Load_MyPage">
+   <property name="text">
+    <string>Open &amp;MyPage</string>
    </property>
   </action>
   <action name="action_Configure_Tas">

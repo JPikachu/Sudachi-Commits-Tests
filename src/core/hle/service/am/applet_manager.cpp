@@ -11,6 +11,7 @@
 #include "core/hle/service/am/frontend/applet_cabinet.h"
 #include "core/hle/service/am/frontend/applet_controller.h"
 #include "core/hle/service/am/frontend/applet_mii_edit_types.h"
+#include "core/hle/service/am/frontend/applet_my_page.h"
 #include "core/hle/service/am/frontend/applet_software_keyboard_types.h"
 #include "core/hle/service/am/service/storage.h"
 #include "core/hle/service/am/window_system.h"
@@ -223,6 +224,31 @@ void PushInShowSoftwareKeyboard(Core::System& system, AppletStorageChannel& chan
     channel.Push(std::make_shared<IStorage>(system, std::move(work_buffer)));
 }
 
+void PushInShowMyPage(Core::System& system, AppletStorageChannel& channel) {
+    LOG_DEBUG(Service_AM, "(STUBBED) called.");
+
+    // TODO (jarrodnorwell)
+
+    const CommonArguments arguments{
+        .arguments_version = CommonArgumentVersion::Version3,
+        .size = CommonArgumentSize::Version3,
+        .library_version = static_cast<u32>(Frontend::MyPageAppletVersion::Version2),
+        .theme_color = ThemeColor::BasicBlack,
+        .play_startup_sound = true,
+        .system_tick = system.CoreTiming().GetClockTicks(),
+    };
+
+    const Frontend::Arg arg{.type = Frontend::MyPageAppletType::ShowMyProfile,
+                            .uid = system.GetProfileManager().GetLastOpenedUser().AsU128()};
+
+    std::vector<u8> argument_data(sizeof(arguments));
+    std::vector<u8> settings_data(sizeof(arg));
+    std::memcpy(argument_data.data(), &arguments, sizeof(arguments));
+    std::memcpy(settings_data.data(), &arg, sizeof(arg));
+    channel.Push(std::make_shared<IStorage>(system, std::move(argument_data)));
+    channel.Push(std::make_shared<IStorage>(system, std::move(settings_data)));
+}
+
 } // namespace
 
 AppletManager::AppletManager(Core::System& system) : m_system(system) {}
@@ -314,6 +340,9 @@ void AppletManager::SetWindowSystem(WindowSystem* window_system) {
         break;
     case AppletId::Controller:
         PushInShowController(m_system, InitializeFakeCallerApplet(m_system, applet));
+        break;
+    case AppletId::MyPage:
+        PushInShowMyPage(m_system, InitializeFakeCallerApplet(m_system, applet));
         break;
     default:
         break;

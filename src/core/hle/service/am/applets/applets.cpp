@@ -10,6 +10,7 @@
 #include "core/frontend/applets/error.h"
 #include "core/frontend/applets/general_frontend.h"
 #include "core/frontend/applets/mii_edit.h"
+#include "core/frontend/applets/my_page.h"
 #include "core/frontend/applets/profile_select.h"
 #include "core/frontend/applets/software_keyboard.h"
 #include "core/frontend/applets/web_browser.h"
@@ -22,6 +23,7 @@
 #include "core/hle/service/am/applets/applet_error.h"
 #include "core/hle/service/am/applets/applet_general_backend.h"
 #include "core/hle/service/am/applets/applet_mii_edit.h"
+#include "core/hle/service/am/applets/applet_my_page.h"
 #include "core/hle/service/am/applets/applet_profile_select.h"
 #include "core/hle/service/am/applets/applet_software_keyboard.h"
 #include "core/hle/service/am/applets/applet_web_browser.h"
@@ -31,8 +33,8 @@
 namespace Service::AM::Applets {
 
 AppletDataBroker::AppletDataBroker(Core::System& system_, LibraryAppletMode applet_mode_)
-    : system{system_}, applet_mode{applet_mode_}, service_context{system,
-                                                                  "ILibraryAppletAccessor"} {
+    : system{system_}, applet_mode{applet_mode_},
+      service_context{system, "ILibraryAppletAccessor"} {
     state_changed_event = service_context.CreateEvent("ILibraryAppletAccessor:StateChangedEvent");
     pop_out_data_event = service_context.CreateEvent("ILibraryAppletAccessor:PopDataOutEvent");
     pop_interactive_out_data_event =
@@ -175,12 +177,12 @@ AppletFrontendSet::AppletFrontendSet() = default;
 
 AppletFrontendSet::AppletFrontendSet(CabinetApplet cabinet_applet,
                                      ControllerApplet controller_applet, ErrorApplet error_applet,
-                                     MiiEdit mii_edit_,
+                                     MiiEdit mii_edit_, MyPage my_page_,
                                      ParentalControlsApplet parental_controls_applet,
                                      PhotoViewer photo_viewer_, ProfileSelect profile_select_,
                                      SoftwareKeyboard software_keyboard_, WebBrowser web_browser_)
     : cabinet{std::move(cabinet_applet)}, controller{std::move(controller_applet)},
-      error{std::move(error_applet)}, mii_edit{std::move(mii_edit_)},
+      error{std::move(error_applet)}, mii_edit{std::move(mii_edit_)}, my_page{std::move(my_page_)},
       parental_controls{std::move(parental_controls_applet)},
       photo_viewer{std::move(photo_viewer_)}, profile_select{std::move(profile_select_)},
       software_keyboard{std::move(software_keyboard_)}, web_browser{std::move(web_browser_)} {}
@@ -222,6 +224,10 @@ void AppletManager::SetAppletFrontendSet(AppletFrontendSet set) {
 
     if (set.mii_edit != nullptr) {
         frontend.mii_edit = std::move(set.mii_edit);
+    }
+
+    if (set.my_page != nullptr) {
+        frontend.my_page = std::move(set.my_page);
     }
 
     if (set.parental_controls != nullptr) {
@@ -276,6 +282,10 @@ void AppletManager::SetDefaultAppletsIfMissing() {
         frontend.mii_edit = std::make_unique<Core::Frontend::DefaultMiiEditApplet>();
     }
 
+    if (frontend.my_page == nullptr) {
+        frontend.my_page = std::make_unique<Core::Frontend::DefaultMyPageApplet>();
+    }
+
     if (frontend.parental_controls == nullptr) {
         frontend.parental_controls =
             std::make_unique<Core::Frontend::DefaultParentalControlsApplet>();
@@ -327,6 +337,8 @@ std::shared_ptr<Applet> AppletManager::GetApplet(AppletId id, LibraryAppletMode 
         return std::make_shared<WebBrowser>(system, mode, *frontend.web_browser);
     case AppletId::PhotoViewer:
         return std::make_shared<PhotoViewer>(system, mode, *frontend.photo_viewer);
+    case AppletId::MyPage:
+        return std::make_shared<MyPage>(system, mode, *frontend.my_page);
     default:
         UNIMPLEMENTED_MSG(
             "No backend implementation exists for applet_id={:02X}! Falling back to stub applet.",

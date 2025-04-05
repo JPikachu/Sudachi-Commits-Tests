@@ -78,7 +78,14 @@ class AppletLauncherFragment : Fragment() {
                 R.string.qlaunch_applet_description,
                 R.drawable.ic_mii,
                 AppletInfo.QLaunch
-            )
+            ),
+            // TODO (jarrodnorwell): cannot find base profile
+            // Applet(
+            //     R.string.my_page_applet,
+            //     R.string.my_page_applet_description,
+            //     R.drawable.ic_mii,
+            //     AppletInfo.MyPage
+            // )
         )
 
         binding.listApplets.apply {

@@ -599,11 +599,6 @@ InstallResult RegisteredCache::InstallEntry(const NSP& nsp, bool overwrite_if_ex
     const CNMT cnmt(cnmt_file);
 
     const auto title_id = cnmt.GetTitleID();
-    const auto version = cnmt.GetTitleVersion();
-
-    if (title_id == GetBaseTitleID(title_id) && version == 0) {
-        return InstallResult::ErrorBaseInstall;
-    }
 
     const auto result = RemoveExistingEntry(title_id);
 

@@ -1,6 +1,7 @@
 // SPDX-FileCopyrightText: Copyright 2024 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
+#include "core/file_sys/content_archive.h"
 #include "core/file_sys/nca_metadata.h"
 #include "core/file_sys/registered_cache.h"
 #include "core/hle/service/cmif_serialization.h"
@@ -24,7 +25,7 @@ IApplicationManagerInterface::IApplicationManagerInterface(Core::System& system_
         {2, D<&IApplicationManagerInterface::GetApplicationRecordUpdateSystemEvent>, "GetApplicationRecordUpdateSystemEvent"},
         {3, nullptr, "GetApplicationViewDeprecated"},
         {4, nullptr, "DeleteApplicationEntity"},
-        {5, nullptr, "DeleteApplicationCompletely"},
+        {5, D<&IApplicationManagerInterface::DeleteApplicationCompletely>, "DeleteApplicationCompletely"},
         {6, nullptr, "IsAnyApplicationEntityRedundant"},
         {7, nullptr, "DeleteRedundantApplicationEntity"},
         {8, nullptr, "IsApplicationEntityMovable"},
@@ -190,7 +191,7 @@ IApplicationManagerInterface::IApplicationManagerInterface(Core::System& system_
         {1310, nullptr, "RequestMoveApplicationEntity"},
         {1311, nullptr, "EstimateSizeToMove"},
         {1312, nullptr, "HasMovableEntity"},
-        {1313, nullptr, "CleanupOrphanContents"},
+        {1313, D<&IApplicationManagerInterface::CleanupOrphanContents>, "CleanupOrphanContents"},
         {1314, nullptr, "CheckPreconditionSatisfiedToMove"},
         {1400, nullptr, "PrepareShutdown"},
         {1500, nullptr, "FormatSdCard"},
@@ -383,6 +384,25 @@ Result IApplicationManagerInterface::GetApplicationRecordUpdateSystemEvent(
     R_SUCCEED();
 }
 
+Result IApplicationManagerInterface::DeleteApplicationCompletely(u64 application_id) {
+    LOG_DEBUG(Service_NS, "(STUBBED) called, application_id={}.", application_id);
+
+    // TODO (jarrodnorwell)
+
+    const auto& file_system_controller = system.GetFileSystemController();
+    const auto& user_nand = file_system_controller.GetUserNANDContents();
+    const auto& system_nand = file_system_controller.GetSystemNANDContents();
+    const auto& sdmc_nand = file_system_controller.GetSDMCContents();
+
+    for (const auto& nand : {user_nand, system_nand, sdmc_nand}) {
+        if (nand->HasEntry(application_id, FileSys::ContentRecordType::Program)) {
+            nand->RemoveExistingEntry(application_id);
+        }
+    }
+
+    R_SUCCEED();
+}
+
 Result IApplicationManagerInterface::GetGameCardMountFailureEvent(
     OutCopyHandle<Kernel::KReadableEvent> out_event) {
     LOG_WARNING(Service_NS, "(STUBBED) called");
@@ -394,6 +414,14 @@ Result IApplicationManagerInterface::IsAnyApplicationEntityInstalled(
     Out<bool> out_is_any_application_entity_installed) {
     LOG_WARNING(Service_NS, "(STUBBED) called");
     *out_is_any_application_entity_installed = true;
+    R_SUCCEED();
+}
+
+Result IApplicationManagerInterface::CleanupOrphanContents(u64 application_id) {
+    LOG_DEBUG(Service_NS, "(STUBBED) called, application_id={}.", application_id);
+
+    // TODO (jarrodnorwell)
+
     R_SUCCEED();
 }
 

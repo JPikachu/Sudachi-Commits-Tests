@@ -49,7 +49,7 @@ std::span<f32> SplitterDestinationData::GetMixVolumePrev() {
     return prev_mix_volumes;
 }
 
-void SplitterDestinationData::Update(const InParameter& params) {
+void SplitterDestinationData::Update(const InParameter& params, bool prev_volume_reset_supported) {
     if (params.id != id || params.magic != GetSplitterSendDataMagic()) {
         return;
     }
@@ -57,7 +57,9 @@ void SplitterDestinationData::Update(const InParameter& params) {
     destination_id = params.mix_id;
     mix_volumes = params.mix_volumes;
 
-    if (!in_use && params.in_use) {
+    bool reset_prev_volume =
+        prev_volume_reset_supported ? params.prev_volume_reset_supported : !in_use && params.in_use;
+    if (reset_prev_volume) {
         prev_mix_volumes = mix_volumes;
         need_update = false;
     }

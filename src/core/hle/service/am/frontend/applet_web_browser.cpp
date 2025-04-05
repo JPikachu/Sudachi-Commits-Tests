@@ -280,6 +280,9 @@ void WebBrowser::Initialize() {
     case ShimKind::Lobby:
         InitializeLobby();
         break;
+    case ShimKind::Lhub:
+        InitializeLhub();
+        break;
     default:
         ASSERT_MSG(false, "Invalid ShimKind={}", web_arg_header.shim_kind);
         break;
@@ -316,6 +319,9 @@ void WebBrowser::Execute() {
         break;
     case ShimKind::Lobby:
         ExecuteLobby();
+        break;
+    case ShimKind::Lhub:
+        ExecuteLhub();
         break;
     default:
         ASSERT_MSG(false, "Invalid ShimKind={}", web_arg_header.shim_kind);
@@ -436,6 +442,12 @@ void WebBrowser::InitializeWifi() {}
 
 void WebBrowser::InitializeLobby() {}
 
+void WebBrowser::InitializeLhub() {
+    LOG_DEBUG(Service_AM, "(STUBBED) called.");
+
+    // TODO (jarrodnorwell)
+}
+
 void WebBrowser::ExecuteShop() {
     LOG_WARNING(Service_AM, "(STUBBED) called, Shop Applet is not implemented");
     WebBrowserExit(WebExitReason::EndButtonPressed);
@@ -502,4 +514,10 @@ void WebBrowser::ExecuteLobby() {
     LOG_WARNING(Service_AM, "(STUBBED) called, Lobby Applet is not implemented");
     WebBrowserExit(WebExitReason::EndButtonPressed);
 }
+
+void WebBrowser::ExecuteLhub() {
+    LOG_WARNING(Service_AM, "(STUBBED) called, Lhub Applet is not implemented");
+    WebBrowserExit(WebExitReason::EndButtonPressed);
+}
+
 } // namespace Service::AM::Frontend

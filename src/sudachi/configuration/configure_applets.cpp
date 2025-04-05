@@ -3,10 +3,10 @@
 
 #include "common/settings.h"
 #include "core/core.h"
-#include "ui_configure_applets.h"
 #include "sudachi/configuration/configuration_shared.h"
 #include "sudachi/configuration/configure_applets.h"
 #include "sudachi/configuration/shared_widget.h"
+#include "ui_configure_applets.h"
 
 ConfigureApplets::ConfigureApplets(Core::System& system_,
                                    std::shared_ptr<std::vector<ConfigurationShared::Tab*>> group_,
@@ -62,8 +62,7 @@ void ConfigureApplets::Setup(const ConfigurationShared::Builder& builder) {
             setting->Id() == Settings::values.net_connect_applet_mode.Id() ||
             setting->Id() == Settings::values.shop_applet_mode.Id() ||
             setting->Id() == Settings::values.login_share_applet_mode.Id() ||
-            setting->Id() == Settings::values.wifi_web_auth_applet_mode.Id() ||
-            setting->Id() == Settings::values.my_page_applet_mode.Id()) {
+            setting->Id() == Settings::values.wifi_web_auth_applet_mode.Id()) {
             widget->setHidden(true);
         }
 

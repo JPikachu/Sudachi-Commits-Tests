@@ -274,7 +274,6 @@ private:
     void BootGameFromList(const QString& filename, StartGameType with_config);
     void ShutdownGame();
 
-    void ShowTelemetryCallout();
     void SetDiscordEnabled(bool state);
     void LoadAmiibo(const QString& filename);
 
@@ -335,9 +334,6 @@ private slots:
     void OnStopGame();
     void OnPrepareForSleep(bool prepare_sleep);
     void OnMenuReportCompatibility();
-    void OnOpenModsPage();
-    void OnOpenQuickstartGuide();
-    void OnOpenFAQ();
     /// Called whenever a user selects a game in the game list widget.
     void OnGameListLoadFile(QString game_path, u64 program_id);
     void OnGameListOpenFolder(u64 program_id, GameListOpenTarget target,
@@ -399,6 +395,7 @@ private slots:
     void OnCabinet(Service::NFP::CabinetMode mode);
     void OnMiiEdit();
     void OnQLaunch();
+    void OnMyPage();
     void OnOpenControllerMenu();
     void OnCaptureScreenshot();
     void OnCheckFirmwareDecryption();

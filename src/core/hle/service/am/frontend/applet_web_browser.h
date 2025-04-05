@@ -53,6 +53,7 @@ private:
     void InitializeWeb();
     void InitializeWifi();
     void InitializeLobby();
+    void InitializeLhub();
 
     // Executors for the various types of browser applets
     void ExecuteShop();
@@ -62,6 +63,7 @@ private:
     void ExecuteWeb();
     void ExecuteWifi();
     void ExecuteLobby();
+    void ExecuteLhub();
 
     const Core::Frontend::WebBrowserApplet& frontend;
 

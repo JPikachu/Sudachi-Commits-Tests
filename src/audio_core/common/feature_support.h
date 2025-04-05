@@ -13,7 +13,7 @@
 #include "common/polyfill_ranges.h"
 
 namespace AudioCore {
-constexpr u32 CurrentRevision = 12;
+constexpr u32 CurrentRevision = 13;
 
 enum class SupportTags {
     CommandProcessingTimeEstimatorVersion4,
@@ -29,6 +29,7 @@ enum class SupportTags {
     VoicePlayedSampleCountResetAtLoopPoint,
     VoicePitchAndSrcSkipped,
     SplitterBugFix,
+    SplitterPrevVolumeReset,
     FlushVoiceWaveBuffers,
     ElapsedFrameCount,
     AudioRendererVariadicCommandBufferSize,
@@ -69,6 +70,7 @@ constexpr bool CheckFeatureSupported(SupportTags tag, u32 user_revision) {
             {SupportTags::VoicePlayedSampleCountResetAtLoopPoint, 5},
             {SupportTags::VoicePitchAndSrcSkipped, 5},
             {SupportTags::SplitterBugFix, 5},
+            {SupportTags::SplitterPrevVolumeReset, 13},
             {SupportTags::FlushVoiceWaveBuffers, 5},
             {SupportTags::ElapsedFrameCount, 5},
             {SupportTags::AudioRendererProcessingTimeLimit80Percent, 5},

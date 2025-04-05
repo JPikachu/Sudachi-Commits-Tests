@@ -7,13 +7,12 @@
 #include <QtConcurrent/qtconcurrentrun.h>
 #include "common/logging/log.h"
 #include "common/telemetry.h"
-#include "core/telemetry_session.h"
-#include "ui_compatdb.h"
 #include "sudachi/compatdb.h"
+#include "ui_compatdb.h"
 
-CompatDB::CompatDB(Core::TelemetrySession& telemetry_session_, QWidget* parent)
+CompatDB::CompatDB(QWidget* parent)
     : QWizard(parent, Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::WindowSystemMenuHint),
-      ui{std::make_unique<Ui::CompatDB>()}, telemetry_session{telemetry_session_} {
+      ui{std::make_unique<Ui::CompatDB>()} {
     ui->setupUi(this);
 
     connect(ui->radioButton_GameBoot_Yes, &QRadioButton::clicked, this, &CompatDB::EnableNext);
@@ -76,7 +75,7 @@ void CompatDB::Submit() {
     compatibility_Graphical->addButton(ui->radioButton_Audio_Minor, 1);
     compatibility_Audio->addButton(ui->radioButton_Audio_No, 2);
 
-    const int compatibility = static_cast<int>(CalculateCompatibility());
+    // const int compatibility = static_cast<int>(CalculateCompatibility());
 
     switch ((static_cast<CompatDBPage>(currentId()))) {
     case CompatDBPage::Intro:
@@ -110,19 +109,6 @@ void CompatDB::Submit() {
         if (compatibility_Audio->checkedId() == -1) {
             button(NextButton)->setEnabled(false);
         }
-        break;
-    case CompatDBPage::Final:
-        back();
-        LOG_INFO(Frontend, "Compatibility Rating: {}", compatibility);
-        telemetry_session.AddField(Common::Telemetry::FieldType::UserFeedback, "Compatibility",
-                                   compatibility);
-
-        button(NextButton)->setEnabled(false);
-        button(NextButton)->setText(tr("Submitting"));
-        button(CancelButton)->setVisible(false);
-
-        testcase_watcher.setFuture(
-            QtConcurrent::run([this] { return telemetry_session.SubmitTestcase(); }));
         break;
     default:
         LOG_ERROR(Frontend, "Unexpected page: {}", currentId());

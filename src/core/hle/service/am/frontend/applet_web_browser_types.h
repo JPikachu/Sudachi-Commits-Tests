@@ -30,6 +30,7 @@ enum class ShimKind : u32 {
     Web = 5,
     Wifi = 6,
     Lobby = 7,
+    Lhub = 8 // 11.0.0+
 };
 
 enum class WebExitReason : u32 {

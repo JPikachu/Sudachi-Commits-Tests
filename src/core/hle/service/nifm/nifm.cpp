@@ -419,6 +419,15 @@ void IGeneralService::GetCurrentNetworkProfile(HLERequestContext& ctx) {
     rb.Push(ResultSuccess);
 }
 
+void IGeneralService::EnumerateNetworkInterfaces(HLERequestContext& ctx) {
+    LOG_DEBUG(Service_NIFM, "(STUBBED) called.");
+
+    // TODO (jarrodnorwell)
+
+    IPC::ResponseBuilder rb{ctx, 2};
+    rb.Push(ResultSuccess);
+}
+
 void IGeneralService::EnumerateNetworkProfiles(HLERequestContext& ctx) {
     LOG_DEBUG(Service_NIFM, "(STUBBED) called.");
 
@@ -591,7 +600,7 @@ IGeneralService::IGeneralService(Core::System& system_)
         {2, &IGeneralService::CreateScanRequest, "CreateScanRequest"},
         {4, &IGeneralService::CreateRequest, "CreateRequest"},
         {5, &IGeneralService::GetCurrentNetworkProfile, "GetCurrentNetworkProfile"},
-        {6, nullptr, "EnumerateNetworkInterfaces"},
+        {6, &IGeneralService::EnumerateNetworkInterfaces, "EnumerateNetworkInterfaces"},
         {7, &IGeneralService::EnumerateNetworkProfiles, "EnumerateNetworkProfiles"},
         {8, nullptr, "GetNetworkProfile"},
         {9, nullptr, "SetNetworkProfile"},
