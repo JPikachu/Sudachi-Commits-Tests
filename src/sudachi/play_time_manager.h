@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 sudachi Emulator Project
+// SPDX-FileCopyrightText: 2023 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #pragma once
@@ -19,8 +19,7 @@ namespace PlayTime {
 
 using ProgramId = u64;
 using PlayTime = u64;
-using TotalTimes = u64;
-using PlayTimeDatabase = std::map<ProgramId, std::pair<PlayTime, TotalTimes>>;
+using PlayTimeDatabase = std::map<ProgramId, PlayTime>;
 
 class PlayTimeManager {
 public:
@@ -31,7 +30,6 @@ public:
     SUDACHI_NON_MOVEABLE(PlayTimeManager);
 
     u64 GetPlayTime(u64 program_id) const;
-    u64 GetTotalTimes(u64 program_id) const;
     void ResetProgramPlayTime(u64 program_id);
     void SetProgramId(u64 program_id);
     void Start();
@@ -48,6 +46,5 @@ private:
 };
 
 QString ReadablePlayTime(qulonglong time_seconds);
-QString ReadableTotalTimes(qulonglong times_count);
 
 } // namespace PlayTime

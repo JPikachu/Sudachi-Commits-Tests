@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2018 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2018 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "core/core.h"
@@ -40,7 +40,6 @@ public:
         // clang-format off
         static const FunctionInfo functions[] = {
             {0, C<&ISystemServiceCreator::CreateSystemLocalCommunicationService>, "CreateSystemLocalCommunicationService"},
-            {1, nullptr, "CreateClientProcessMonitor"} // 18.0.0+
         };
         // clang-format on
 
@@ -63,7 +62,6 @@ public:
         // clang-format off
         static const FunctionInfo functions[] = {
             {0, C<&IUserServiceCreator::CreateUserLocalCommunicationService>, "CreateUserLocalCommunicationService"},
-            {1, nullptr, "CreateClientProcessMonitor"} // 18.0.0+
         };
         // clang-format on
 

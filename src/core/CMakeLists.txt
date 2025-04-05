@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2018 sudachi Emulator Project
+# SPDX-FileCopyrightText: 2018 yuzu Emulator Project
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 add_library(core STATIC
@@ -384,12 +384,6 @@ add_library(core STATIC
     hle/service/acc/acc.h
     hle/service/acc/acc_aa.cpp
     hle/service/acc/acc_aa.h
-    hle/service/acc/acc_su.cpp
-    hle/service/acc/acc_su.h
-    hle/service/acc/acc_u0.cpp
-    hle/service/acc/acc_u0.h
-    hle/service/acc/acc_u1.cpp
-    hle/service/acc/acc_u1.h
     hle/service/acc/async_context.cpp
     hle/service/acc/async_context.h
     hle/service/acc/errors.h
@@ -407,6 +401,8 @@ add_library(core STATIC
     hle/service/am/applet_manager.h
     hle/service/am/button_poller.cpp
     hle/service/am/button_poller.h
+    hle/service/am/caps_su.cpp
+    hle/service/am/caps_su.h
     hle/service/am/display_layer_manager.cpp
     hle/service/am/display_layer_manager.h
     hle/service/am/event_observer.cpp
@@ -591,13 +587,9 @@ add_library(core STATIC
     hle/service/caps/caps_sc.h
     hle/service/caps/caps_ss.cpp
     hle/service/caps/caps_ss.h
-    hle/service/caps/caps_su.cpp
-    hle/service/caps/caps_su.h
     hle/service/caps/caps_types.h
     hle/service/caps/caps_u.cpp
     hle/service/caps/caps_u.h
-    hle/service/diag/diag.cpp
-    hle/service/diag/diag.h
     hle/service/cmif_serialization.h
     hle/service/cmif_types.h
     hle/service/erpt/erpt.cpp
@@ -701,8 +693,6 @@ add_library(core STATIC
     hle/service/ipc_helpers.h
     hle/service/kernel_helpers.cpp
     hle/service/kernel_helpers.h
-    hle/service/lbl/lbl.cpp
-    hle/service/lbl/lbl.h
     hle/service/ldn/lan_discovery.cpp
     hle/service/ldn/lan_discovery.h
     hle/service/ldn/ldn.cpp
@@ -782,6 +772,12 @@ add_library(core STATIC
     hle/service/nim/nim.h
     hle/service/npns/npns.cpp
     hle/service/npns/npns.h
+    hle/service/ns/acc_su.cpp
+    hle/service/ns/acc_su.h
+    hle/service/ns/acc_u0.cpp
+    hle/service/ns/acc_u0.h
+    hle/service/ns/acc_u1.cpp
+    hle/service/ns/acc_u1.h
     hle/service/ns/account_proxy_interface.cpp
     hle/service/ns/account_proxy_interface.h
     hle/service/ns/application_manager_interface.cpp
@@ -1083,6 +1079,8 @@ add_library(core STATIC
     hle/service/vi/display_list.h
     hle/service/vi/layer.h
     hle/service/vi/layer_list.h
+    hle/service/vi/lbl.h
+    hle/service/vi/lbl.cpp
     hle/service/vi/manager_display_service.cpp
     hle/service/vi/manager_display_service.h
     hle/service/vi/manager_root_service.cpp

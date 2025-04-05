@@ -20,7 +20,7 @@ void assert_fail_impl();
 #endif
 
 #define ASSERT(_a_)                                                                                \
-    ([&]() SUDACHI_NO_INLINE {                                                                     \
+    ([&]() SUDACHI_NO_INLINE {                                                                        \
         if (!(_a_)) [[unlikely]] {                                                                 \
             LOG_CRITICAL(Debug, "Assertion Failed!");                                              \
             assert_fail_impl();                                                                    \
@@ -28,7 +28,7 @@ void assert_fail_impl();
     }())
 
 #define ASSERT_MSG(_a_, ...)                                                                       \
-    ([&]() SUDACHI_NO_INLINE {                                                                     \
+    ([&]() SUDACHI_NO_INLINE {                                                                        \
         if (!(_a_)) [[unlikely]] {                                                                 \
             LOG_CRITICAL(Debug, "Assertion Failed!\n" __VA_ARGS__);                                \
             assert_fail_impl();                                                                    \

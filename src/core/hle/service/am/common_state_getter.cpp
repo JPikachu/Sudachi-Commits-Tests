@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2024 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2024 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "common/settings.h"
@@ -38,7 +38,7 @@ ICommonStateGetter::ICommonStateGetter(Core::System& system_, std::shared_ptr<Ap
         {30, nullptr, "GetHomeButtonReaderLockAccessor"},
         {31, &ICommonStateGetter::GetReaderLockAccessorEx, "GetReaderLockAccessorEx"},
         {32, nullptr, "GetWriterLockAccessorEx"},
-        {40, &ICommonStateGetter::GetCradleFwVersion, "GetCradleFwVersion"},
+        {40, nullptr, "GetCradleFwVersion"},
         {50, &ICommonStateGetter::IsVrModeEnabled, "IsVrModeEnabled"},
         {51, &ICommonStateGetter::SetVrModeEnabled, "SetVrModeEnabled"},
         {52, &ICommonStateGetter::SetLcdBacklighOffEnabled, "SetLcdBacklighOffEnabled"},
@@ -48,8 +48,8 @@ ICommonStateGetter::ICommonStateGetter(Core::System& system_, std::shared_ptr<Ap
         {59, nullptr, "SetVrPositionForDebug"},
         {60, &ICommonStateGetter::GetDefaultDisplayResolution, "GetDefaultDisplayResolution"},
         {61, &ICommonStateGetter::GetDefaultDisplayResolutionChangeEvent, "GetDefaultDisplayResolutionChangeEvent"},
-        {62, &ICommonStateGetter::GetHdcpAuthenticationState, "GetHdcpAuthenticationState"},
-        {63, &ICommonStateGetter::GetHdcpAuthenticationStateChangeEvent, "GetHdcpAuthenticationStateChangeEvent"},
+        {62, nullptr, "GetHdcpAuthenticationState"},
+        {63, nullptr, "GetHdcpAuthenticationStateChangeEvent"},
         {64, nullptr, "SetTvPowerStateMatchingMode"},
         {65, nullptr, "GetApplicationIdByContentActionName"},
         {66, &ICommonStateGetter::SetCpuBoostMode, "SetCpuBoostMode"},
@@ -69,9 +69,7 @@ ICommonStateGetter::ICommonStateGetter(Core::System& system_, std::shared_ptr<Ap
         {501, nullptr, "SuppressDisablingSleepTemporarily"},
         {502, nullptr, "IsSleepEnabled"},
         {503, nullptr, "IsDisablingSleepSuppressed"},
-        {600, nullptr, "OpenNamedChannelAsChild"}, // 17.0.0+
         {900, &ICommonStateGetter::SetRequestExitToLibraryAppletAtExecuteNextProgramEnabled, "SetRequestExitToLibraryAppletAtExecuteNextProgramEnabled"},
-        {910, nullptr, "GetLaunchRequiredTick"}, // 17.0.0+
     };
     // clang-format on
 
@@ -170,13 +168,6 @@ void ICommonStateGetter::GetAcquiredSleepLockEvent(HLERequestContext& ctx) {
     rb.PushCopyObjects(applet->sleep_lock_event.GetHandle());
 }
 
-void ICommonStateGetter::GetCradleFwVersion(HLERequestContext& ctx) {
-    LOG_WARNING(Service_AM, "(STUBBED) called");
-
-    IPC::ResponseBuilder rb{ctx, 2};
-    rb.Push(ResultSuccess);
-}
-
 void ICommonStateGetter::IsVrModeEnabled(HLERequestContext& ctx) {
     LOG_DEBUG(Service_AM, "called");
 
@@ -250,15 +241,6 @@ void ICommonStateGetter::GetDefaultDisplayResolution(HLERequestContext& ctx) {
         rb.Push(static_cast<u32>(Service::VI::DisplayResolution::UndockedWidth));
         rb.Push(static_cast<u32>(Service::VI::DisplayResolution::UndockedHeight));
     }
-}
-
-void ICommonStateGetter::GetHdcpAuthenticationState(HLERequestContext& ctx) {
-    IPC::ResponseBuilder rb{ctx, 2};
-    rb.Push(ResultSuccess);
-}
-void ICommonStateGetter::GetHdcpAuthenticationStateChangeEvent(HLERequestContext& ctx) {
-    IPC::ResponseBuilder rb{ctx, 2};
-    rb.Push(ResultSuccess);
 }
 
 void ICommonStateGetter::SetCpuBoostMode(HLERequestContext& ctx) {

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2022 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2022 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #pragma once
@@ -82,7 +82,7 @@ struct UUID {
      */
     static constexpr UUID MakeDefault() {
         return UUID{
-            {'s', 'u', 'd', 'a', ' ', 'D', 'e', 'f', 'a', 'u', 'l', 't', ' ', 'U', 'I', 'D'},
+            {'y', 'u', 'z', 'u', ' ', 'D', 'e', 'f', 'a', 'u', 'l', 't', ' ', 'U', 'I', 'D'},
         };
     }
 

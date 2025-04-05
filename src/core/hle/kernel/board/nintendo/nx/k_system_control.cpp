@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2021 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2021 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <random>
@@ -101,19 +101,16 @@ std::size_t KSystemControl::Init::GetApplicationPoolSize() {
     const size_t base_pool_size = []() -> size_t {
         switch (GetMemoryArrangeForInit()) {
         case Smc::MemoryArrangement_4GB:
+        case Smc::MemoryArrangement_4GBForSystemDev:
+        case Smc::MemoryArrangement_6GBForAppletDev:
         default:
             return 3285_MiB;
         case Smc::MemoryArrangement_4GBForAppletDev:
             return 2048_MiB;
-        case Smc::MemoryArrangement_4GBForSystemDev:
-            return 3285_MiB;
         case Smc::MemoryArrangement_6GB:
             return 4916_MiB;
-        case Smc::MemoryArrangement_6GBForAppletDev:
-            return 3285_MiB;
         case Smc::MemoryArrangement_8GB:
-            // Real kernel sets this to 4916_MiB. We are not debugging applets.
-            return 6547_MiB;
+            return 6964_MiB;
         }
     }();
 
@@ -121,7 +118,7 @@ std::size_t KSystemControl::Init::GetApplicationPoolSize() {
     return base_pool_size;
 }
 
-size_t KSystemControl::Init::GetAppletPoolSize() {
+std::size_t KSystemControl::Init::GetAppletPoolSize() {
     // Get the base pool size.
     const size_t base_pool_size = []() -> size_t {
         switch (GetMemoryArrangeForInit()) {
@@ -137,7 +134,6 @@ size_t KSystemControl::Init::GetAppletPoolSize() {
         case Smc::MemoryArrangement_6GBForAppletDev:
             return 2193_MiB;
         case Smc::MemoryArrangement_8GB:
-            //! Real kernel sets this to 2193_MiB. We are not debugging applets.
             return 562_MiB;
         }
     }();

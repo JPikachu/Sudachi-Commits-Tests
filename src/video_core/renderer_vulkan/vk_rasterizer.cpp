@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2019 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2019 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <algorithm>
@@ -952,25 +952,26 @@ void RasterizerVulkan::UpdateDynamicStates() {
                 UpdateDepthBiasEnable(regs);
             }
             if (device.IsExtExtendedDynamicState3EnablesSupported()) {
-                const auto old = regs.logic_op.enable;
+                using namespace Tegra::Engines;
 
-                if (device.GetDriverID() == VkDriverIdKHR::VK_DRIVER_ID_AMD_OPEN_SOURCE ||
-                    device.GetDriverID() == VkDriverIdKHR::VK_DRIVER_ID_AMD_OPEN_SOURCE_KHR) {
+                if (device.GetDriverID() == VkDriverIdKHR::VK_DRIVER_ID_AMD_OPEN_SOURCE
+                    || device.GetDriverID() == VkDriverIdKHR::VK_DRIVER_ID_AMD_PROPRIETARY) {
                     struct In {
-                        const Tegra::Engines::Maxwell3D::Regs::VertexAttribute::Type d;
-                        In(Tegra::Engines::Maxwell3D::Regs::VertexAttribute::Type n) : d(n) {}
-                        bool operator()(Tegra::Engines::Maxwell3D::Regs::VertexAttribute n) const {
+                        const Maxwell3D::Regs::VertexAttribute::Type d;
+                        In(Maxwell3D::Regs::VertexAttribute::Type n) : d(n) {}
+                        bool operator()(Maxwell3D::Regs::VertexAttribute n) const {
                             return n.type == d;
                         }
                     };
 
                     auto has_float = std::any_of(
                         regs.vertex_attrib_format.begin(), regs.vertex_attrib_format.end(),
-                        In(Tegra::Engines::Maxwell3D::Regs::VertexAttribute::Type::Float));
+                        In(Maxwell3D::Regs::VertexAttribute::Type::Float));
 
-                    regs.logic_op.enable = static_cast<u32>(!has_float);
+                    if (regs.logic_op.enable)
+                        regs.logic_op.enable = static_cast<u32>(!has_float);
+
                     UpdateLogicOpEnable(regs);
-                    regs.logic_op.enable = old;
                 } else
                     UpdateLogicOpEnable(regs);
                 UpdateDepthClampEnable(regs);
@@ -1330,16 +1331,11 @@ void RasterizerVulkan::UpdateDepthBiasEnable(Tegra::Engines::Maxwell3D::Regs& re
         [enable](vk::CommandBuffer cmdbuf) { cmdbuf.SetDepthBiasEnableEXT(enable != 0); });
 }
 
-bool RasterizerVulkan::IsAnyFloat(Tegra::Engines::Maxwell3D::Regs::VertexAttribute attribute) {
-    return attribute.type == Tegra::Engines::Maxwell3D::Regs::VertexAttribute::Type::Float;
-};
-
 void RasterizerVulkan::UpdateLogicOpEnable(Tegra::Engines::Maxwell3D::Regs& regs) {
     if (!state_tracker.TouchLogicOpEnable()) {
         return;
     }
-
-    scheduler.Record([&, enable = regs.logic_op.enable](vk::CommandBuffer cmdbuf) {
+    scheduler.Record([enable = regs.logic_op.enable](vk::CommandBuffer cmdbuf) {
         cmdbuf.SetLogicOpEnableEXT(enable != 0);
     });
 }

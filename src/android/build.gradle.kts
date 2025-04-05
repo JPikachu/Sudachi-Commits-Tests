@@ -1,15 +1,15 @@
-// SPDX-FileCopyrightText: 2023 sudachi Emulator Project
+// SPDX-FileCopyrightText: 2023 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
-    id("com.android.application") version "8.4.1" apply false
-    id("com.android.library") version "8.4.1" apply false
-    id("org.jetbrains.kotlin.android") version "1.9.20" apply false
+    id("com.android.application") version "8.7.0" apply false
+    id("com.android.library") version "8.7.0" apply false
+    id("org.jetbrains.kotlin.android") version "2.0.0-RC1" apply false
 }
 
 tasks.register("clean").configure {
-    delete(rootProject.buildDir)
+    delete(rootProject.layout.buildDirectory)
 }
 
 buildscript {
@@ -17,6 +17,6 @@ buildscript {
         google()
     }
     dependencies {
-        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.6.0")
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.7.7")
     }
 }

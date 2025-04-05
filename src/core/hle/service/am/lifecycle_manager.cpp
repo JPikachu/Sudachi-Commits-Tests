@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2024 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2024 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "common/assert.h"
@@ -9,7 +9,7 @@ namespace Service::AM {
 LifecycleManager::LifecycleManager(Core::System& system, KernelHelpers::ServiceContext& context,
                                    bool is_application)
     : m_system_event(context), m_operation_mode_changed_system_event(context),
-      m_hdcp_state_changed_event(context), m_is_application(is_application) {}
+      m_is_application(is_application) {}
 
 LifecycleManager::~LifecycleManager() = default;
 
@@ -19,10 +19,6 @@ Event& LifecycleManager::GetSystemEvent() {
 
 Event& LifecycleManager::GetOperationModeChangedSystemEvent() {
     return m_operation_mode_changed_system_event;
-}
-
-Event& LifecycleManager::GetHDCPStateChangedEvent() {
-    return m_hdcp_state_changed_event;
 }
 
 void LifecycleManager::PushUnorderedMessage(AppletMessage message) {

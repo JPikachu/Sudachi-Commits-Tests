@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 sudachi Emulator Project
+// SPDX-FileCopyrightText: 2023 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 // SDL will break our main function in sudachi-cmd if we don't define this before adding SDL.h

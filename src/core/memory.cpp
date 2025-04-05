@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: 2015 Citra Emulator Project
-// SPDX-FileCopyrightText: 2018 sudachi Emulator Project
+// SPDX-FileCopyrightText: 2018 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <algorithm>
@@ -67,8 +67,7 @@ struct Memory::Impl {
                          Common::PhysicalAddress target, Common::MemoryPermission perms,
                          bool separate_heap) {
         ASSERT_MSG((size & SUDACHI_PAGEMASK) == 0, "non-page aligned size: {:016X}", size);
-        ASSERT_MSG((base & SUDACHI_PAGEMASK) == 0, "non-page aligned base: {:016X}",
-                   GetInteger(base));
+        ASSERT_MSG((base & SUDACHI_PAGEMASK) == 0, "non-page aligned base: {:016X}", GetInteger(base));
         ASSERT_MSG(target >= DramMemoryMap::Base, "Out of bounds target: {:016X}",
                    GetInteger(target));
         MapPages(page_table, base / SUDACHI_PAGESIZE, size / SUDACHI_PAGESIZE, target,
@@ -83,8 +82,7 @@ struct Memory::Impl {
     void UnmapRegion(Common::PageTable& page_table, Common::ProcessAddress base, u64 size,
                      bool separate_heap) {
         ASSERT_MSG((size & SUDACHI_PAGEMASK) == 0, "non-page aligned size: {:016X}", size);
-        ASSERT_MSG((base & SUDACHI_PAGEMASK) == 0, "non-page aligned base: {:016X}",
-                   GetInteger(base));
+        ASSERT_MSG((base & SUDACHI_PAGEMASK) == 0, "non-page aligned base: {:016X}", GetInteger(base));
         MapPages(page_table, base / SUDACHI_PAGESIZE, size / SUDACHI_PAGESIZE, 0,
                  Common::PageType::Unmapped);
 
@@ -501,8 +499,7 @@ struct Memory::Impl {
         // Iterate over a contiguous CPU address space, marking/unmarking the region.
         // The region is at a granularity of CPU pages.
 
-        const u64 num_pages =
-            ((vaddr + size - 1) >> SUDACHI_PAGEBITS) - (vaddr >> SUDACHI_PAGEBITS) + 1;
+        const u64 num_pages = ((vaddr + size - 1) >> SUDACHI_PAGEBITS) - (vaddr >> SUDACHI_PAGEBITS) + 1;
         for (u64 i = 0; i < num_pages; ++i, vaddr += SUDACHI_PAGESIZE) {
             const Common::PageType page_type{
                 current_page_table->pointers[vaddr >> SUDACHI_PAGEBITS].Type()};
@@ -568,8 +565,7 @@ struct Memory::Impl {
         // granularity of CPU pages, hence why we iterate on a CPU page basis (note: GPU page size
         // is different). This assumes the specified GPU address region is contiguous as well.
 
-        const u64 num_pages =
-            ((vaddr + size - 1) >> SUDACHI_PAGEBITS) - (vaddr >> SUDACHI_PAGEBITS) + 1;
+        const u64 num_pages = ((vaddr + size - 1) >> SUDACHI_PAGEBITS) - (vaddr >> SUDACHI_PAGEBITS) + 1;
         for (u64 i = 0; i < num_pages; ++i, vaddr += SUDACHI_PAGESIZE) {
             const Common::PageType page_type{
                 current_page_table->pointers[vaddr >> SUDACHI_PAGEBITS].Type()};
@@ -605,8 +601,7 @@ struct Memory::Impl {
                     // that this area is already unmarked as cached.
                     break;
                 case Common::PageType::RasterizerCachedMemory: {
-                    u8* const pointer{
-                        GetPointerFromRasterizerCachedMemory(vaddr & ~SUDACHI_PAGEMASK)};
+                    u8* const pointer{GetPointerFromRasterizerCachedMemory(vaddr & ~SUDACHI_PAGEMASK)};
                     if (pointer == nullptr) {
                         // It's possible that this function has been called while updating the
                         // pagetable after unmapping a VMA. In that case the underlying VMA will no

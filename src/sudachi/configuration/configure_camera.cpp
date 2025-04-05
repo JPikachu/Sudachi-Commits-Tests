@@ -1,4 +1,4 @@
-// Text : Copyright 2022 sudachi Emulator Project
+// Text : Copyright 2022 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include <memory>
@@ -13,8 +13,8 @@
 #include "common/settings.h"
 #include "input_common/drivers/camera.h"
 #include "input_common/main.h"
-#include "sudachi/configuration/configure_camera.h"
 #include "ui_configure_camera.h"
+#include "sudachi/configuration/configure_camera.h"
 
 ConfigureCamera::ConfigureCamera(QWidget* parent, InputCommon::InputSubsystem* input_subsystem_)
     : QDialog(parent), input_subsystem{input_subsystem_},

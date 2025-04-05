@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2018 sudachi Emulator Project
+# SPDX-FileCopyrightText: 2018 yuzu Emulator Project
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 cmake_minimum_required(VERSION 3.22)
@@ -15,6 +15,7 @@ include(CTest)
 # Set bundled sdl2/qt as dependent options.
 # OFF by default, but if ENABLE_SDL2 and MSVC are true then ON
 option(ENABLE_SDL2 "Enable the SDL2 frontend" ON)
+set(USE_SDL2_FROM_EXTERNALS "Uses SDL2 from the externals directory" ON)
 CMAKE_DEPENDENT_OPTION(SUDACHI_USE_BUNDLED_SDL2 "Download bundled SDL2 binaries" ON "ENABLE_SDL2;MSVC" OFF)
 # On Linux system SDL2 is likely to be lacking HIDAPI support which have drawbacks but is needed for SDL motion
 CMAKE_DEPENDENT_OPTION(SUDACHI_USE_EXTERNAL_SDL2 "Compile external SDL2" ON "ENABLE_SDL2;NOT MSVC" OFF)
@@ -25,7 +26,7 @@ option(ENABLE_OPENGL "Enable OpenGL" ON)
 mark_as_advanced(FORCE ENABLE_OPENGL)
 option(ENABLE_QT "Enable the Qt frontend" ON)
 option(ENABLE_QT6 "Allow usage of Qt6 to be attempted" OFF)
-set(QT6_LOCATION "" CACHE PATH "Additional Location to search for Qt6 libraries like C:/Qt/6.3.1/msvc2019_64/")
+set(QT6_LOCATION "" CACHE PATH "Additional Location to search for Qt6 libraries like C:/Qt/6.7.2/msvc2019_64/")
 
 option(ENABLE_QT_TRANSLATION "Enable translations for the Qt frontend" OFF)
 CMAKE_DEPENDENT_OPTION(SUDACHI_USE_BUNDLED_QT "Download bundled Qt binaries" "${MSVC}" "ENABLE_QT" OFF)
@@ -83,19 +84,19 @@ endif()
 option(ENABLE_OPENSSL "Enable OpenSSL backend for ISslConnection" ${DEFAULT_ENABLE_OPENSSL})
 
 if (ANDROID AND SUDACHI_DOWNLOAD_ANDROID_VVL)
-    set(vvl_version "sdk-1.3.261.1")
+    set(vvl_version "1.3.290.0")
     set(vvl_zip_file "${CMAKE_BINARY_DIR}/externals/vvl-android.zip")
     if (NOT EXISTS "${vvl_zip_file}")
         # Download and extract validation layer release to externals directory
         set(vvl_base_url "https://github.com/KhronosGroup/Vulkan-ValidationLayers/releases/download")
-        file(DOWNLOAD "${vvl_base_url}/${vvl_version}/android-binaries-${vvl_version}-android.zip"
+        file(DOWNLOAD "${vvl_base_url}/vulkan-sdk-${vvl_version}/android-binaries-${vvl_version}.zip"
             "${vvl_zip_file}" SHOW_PROGRESS)
         execute_process(COMMAND ${CMAKE_COMMAND} -E tar xf "${vvl_zip_file}"
                         WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/externals")
     endif()
 
-    # Copy the arm64 binary to src/android/sudachi/main/jniLibs
-    set(vvl_lib_path "${CMAKE_CURRENT_SOURCE_DIR}/src/android/sudachi/src/main/jniLibs/arm64-v8a/")
+    # Copy the arm64 binary to src/android/app/main/jniLibs
+    set(vvl_lib_path "${CMAKE_CURRENT_SOURCE_DIR}/src/android/app/src/main/jniLibs/arm64-v8a/")
     file(COPY "${CMAKE_BINARY_DIR}/externals/android-binaries-${vvl_version}/arm64-v8a/libVkLayer_khronos_validation.so"
             DESTINATION "${vvl_lib_path}")
 endif()
@@ -535,7 +536,7 @@ if(ENABLE_QT)
 endif()
 
 # find SDL2 exports a bunch of variables that are needed, so its easier to do this outside of the sudachi_find_package
-if (ENABLE_SDL2)
+if (ENABLE_SDL2 AND NOT USE_SDL2_FROM_EXTERNALS)
     if (SUDACHI_USE_BUNDLED_SDL2)
         # Detect toolchain and platform
         if ((MSVC_VERSION GREATER_EQUAL 1920 AND MSVC_VERSION LESS 1940) AND ARCHITECTURE_x86_64)
@@ -556,7 +557,7 @@ if (ENABLE_SDL2)
         add_library(SDL2::SDL2 INTERFACE IMPORTED)
         target_link_libraries(SDL2::SDL2 INTERFACE "${SDL2_LIBRARY}")
         target_include_directories(SDL2::SDL2 INTERFACE "${SDL2_INCLUDE_DIR}")
-    elseif (SUDACHI_USE_EXTERNAL_SDL2)
+    elseif (USE_SDL2_FROM_EXTERNALS)
         message(STATUS "Using SDL2 from externals.")
     else()
         find_package(SDL2 2.26.4 REQUIRED)

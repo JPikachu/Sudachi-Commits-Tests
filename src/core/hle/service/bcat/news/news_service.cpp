@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2024 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2024 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "core/hle/service/bcat/news/news_service.h"
@@ -9,7 +9,7 @@ namespace Service::News {
 INewsService::INewsService(Core::System& system_) : ServiceFramework{system_, "INewsService"} {
     // clang-format off
     static const FunctionInfo functions[] = {
-        {10100, D<&INewsService::PostLocalNews>, "PostLocalNews"},
+        {10100, nullptr, "PostLocalNews"},
         {20100, nullptr, "SetPassphrase"},
         {30100, D<&INewsService::GetSubscriptionStatus>, "GetSubscriptionStatus"},
         {30101, nullptr, "GetTopicList"},
@@ -35,11 +35,6 @@ INewsService::INewsService(Core::System& system_) : ServiceFramework{system_, "I
 }
 
 INewsService::~INewsService() = default;
-
-Result INewsService::PostLocalNews() {
-    LOG_WARNING(Service_BCAT, "(STUBBED) called");
-    R_SUCCEED();
-}
 
 Result INewsService::GetSubscriptionStatus(Out<u32> out_status,
                                            InBuffer<BufferAttr_HipcPointer> buffer_data) {

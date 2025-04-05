@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2022 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2022 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <cstdlib>
@@ -9,8 +9,8 @@
 
 #include "common/logging/log.h"
 #include "common/scm_rev.h"
-#include "sudachi_cmd/emu_window/emu_window_sdl2_null.h"
 #include "video_core/renderer_null/renderer_null.h"
+#include "sudachi_cmd/emu_window/emu_window_sdl2_null.h"
 
 #ifdef SUDACHI_USE_EXTERNAL_SDL2
 // Include this before SDL.h to prevent the external from including a dummy
@@ -23,9 +23,8 @@
 EmuWindow_SDL2_Null::EmuWindow_SDL2_Null(InputCommon::InputSubsystem* input_subsystem_,
                                          Core::System& system_, bool fullscreen)
     : EmuWindow_SDL2{input_subsystem_, system_} {
-    const std::string window_title =
-        fmt::format("sudachi {} | {}-{} (Vulkan)", Common::g_build_name, Common::g_scm_branch,
-                    Common::g_scm_desc);
+    const std::string window_title = fmt::format("sudachi {} | {}-{} (Vulkan)", Common::g_build_name,
+                                                 Common::g_scm_branch, Common::g_scm_desc);
     render_window =
         SDL_CreateWindow(window_title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                          Layout::ScreenUndocked::Width, Layout::ScreenUndocked::Height,

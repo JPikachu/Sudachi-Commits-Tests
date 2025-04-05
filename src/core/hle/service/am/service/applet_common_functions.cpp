@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2024 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2024 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "core/hle/service/am/applet.h"
@@ -28,12 +28,9 @@ IAppletCommonFunctions::IAppletCommonFunctions(Core::System& system_,
         {70, D<&IAppletCommonFunctions::SetCpuBoostRequestPriority>, "SetCpuBoostRequestPriority"},
         {80, nullptr, "SetHandlingCaptureButtonShortPressedMessageEnabledForApplet"},
         {81, nullptr, "SetHandlingCaptureButtonLongPressedMessageEnabledForApplet"},
-        {82, nullptr, "Unknown82"}, // 18.0.0+
         {90, nullptr, "OpenNamedChannelAsParent"},
         {91, nullptr, "OpenNamedChannelAsChild"},
         {100, nullptr, "SetApplicationCoreUsageMode"},
-        {160, nullptr, "Unknown160"}, // 18.0.0+
-        {161, nullptr, "Unknown161"}, // 18.0.0+
         {300, D<&IAppletCommonFunctions::GetCurrentApplicationId>, "GetCurrentApplicationId"},
     };
     // clang-format on

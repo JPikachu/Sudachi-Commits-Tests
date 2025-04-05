@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2021 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2021 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "common/bit_field.h"
@@ -139,10 +139,10 @@ enum class SpecialRegister : u64 {
         return ir.WorkgroupIdZ();
     case SpecialRegister::SR_WSCALEFACTOR_XY:
         LOG_WARNING(Shader, "(STUBBED) SR_WSCALEFACTOR_XY");
-        return ir.SR_WScaleFactorXY();
+        return ir.Imm32(Common::BitCast<u32>(1.0f));
     case SpecialRegister::SR_WSCALEFACTOR_Z:
         LOG_WARNING(Shader, "(STUBBED) SR_WSCALEFACTOR_Z");
-        return ir.SR_WScaleFactorZ();
+        return ir.Imm32(Common::BitCast<u32>(1.0f));
     case SpecialRegister::SR_LANEID:
         return ir.LaneId();
     case SpecialRegister::SR_EQMASK:

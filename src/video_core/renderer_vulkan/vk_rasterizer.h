@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2019 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2019 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #pragma once
@@ -179,8 +179,6 @@ private:
     void UpdateBlending(Tegra::Engines::Maxwell3D::Regs& regs);
 
     void UpdateVertexInput(Tegra::Engines::Maxwell3D::Regs& regs);
-
-    bool IsAnyFloat(Tegra::Engines::Maxwell3D::Regs::VertexAttribute attribute);
 
     Tegra::GPU& gpu;
     Tegra::MaxwellDeviceMemoryManager& device_memory;

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2018 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2018 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <queue>
@@ -27,7 +27,6 @@ public:
             {10101, &IFriendService::GetFriendList, "GetFriendList"},
             {10102, nullptr, "UpdateFriendInfo"},
             {10110, nullptr, "GetFriendProfileImage"},
-            {10111, nullptr, "GetFriendProfileImageWithImageSize"}, // 18.0.0+
             {10120, &IFriendService::CheckFriendListAvailability, "CheckFriendListAvailability"},
             {10121, nullptr, "EnsureFriendListAvailable"},
             {10200, nullptr, "SendFriendRequestForApplication"},
@@ -36,7 +35,6 @@ public:
             {10420, &IFriendService::CheckBlockedUserListAvailability, "CheckBlockedUserListAvailability"},
             {10421, nullptr, "EnsureBlockedUserListAvailable"},
             {10500, nullptr, "GetProfileList"},
-            {10501, nullptr, "GetProfileListV2"}, // 18.0.0+
             {10600, nullptr, "DeclareOpenOnlinePlaySession"},
             {10601, &IFriendService::DeclareCloseOnlinePlaySession, "DeclareCloseOnlinePlaySession"},
             {10610, &IFriendService::UpdateUserPresence, "UpdateUserPresence"},
@@ -44,7 +42,6 @@ public:
             {10701, nullptr, "GetPlayHistoryRegistrationKeyWithNetworkServiceAccountId"},
             {10702, nullptr, "AddPlayHistory"},
             {11000, nullptr, "GetProfileImageUrl"},
-            {11001, nullptr, "GetProfileImageUrlV2"}, // 18.0.0+
             {20100, &IFriendService::GetFriendCount, "GetFriendCount"},
             {20101, &IFriendService::GetNewlyFriendCount, "GetNewlyFriendCount"},
             {20102, nullptr, "GetFriendDetailedInfo"},

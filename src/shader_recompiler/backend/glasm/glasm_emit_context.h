@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2021 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2021 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #pragma once
@@ -11,7 +11,6 @@
 
 #include "shader_recompiler/backend/glasm/reg_alloc.h"
 #include "shader_recompiler/stage.h"
-#include "shader_recompiler/runtime_info.h"
 
 namespace Shader {
 struct Info;

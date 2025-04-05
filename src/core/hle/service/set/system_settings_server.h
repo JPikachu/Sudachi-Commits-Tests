@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2018 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2018 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #pragma once
@@ -136,8 +136,6 @@ public:
     Result SetAppletLaunchFlags(u32 applet_launch_flag);
     Result GetKeyboardLayout(Out<KeyboardLayout> out_keyboard_layout);
     Result SetKeyboardLayout(KeyboardLayout keyboard_layout);
-    Result GetRebootlessSystemUpdateVersion(
-        Out<RebootlessSystemUpdateVersion> out_rebootless_update_version);
     Result GetDeviceTimeZoneLocationUpdatedTime(
         Out<Service::PSC::Time::SteadyClockTimePoint> out_time_point);
     Result SetDeviceTimeZoneLocationUpdatedTime(

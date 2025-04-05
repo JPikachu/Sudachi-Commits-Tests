@@ -63,7 +63,7 @@ if (ENABLE_LIBUSB AND NOT TARGET libusb::usb)
 endif()
 
 # SDL2
-if (SUDACHI_USE_EXTERNAL_SDL2)
+if (USE_SDL2_FROM_EXTERNALS)
     if (NOT WIN32)
         # Sudachi itself needs: Atomic Audio Events Joystick Haptic Sensor Threads Timers
         # Since 2.0.18 Atomic+Threads required for HIDAPI/libusb (see https://github.com/libsdl-org/SDL/issues/5095)
@@ -148,11 +148,13 @@ if (SUDACHI_USE_BUNDLED_FFMPEG)
     set(FFmpeg_LDFLAGS "${FFmpeg_LDFLAGS}" PARENT_SCOPE)
     set(FFmpeg_LIBRARIES "${FFmpeg_LIBRARIES}" PARENT_SCOPE)
     set(FFmpeg_INCLUDE_DIR "${FFmpeg_INCLUDE_DIR}" PARENT_SCOPE)
+elseif(USE_FFMPEG_FROM_HOMEBREW)
+    find_package(ffmpeg REQUIRED FFmpeg_COMPONENTS)
 endif()
 
 # Vulkan-Headers
 if (SUDACHI_USE_EXTERNAL_VULKAN_HEADERS)
-    add_subdirectory(Vulkan-Headers)
+    add_subdirectory(vulkan-headers)
 endif()
 
 # Vulkan-Utility-Libraries

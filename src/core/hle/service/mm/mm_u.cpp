@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2018 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2018 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "common/logging/log.h"
@@ -30,34 +30,24 @@ public:
 
 private:
     void InitializeOld(HLERequestContext& ctx) {
-        LOG_WARNING(Service_MM, "(STUBBED) called.");
-
-        IPC::RequestParser rp{ctx};
-        module = rp.PopEnum<Module>();
-        priority = rp.Pop<Priority>();
-        event_clear_mode = rp.Pop<u32>();
+        LOG_WARNING(Service_MM, "(STUBBED) called");
 
         IPC::ResponseBuilder rb{ctx, 2};
         rb.Push(ResultSuccess);
     }
 
     void FinalizeOld(HLERequestContext& ctx) {
-        LOG_WARNING(Service_MM, "(STUBBED) called.");
-
-        IPC::RequestParser rp{ctx};
-        module = rp.PopEnum<Module>();
+        LOG_WARNING(Service_MM, "(STUBBED) called");
 
         IPC::ResponseBuilder rb{ctx, 2};
         rb.Push(ResultSuccess);
     }
 
     void SetAndWaitOld(HLERequestContext& ctx) {
-        LOG_WARNING(Service_MM, "(STUBBED) called.");
-
         IPC::RequestParser rp{ctx};
-        module = rp.PopEnum<Module>();
-        min = rp.Pop<Setting>();
-        max = rp.Pop<Setting>();
+        min = rp.Pop<u32>();
+        max = rp.Pop<u32>();
+        LOG_DEBUG(Service_MM, "(STUBBED) called, min=0x{:X}, max=0x{:X}", min, max);
 
         current = min;
         IPC::ResponseBuilder rb{ctx, 2};
@@ -65,10 +55,7 @@ private:
     }
 
     void GetOld(HLERequestContext& ctx) {
-        LOG_WARNING(Service_MM, "(STUBBED) called.");
-
-        IPC::RequestParser rp{ctx};
-        module = rp.PopEnum<Module>();
+        LOG_DEBUG(Service_MM, "(STUBBED) called");
 
         IPC::ResponseBuilder rb{ctx, 3};
         rb.Push(ResultSuccess);
@@ -76,35 +63,27 @@ private:
     }
 
     void Initialize(HLERequestContext& ctx) {
-        LOG_WARNING(Service_MM, "(STUBBED) called.");
-
-        IPC::RequestParser rp{ctx};
-        module = rp.PopEnum<Module>();
-        priority = rp.Pop<Priority>();
-        event_clear_mode = rp.Pop<u32>();
+        LOG_WARNING(Service_MM, "(STUBBED) called");
 
         IPC::ResponseBuilder rb{ctx, 3};
         rb.Push(ResultSuccess);
-        rb.Push(request_id);
+        rb.Push<u32>(id); // Any non zero value
     }
 
     void Finalize(HLERequestContext& ctx) {
-        LOG_WARNING(Service_MM, "(STUBBED) called.");
-
-        IPC::RequestParser rp{ctx};
-        request_id = rp.Pop<u32>();
+        LOG_WARNING(Service_MM, "(STUBBED) called");
 
         IPC::ResponseBuilder rb{ctx, 2};
         rb.Push(ResultSuccess);
     }
 
     void SetAndWait(HLERequestContext& ctx) {
-        LOG_WARNING(Service_MM, "(STUBBED) called.");
-
         IPC::RequestParser rp{ctx};
-        request_id = rp.Pop<u32>();
-        min = rp.Pop<Setting>();
-        max = rp.Pop<Setting>();
+        u32 input_id = rp.Pop<u32>();
+        min = rp.Pop<u32>();
+        max = rp.Pop<u32>();
+        LOG_DEBUG(Service_MM, "(STUBBED) called, input_id=0x{:X}, min=0x{:X}, max=0x{:X}", input_id,
+                  min, max);
 
         current = min;
         IPC::ResponseBuilder rb{ctx, 2};
@@ -112,20 +91,17 @@ private:
     }
 
     void Get(HLERequestContext& ctx) {
-        LOG_WARNING(Service_MM, "(STUBBED) called.");
-
-        IPC::RequestParser rp{ctx};
-        request_id = rp.Pop<u32>();
+        LOG_DEBUG(Service_MM, "(STUBBED) called");
 
         IPC::ResponseBuilder rb{ctx, 3};
         rb.Push(ResultSuccess);
         rb.Push(current);
     }
 
-    Module module{Module::TEST};
-    Priority priority{0};
-    Setting min{0}, max{0}, current{0};
-    u32 request_id{0}, event_clear_mode{0};
+    u32 min{0};
+    u32 max{0};
+    u32 current{0};
+    u32 id{1};
 };
 
 void LoopProcess(Core::System& system) {

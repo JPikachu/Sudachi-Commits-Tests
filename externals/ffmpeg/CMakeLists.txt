@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2021 sudachi Emulator Project
+# SPDX-FileCopyrightText: 2021 yuzu Emulator Project
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 if (NOT WIN32 AND NOT ANDROID)
@@ -254,7 +254,7 @@ elseif(ANDROID)
     set(FFmpeg_INCLUDE_DIR "${FFmpeg_INCLUDE_DIR}" PARENT_SCOPE)
 elseif(WIN32)
     # Use sudachi FFmpeg binaries
-    set(FFmpeg_EXT_NAME "ffmpeg-6.0")
+    set(FFmpeg_EXT_NAME "ffmpeg-7.0")
     set(FFmpeg_PATH "${CMAKE_BINARY_DIR}/externals/${FFmpeg_EXT_NAME}")
     download_bundled_external("ffmpeg/" ${FFmpeg_EXT_NAME} "")
     set(FFmpeg_FOUND YES)

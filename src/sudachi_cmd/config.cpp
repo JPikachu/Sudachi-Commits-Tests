@@ -239,17 +239,17 @@ void Config::ReadValues() {
 
     // Data Storage
     FS::SetSudachiPath(FS::SudachiPath::NANDDir,
-                       sdl2_config->Get("Data Storage", "nand_directory",
-                                        FS::GetSudachiPathString(FS::SudachiPath::NANDDir)));
+                    sdl2_config->Get("Data Storage", "nand_directory",
+                                     FS::GetSudachiPathString(FS::SudachiPath::NANDDir)));
     FS::SetSudachiPath(FS::SudachiPath::SDMCDir,
-                       sdl2_config->Get("Data Storage", "sdmc_directory",
-                                        FS::GetSudachiPathString(FS::SudachiPath::SDMCDir)));
+                    sdl2_config->Get("Data Storage", "sdmc_directory",
+                                     FS::GetSudachiPathString(FS::SudachiPath::SDMCDir)));
     FS::SetSudachiPath(FS::SudachiPath::LoadDir,
-                       sdl2_config->Get("Data Storage", "load_directory",
-                                        FS::GetSudachiPathString(FS::SudachiPath::LoadDir)));
+                    sdl2_config->Get("Data Storage", "load_directory",
+                                     FS::GetSudachiPathString(FS::SudachiPath::LoadDir)));
     FS::SetSudachiPath(FS::SudachiPath::DumpDir,
-                       sdl2_config->Get("Data Storage", "dump_directory",
-                                        FS::GetSudachiPathString(FS::SudachiPath::DumpDir)));
+                    sdl2_config->Get("Data Storage", "dump_directory",
+                                     FS::GetSudachiPathString(FS::SudachiPath::DumpDir)));
 
     // Debugging
     Settings::values.record_frame_times =

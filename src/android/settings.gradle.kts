@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 sudachi Emulator Project
+// SPDX-FileCopyrightText: 2023 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 pluginManagement {
@@ -18,4 +18,4 @@ dependencyResolutionManagement {
     }
 }
 
-include(":sudachi")
+include(":app")

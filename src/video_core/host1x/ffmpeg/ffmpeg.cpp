@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2023 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2023 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "common/assert.h"
@@ -306,8 +306,12 @@ std::shared_ptr<Frame> DecoderContext::ReceiveFrame() {
     }
 
 #if defined(FF_API_INTERLACED_FRAME) || LIBAVUTIL_VERSION_MAJOR >= 59
-    m_temp_frame->GetFrame()->interlaced_frame =
-        (m_temp_frame->GetFrame()->flags & AV_FRAME_FLAG_INTERLACED) != 0;
+    if (m_temp_frame->GetFrame()->flags & AV_FRAME_FLAG_INTERLACED)
+        m_temp_frame->GetFrame()->flags &= ~AV_FRAME_FLAG_INTERLACED;
+    else
+        m_temp_frame->GetFrame()->flags |= AV_FRAME_FLAG_INTERLACED;
+#else
+    m_temp_frame->GetFrame()->interlaced_frame = !m_temp_frame->GetFrame()->interlaced_frame;
 #endif
     return std::move(m_temp_frame);
 }

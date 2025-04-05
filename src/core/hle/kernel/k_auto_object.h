@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2021 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2021 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #pragma once
@@ -24,28 +24,20 @@ private:                                                                        
     friend class ::Kernel::KClassTokenGenerator;                                                   \
     static constexpr inline auto ObjectType = ::Kernel::KClassTokenGenerator::ObjectType::CLASS;   \
     static constexpr inline const char* const TypeName = #CLASS;                                   \
-    static constexpr inline ClassTokenType ClassToken() {                                          \
-        return ::Kernel::ClassToken<CLASS>;                                                        \
-    }                                                                                              \
+    static constexpr inline ClassTokenType ClassToken() { return ::Kernel::ClassToken<CLASS>; }    \
                                                                                                    \
 public:                                                                                            \
-    SUDACHI_NON_COPYABLE(CLASS);                                                                   \
-    SUDACHI_NON_MOVEABLE(CLASS);                                                                   \
+    SUDACHI_NON_COPYABLE(CLASS);                                                                      \
+    SUDACHI_NON_MOVEABLE(CLASS);                                                                      \
                                                                                                    \
     using BaseClass = BASE_CLASS;                                                                  \
     static constexpr TypeObj GetStaticTypeObj() {                                                  \
         constexpr ClassTokenType Token = ClassToken();                                             \
         return TypeObj(TypeName, Token);                                                           \
     }                                                                                              \
-    static constexpr const char* GetStaticTypeName() {                                             \
-        return TypeName;                                                                           \
-    }                                                                                              \
-    virtual TypeObj GetTypeObj() ATTRIBUTE {                                                       \
-        return GetStaticTypeObj();                                                                 \
-    }                                                                                              \
-    virtual const char* GetTypeName() ATTRIBUTE {                                                  \
-        return GetStaticTypeName();                                                                \
-    }                                                                                              \
+    static constexpr const char* GetStaticTypeName() { return TypeName; }                          \
+    virtual TypeObj GetTypeObj() ATTRIBUTE { return GetStaticTypeObj(); }                          \
+    virtual const char* GetTypeName() ATTRIBUTE { return GetStaticTypeName(); }                    \
                                                                                                    \
 private:                                                                                           \
     constexpr bool operator!=(const TypeObj& rhs)

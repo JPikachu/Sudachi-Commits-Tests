@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2018 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2018 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <cinttypes>
@@ -322,8 +322,8 @@ private:
 class IFileSystem final : public ServiceFramework<IFileSystem> {
 public:
     explicit IFileSystem(Core::System& system_, FileSys::VirtualDir backend_, SizeGetter size_)
-        : ServiceFramework{system_, "IFileSystem"}, backend{std::move(backend_)},
-          size{std::move(size_)} {
+        : ServiceFramework{system_, "IFileSystem"}, backend{std::move(backend_)}, size{std::move(
+                                                                                      size_)} {
         static const FunctionInfo functions[] = {
             {0, &IFileSystem::CreateFile, "CreateFile"},
             {1, &IFileSystem::DeleteFile, "DeleteFile"},
@@ -582,8 +582,8 @@ public:
     explicit ISaveDataInfoReader(Core::System& system_,
                                  std::shared_ptr<SaveDataController> save_data_controller_,
                                  FileSys::SaveDataSpaceId space)
-        : ServiceFramework{system_, "ISaveDataInfoReader"},
-          save_data_controller{save_data_controller_} {
+        : ServiceFramework{system_, "ISaveDataInfoReader"}, save_data_controller{
+                                                                save_data_controller_} {
         static const FunctionInfo functions[] = {
             {0, &ISaveDataInfoReader::ReadSaveDataInfo, "ReadSaveDataInfo"},
         };
@@ -756,7 +756,7 @@ FSP_SRV::FSP_SRV(Core::System& system_)
         {24, nullptr, "RegisterSaveDataFileSystemAtomicDeletion"},
         {25, nullptr, "DeleteSaveDataFileSystemBySaveDataSpaceId"},
         {26, nullptr, "FormatSdCardDryRun"},
-        {27, &FSP_SRV::IsExFatSupported, "IsExFatSupported"},
+        {27, nullptr, "IsExFatSupported"},
         {28, nullptr, "DeleteSaveDataFileSystemBySaveDataAttribute"},
         {30, nullptr, "OpenGameCardStorage"},
         {31, nullptr, "OpenGameCardFileSystem"},
@@ -827,7 +827,6 @@ FSP_SRV::FSP_SRV(Core::System& system_)
         {615, nullptr, "QuerySaveDataInternalStorageTotalSize"},
         {616, nullptr, "GetSaveDataCommitId"},
         {617, nullptr, "UnregisterExternalKey"},
-        {618, nullptr, "GetProgramId"}, // 17.0.0+
         {620, nullptr, "SetSdCardEncryptionSeed"},
         {630, nullptr, "SetSdCardAccessibility"},
         {631, nullptr, "IsSdCardAccessible"},
@@ -858,9 +857,7 @@ FSP_SRV::FSP_SRV(Core::System& system_)
         {1017, nullptr, "OutputApplicationInfoAccessLog"},
         {1018, nullptr, "SetDebugOption"},
         {1019, nullptr, "UnsetDebugOption"},
-        {1020, nullptr, "OpenMemoryStressor"}, // 18.0.0+
         {1100, nullptr, "OverrideSaveDataTransferTokenSignVerificationKey"},
-        {1101, nullptr, "OverrideSaveDataTransferKeyForTest"}, // 18.0.0+
         {1110, nullptr, "CorruptSaveDataFileSystemBySaveDataSpaceId2"},
         {1200, &FSP_SRV::OpenMultiCommitManager, "OpenMultiCommitManager"},
         {1300, nullptr, "OpenBisWiper"},
@@ -944,14 +941,6 @@ void FSP_SRV::CreateSaveDataFileSystemBySystemSaveDataId(HLERequestContext& ctx)
 
     IPC::ResponseBuilder rb{ctx, 2};
     rb.Push(ResultSuccess);
-}
-
-void FSP_SRV::IsExFatSupported(HLERequestContext& ctx) {
-    LOG_INFO(Service_FS, "(STUBBED) called.");
-
-    IPC::ResponseBuilder rb{ctx, 3};
-    rb.Push(ResultSuccess);
-    rb.Push(0);
 }
 
 void FSP_SRV::OpenSaveDataFileSystem(HLERequestContext& ctx) {

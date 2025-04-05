@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2018 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2018 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "common/string_util.h"
@@ -38,7 +38,10 @@ enum class IoMode : u32 {
 };
 
 // This is nn::ssl::sf::OptionType
-enum class OptionType : u32 { DoNotCloseSocket = 0, GetServerCertChain = 1, EnableAlpn = 3 };
+enum class OptionType : u32 {
+    DoNotCloseSocket = 0,
+    GetServerCertChain = 1,
+};
 
 // This is nn::ssl::sf::SslVersion
 struct SslVersion {
@@ -93,8 +96,8 @@ public:
             {23, nullptr, "GetOption"},
             {24, nullptr, "GetVerifyCertErrors"},
             {25, nullptr, "GetCipherInfo"},
-            {26, &ISslConnection::SetNextAlpnProto, "SetNextAlpnProto"},
-            {27, &ISslConnection::GetNextAlpnProto, "GetNextAlpnProto"},
+            {26, nullptr, "SetNextAlpnProto"},
+            {27, nullptr, "GetNextAlpnProto"},
             {28, nullptr, "SetDtlsSocketDescriptor"},
             {29, nullptr, "GetDtlsHandshakeTimeout"},
             {30, nullptr, "SetPrivateOption"},
@@ -139,7 +142,6 @@ private:
     bool get_server_cert_chain = false;
     std::shared_ptr<Network::SocketBase> socket;
     bool did_handshake = false;
-    bool enable_alpn = false;
 
     Result SetSocketDescriptorImpl(s32* out_fd, s32 fd) {
         LOG_DEBUG(Service_SSL, "called, fd={}", fd);
@@ -379,30 +381,12 @@ private:
         case OptionType::GetServerCertChain:
             get_server_cert_chain = static_cast<bool>(parameters.value);
             break;
-        case OptionType::EnableAlpn:
-            LOG_ERROR(Service_SSL, "(STUBBED) called.");
-            enable_alpn = static_cast<bool>(parameters.value);
-            break;
         default:
             LOG_WARNING(Service_SSL, "Unknown option={}, value={}", parameters.option,
                         parameters.value);
         }
 
         IPC::ResponseBuilder rb{ctx, 2};
-        rb.Push(ResultSuccess);
-    }
-
-    void SetNextAlpnProto(HLERequestContext& ctx) {
-        LOG_ERROR(Service_SSL, "(STUBBED) called.");
-
-        IPC::ResponseBuilder rb{ctx, 2};
-        rb.Push(ResultSuccess);
-    }
-
-    void GetNextAlpnProto(HLERequestContext& ctx) {
-        LOG_ERROR(Service_SSL, "(STUBBED) called.");
-
-        IPC::ResponseBuilder rb{ctx, 3};
         rb.Push(ResultSuccess);
     }
 };
@@ -524,7 +508,6 @@ public:
             {7, nullptr, "SetDebugOption"},
             {8, nullptr, "GetDebugOption"},
             {8, nullptr, "ClearTls12FallbackFlag"},
-            {103, nullptr, "VerifySignature"} // 18.0.0+
         };
         // clang-format on
 

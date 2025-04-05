@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2020 sudachi Emulator Project
+# SPDX-FileCopyrightText: 2020 yuzu Emulator Project
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 function(copy_sudachi_FFmpeg_deps target_dir)

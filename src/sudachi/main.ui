@@ -18,7 +18,7 @@
     <normaloff>:/img/sudachi.ico</normaloff>:/img/sudachi.ico</iconset>
   </property>
   <property name="tabShape">
-   <enum>QTabWidget::TabShape::Rounded</enum>
+   <enum>QTabWidget::Rounded</enum>
   </property>
   <property name="dockNestingEnabled">
    <bool>true</bool>
@@ -45,7 +45,7 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>38</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File">
@@ -172,9 +172,8 @@
     <addaction name="menu_cabinet_applet"/>
     <addaction name="action_Load_Album"/>
     <addaction name="action_Load_Mii_Edit"/>
+    <addaction name="action_Load_QLaunch"/>
     <addaction name="action_Open_Controller_Menu"/>
-    <addaction name="separator"/>
-    <addaction name="action_Load_Home_Menu"/>
     <addaction name="separator"/>
     <addaction name="action_Capture_Screenshot"/>
     <addaction name="menuTAS"/>
@@ -259,7 +258,7 @@
     <string>Con&amp;figure...</string>
    </property>
    <property name="menuRole">
-    <enum>QAction::MenuRole::PreferencesRole</enum>
+    <enum>QAction::PreferencesRole</enum>
    </property>
   </action>
   <action name="action_Display_Dock_Widget_Headers">
@@ -419,12 +418,17 @@
     <string>Open &amp;Mii Editor</string>
    </property>
   </action>
+  <action name="action_Load_QLaunch">
+   <property name="text">
+    <string>Open &amp;QLaunch</string>
+   </property>
+  </action>
   <action name="action_Configure_Tas">
    <property name="text">
     <string>&amp;Configure TAS...</string>
    </property>
    <property name="menuRole">
-    <enum>QAction::MenuRole::NoRole</enum>
+    <enum>QAction::NoRole</enum>
    </property>
   </action>
   <action name="action_Configure_Current_Game">
@@ -435,7 +439,7 @@
     <string>Configure C&amp;urrent Game...</string>
    </property>
    <property name="menuRole">
-    <enum>QAction::MenuRole::NoRole</enum>
+    <enum>QAction::NoRole</enum>
    </property>
   </action>
   <action name="action_TAS_Start">
@@ -475,11 +479,6 @@
   <action name="action_Install_Keys">
    <property name="text">
     <string>Install Decryption Keys</string>
-   </property>
-  </action>
-  <action name="action_Load_Home_Menu">
-   <property name="text">
-    <string>Open Home Menu</string>
    </property>
   </action>
  </widget>

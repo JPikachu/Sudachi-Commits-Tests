@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2024 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2024 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "core/hle/service/cmif_serialization.h"
@@ -70,7 +70,7 @@ IOlscServiceForSystemService::IOlscServiceForSystemService(Core::System& system_
         {1122, nullptr, "RepairIssue2"},
         {1123, nullptr, "RepairIssue3"},
         {1124, nullptr, "Unknown1124"},
-        {10000, D<&IOlscServiceForSystemService::CloneService>, "CloneService"} // 17.0.0+
+        {10000, D<&IOlscServiceForSystemService::CloneService>, "CloneService"},
     };
     // clang-format on
 

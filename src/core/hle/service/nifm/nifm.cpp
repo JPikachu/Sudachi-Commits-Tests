@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2018 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2018 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "core/core.h"
@@ -419,9 +419,10 @@ void IGeneralService::GetCurrentNetworkProfile(HLERequestContext& ctx) {
     rb.Push(ResultSuccess);
 }
 
-void IGeneralService::EnumerateNetworkInterfaces(HLERequestContext& ctx) {
-    for (const auto& interface : Network::GetAvailableNetworkInterfaces())
-        LOG_WARNING(Service_NIFM, "(STUBBED) called, interface={}", interface.name);
+void IGeneralService::EnumerateNetworkProfiles(HLERequestContext& ctx) {
+    LOG_DEBUG(Service_NIFM, "(STUBBED) called.");
+
+    // TODO (jarrodnorwell)
 
     IPC::ResponseBuilder rb{ctx, 2};
     rb.Push(ResultSuccess);
@@ -573,13 +574,13 @@ void IGeneralService::IsAnyForegroundRequestAccepted(HLERequestContext& ctx) {
     rb.Push<u8>(is_accepted);
 }
 
-void IGeneralService::GetSsidListVersion(HLERequestContext& ctx) {
-    const u32 ssid = 1;
-    LOG_WARNING(Service_NIFM, "(STUBBED) called");
+void IGeneralService::ConfirmSystemAvailability(HLERequestContext& ctx) {
+    LOG_DEBUG(Service_NIFM, "(STUBBED) called.");
 
-    IPC::ResponseBuilder rb{ctx, 3};
+    // TODO (jarrodnorwell)
+
+    IPC::ResponseBuilder rb{ctx, 2};
     rb.Push(ResultSuccess);
-    rb.Push<u64>(ssid);
 }
 
 IGeneralService::IGeneralService(Core::System& system_)
@@ -590,8 +591,8 @@ IGeneralService::IGeneralService(Core::System& system_)
         {2, &IGeneralService::CreateScanRequest, "CreateScanRequest"},
         {4, &IGeneralService::CreateRequest, "CreateRequest"},
         {5, &IGeneralService::GetCurrentNetworkProfile, "GetCurrentNetworkProfile"},
-        {6, &IGeneralService::EnumerateNetworkInterfaces, "EnumerateNetworkInterfaces"},
-        {7, nullptr, "EnumerateNetworkProfiles"},
+        {6, nullptr, "EnumerateNetworkInterfaces"},
+        {7, &IGeneralService::EnumerateNetworkProfiles, "EnumerateNetworkProfiles"},
         {8, nullptr, "GetNetworkProfile"},
         {9, nullptr, "SetNetworkProfile"},
         {10, &IGeneralService::RemoveNetworkProfile, "RemoveNetworkProfile"},
@@ -609,7 +610,7 @@ IGeneralService::IGeneralService(Core::System& system_)
         {22, &IGeneralService::IsAnyForegroundRequestAccepted, "IsAnyForegroundRequestAccepted"},
         {23, nullptr, "PutToSleep"},
         {24, nullptr, "WakeUp"},
-        {25, &IGeneralService::GetSsidListVersion, "GetSsidListVersion"},
+        {25, nullptr, "GetSsidListVersion"},
         {26, nullptr, "SetExclusiveClient"},
         {27, nullptr, "GetDefaultIpSetting"},
         {28, nullptr, "SetDefaultIpSetting"},
@@ -617,7 +618,7 @@ IGeneralService::IGeneralService(Core::System& system_)
         {30, nullptr, "SetEthernetCommunicationEnabledForTest"},
         {31, nullptr, "GetTelemetorySystemEventReadableHandle"},
         {32, nullptr, "GetTelemetryInfo"},
-        {33, nullptr, "ConfirmSystemAvailability"},
+        {33, &IGeneralService::ConfirmSystemAvailability, "ConfirmSystemAvailability"}, // 2.0.0+
         {34, nullptr, "SetBackgroundRequestEnabled"},
         {35, nullptr, "GetScanData"},
         {36, nullptr, "GetCurrentAccessPoint"},
@@ -628,13 +629,6 @@ IGeneralService::IGeneralService(Core::System& system_)
         {41, nullptr, "GetAcceptableNetworkTypeFlag"},
         {42, nullptr, "NotifyConnectionStateChanged"},
         {43, nullptr, "SetWowlDelayedWakeTime"},
-        {44, nullptr, "IsWiredConnectionAvailable"}, // 18.0.0+
-        {45, nullptr, "IsNetworkEmulationFeatureEnabled"}, // 18.0.0+
-        {46, nullptr, "SelectActiveNetworkEmulationProfileIdForDebug"}, // 18.0.0+
-        {49, nullptr, "GetActiveNetworkEmulationProfileId"}, // 18.0.0+
-        {50, nullptr, "IsRewriteFeatureEnabled"}, // 18.0.0+
-        {51, nullptr, "CreateRewriteRule"}, // 18.0.0+
-        {52, nullptr, "DestroyRewriteRule"} // 18.0.0+
     };
     // clang-format on
 

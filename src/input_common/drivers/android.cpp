@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2024 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2024 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include <set>
@@ -27,8 +27,8 @@ Android::~Android() = default;
 void Android::RegisterController(jobject j_input_device) {
     auto env = Common::Android::GetEnvForThread();
     const std::string guid = Common::Android::GetJString(
-        env, static_cast<jstring>(env->CallObjectMethod(
-                 j_input_device, Common::Android::GetSudachiDeviceGetGUID())));
+        env, static_cast<jstring>(
+                 env->CallObjectMethod(j_input_device, Common::Android::GetSudachiDeviceGetGUID())));
     const s32 port = env->CallIntMethod(j_input_device, Common::Android::GetSudachiDeviceGetPort());
     const auto identifier = GetIdentifier(guid, static_cast<size_t>(port));
     PreSetController(identifier);

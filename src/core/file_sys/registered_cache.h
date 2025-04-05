@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2018 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2018 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #pragma once
@@ -164,8 +164,8 @@ public:
                                const VfsCopyFunction& copy = &VfsRawCopy);
 
     // Due to the fact that we must use Meta-type NCAs to determine the existence of files, this
-    // poses quite a challenge. Instead of creating a new meta NCA for this file, sudachi will
-    // create a dir inside the NAND called 'sudachi_meta' and store the raw CNMT there.
+    // poses quite a challenge. Instead of creating a new meta NCA for this file, sudachi will create a
+    // dir inside the NAND called 'sudachi_meta' and store the raw CNMT there.
     // TODO(DarkLordZach): Author real meta-type NCAs and install those.
     InstallResult InstallEntry(const NCA& nca, TitleType type, bool overwrite_if_exists = false,
                                const VfsCopyFunction& copy = &VfsRawCopy);

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2020 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2020 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "common/logging/log.h"
@@ -28,10 +28,6 @@ IAlbumApplicationService::IAlbumApplicationService(Core::System& system_,
         {142, C<&IAlbumApplicationService::GetAlbumFileList3AaeAruid>, "GetAlbumFileList3AaeAruid"},
         {143, nullptr, "GetAlbumFileList4AaeUidAruid"},
         {144, nullptr, "GetAllAlbumFileList3AaeAruid"},
-        {145, nullptr, "Unknown145"}, // 17.0.0+
-        {146, nullptr, "Unknown146"}, // 17.0.0+
-        {147, nullptr, "Unknown147"}, // 17.0.0+
-        {148, nullptr, "Unknown148"}, // 18.0.0+
         {60002, nullptr, "OpenAccessorSessionForApplication"},
     };
     // clang-format on

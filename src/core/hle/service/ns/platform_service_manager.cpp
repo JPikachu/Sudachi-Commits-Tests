@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2018 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2018 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <algorithm>
@@ -147,7 +147,6 @@ IPlatformServiceManager::IPlatformServiceManager(Core::System& system_, const ch
         {104, nullptr, "RequestApplicationFunctionAuthorizationByProgramId"},
         {105, nullptr, "GetFunctionBlackListSystemVersionToAuthorize"},
         {106, nullptr, "GetFunctionBlackListVersion"},
-        {107, nullptr, "RequestApplicationFunctionAuthorizationByApplicationIdAndProgramId"}, // 17.0.0+
         {1000, nullptr, "LoadNgWordDataForPlatformRegionChina"},
         {1001, nullptr, "GetNgWordDataSizeForPlatformRegionChina"},
     };

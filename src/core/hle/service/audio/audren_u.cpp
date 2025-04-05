@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2018 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2018 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <array>
@@ -251,7 +251,6 @@ public:
         : ServiceFramework{system_, "IAudioDevice"}, service_context{system_, "IAudioDevice"},
           impl{std::make_unique<AudioDevice>(system_, applet_resource_user_id, revision)},
           event{service_context.CreateEvent(fmt::format("IAudioDeviceEvent-{}", device_num))} {
-        // clang-format off
         static const FunctionInfo functions[] = {
             {0, &IAudioDevice::ListAudioDeviceName, "ListAudioDeviceName"},
             {1, &IAudioDevice::SetAudioDeviceOutputVolume, "SetAudioDeviceOutputVolume"},
@@ -267,15 +266,7 @@ public:
             {12, &IAudioDevice::QueryAudioDeviceOutputEvent, "QueryAudioDeviceOutputEvent"},
             {13, &IAudioDevice::GetActiveAudioDeviceName, "GetActiveAudioOutputDeviceName"},
             {14, &IAudioDevice::ListAudioOutputDeviceName, "ListAudioOutputDeviceName"},
-            {15, nullptr, "AcquireAudioInputDeviceNotification"}, // 17.0.0+
-            {16, nullptr, "ReleaseAudioInputDeviceNotification"}, // 17.0.0+
-            {17, nullptr, "AcquireAudioOutputDeviceNotification"}, // 17.0.0+
-            {18, nullptr, "ReleaseAudioOutputDeviceNotification"}, // 17.0.0+
-            {19, nullptr, "SetAudioDeviceOutputVolumeAutoTuneEnabled"}, // 18.0.0+
-            {20, nullptr, "IsAudioDeviceOutputVolumeAutoTuneEnabled"} // 18.0.0+
         };
-        // clang-format on
-
         RegisterHandlers(functions);
 
         event->Signal();
@@ -433,8 +424,8 @@ private:
 };
 
 AudRenU::AudRenU(Core::System& system_)
-    : ServiceFramework{system_, "audren:u"}, service_context{system_, "audren:u"},
-      impl{std::make_unique<Manager>(system_)} {
+    : ServiceFramework{system_, "audren:u"},
+      service_context{system_, "audren:u"}, impl{std::make_unique<Manager>(system_)} {
     // clang-format off
     static const FunctionInfo functions[] = {
         {0, &AudRenU::OpenAudioRenderer, "OpenAudioRenderer"},

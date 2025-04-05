@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2018 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2018 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "common/logging/log.h"
@@ -99,7 +99,6 @@ public:
             {1472, nullptr, "CancelNetworkRequest"},
             {1473, &IParentalControlService::GetUnlinkedEvent, "GetUnlinkedEvent"},
             {1474, nullptr, "ClearUnlinkedEvent"},
-            {1475, nullptr, "GetExtendedPlayTimerEvent"}, // 18.0.0+
             {1601, nullptr, "DisableAllFeatures"},
             {1602, nullptr, "PostEnableAllFeatures"},
             {1603, nullptr, "IsAllFeaturesDisabled"},
@@ -115,10 +114,6 @@ public:
             {1951, nullptr, "SetPlayTimerSettingsForDebug"},
             {1952, nullptr, "GetPlayTimerSpentTimeForTest"},
             {1953, nullptr, "SetPlayTimerAlarmDisabledForDebug"},
-            {1954, nullptr, "IsBedtimeAlarmEnabled"}, // 18.0.0+
-            {1955, nullptr, "GetBedtimeAlarmTime"}, // 18.0.0+
-            {1956, nullptr, "GetBedtimeAlarmTimeHour"}, // 18.0.0+
-            {1957, nullptr, "GetBedtimeAlarmTimeMinute"}, // 18.0.0+
             {2001, nullptr, "RequestPairingAsync"},
             {2002, nullptr, "FinishRequestPairing"},
             {2003, nullptr, "AuthorizePairingAsync"},
@@ -135,8 +130,6 @@ public:
             {2014, nullptr, "FinishSynchronizeParentalControlSettings"},
             {2015, nullptr, "FinishSynchronizeParentalControlSettingsWithLastUpdated"},
             {2016, nullptr, "RequestUpdateExemptionListAsync"},
-            {145601, nullptr, "GetPlayTimerSettingsVer2"}, // 18.0.0+
-            {195101, nullptr, "SetPlayTimerSettingsForDebugVer2"} // 18.0.0+
         };
         // clang-format on
         RegisterHandlers(functions);

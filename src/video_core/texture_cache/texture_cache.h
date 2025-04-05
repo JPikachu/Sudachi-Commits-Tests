@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 sudachi Emulator Project
+// SPDX-FileCopyrightText: 2023 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #pragma once
@@ -2039,8 +2039,7 @@ void TextureCache<P>::UnregisterImage(ImageId image_id) {
                        selected_page_table) {
             const auto page_it = selected_page_table.find(page);
             if (page_it == selected_page_table.end()) {
-                ASSERT_MSG(false, "Unregistering unregistered page=0x{:x}",
-                           page << SUDACHI_PAGEBITS);
+                ASSERT_MSG(false, "Unregistering unregistered page=0x{:x}", page << SUDACHI_PAGEBITS);
                 return;
             }
             std::vector<ImageId>& image_ids = page_it->second;
@@ -2060,8 +2059,7 @@ void TextureCache<P>::UnregisterImage(ImageId image_id) {
         ForEachCPUPage(image.cpu_addr, image.guest_size_bytes, [this, map_id](u64 page) {
             const auto page_it = page_table.find(page);
             if (page_it == page_table.end()) {
-                ASSERT_MSG(false, "Unregistering unregistered page=0x{:x}",
-                           page << SUDACHI_PAGEBITS);
+                ASSERT_MSG(false, "Unregistering unregistered page=0x{:x}", page << SUDACHI_PAGEBITS);
                 return;
             }
             std::vector<ImageMapId>& image_map_ids = page_it->second;
@@ -2089,8 +2087,7 @@ void TextureCache<P>::UnregisterImage(ImageId image_id) {
         ForEachCPUPage(cpu_addr, size, [this, image_id](u64 page) {
             const auto page_it = page_table.find(page);
             if (page_it == page_table.end()) {
-                ASSERT_MSG(false, "Unregistering unregistered page=0x{:x}",
-                           page << SUDACHI_PAGEBITS);
+                ASSERT_MSG(false, "Unregistering unregistered page=0x{:x}", page << SUDACHI_PAGEBITS);
                 return;
             }
             std::vector<ImageMapId>& image_map_ids = page_it->second;

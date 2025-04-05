@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2020 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2020 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #pragma once
@@ -26,9 +26,9 @@ A script file has the same format as TAS-nx uses, so final files will look like 
 46 KEY_A 32767;0 0;0
 47 KEY_A 32767;0 0;0
 
-After placing the file at the correct location, it can be read into Sudachi with the (default)
-hotkey CTRL+F6 (refresh). In the bottom left corner, it will display the amount of frames the script
-file has. Playback can be started or stopped using CTRL+F5.
+After placing the file at the correct location, it can be read into Sudachi with the (default) hotkey
+CTRL+F6 (refresh). In the bottom left corner, it will display the amount of frames the script file
+has. Playback can be started or stopped using CTRL+F5.
 
 However, for playback to actually work, the correct input device has to be selected: In the Controls
 menu, select TAS from the device list for the controller that the script should be played on.

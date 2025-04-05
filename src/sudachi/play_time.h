@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 sudachi Emulator Project
+// SPDX-FileCopyrightText: 2023 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #pragma once
@@ -20,7 +20,6 @@ namespace PlayTime {
 struct PlayTimeElement {
     u64 program_id;
     u64 play_time;
-    u64 total_times;
 
     inline bool operator==(const PlayTimeElement& other) const {
         return program_id == other.program_id;
@@ -50,7 +49,6 @@ public:
 private:
     u64 running_program_id;
     std::chrono::steady_clock::time_point last_timestamp;
-    u64 last_total_times;
     std::jthread play_time_thread;
     void AutoTimestamp(std::stop_token stop_token);
     void Save();
@@ -58,15 +56,13 @@ private:
 
 std::optional<std::filesystem::path> GetCurrentUserPlayTimePath();
 
-bool UpdatePlayTime(u64 program_id, u64 add_play_time, u64 add_total_times);
+bool UpdatePlayTime(u64 program_id, u64 add_play_time);
 
 [[nodiscard]] bool ReadPlayTimeFile(std::vector<PlayTimeElement>& out_play_time_elements);
 [[nodiscard]] bool WritePlayTimeFile(const std::vector<PlayTimeElement>& play_time_elements);
 
 u64 GetPlayTime(u64 program_id);
-u64 GetTotalTimes(u64 program_id);
 
 QString ReadablePlayTime(qulonglong time_seconds);
-QString ReadableTotalTimes(qulonglong times_count);
 
 } // namespace PlayTime

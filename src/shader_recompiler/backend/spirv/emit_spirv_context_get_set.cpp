@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2021 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2021 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <bit>
@@ -7,6 +7,7 @@
 
 #include "shader_recompiler/backend/spirv/emit_spirv_instructions.h"
 #include "shader_recompiler/backend/spirv/spirv_emit_context.h"
+#include "shader_recompiler/runtime_info.h"
 
 namespace Shader::Backend::SPIRV {
 namespace {
@@ -563,16 +564,6 @@ Id EmitSampleId(EmitContext& ctx) {
 
 Id EmitIsHelperInvocation(EmitContext& ctx) {
     return ctx.OpLoad(ctx.U1, ctx.is_helper_invocation);
-}
-
-Id EmitSR_WScaleFactorXY(EmitContext& ctx) {
-    LOG_WARNING(Shader, "(STUBBED) called");
-    return ctx.Const(0x00ff0000u);
-}
-
-Id EmitSR_WScaleFactorZ(EmitContext& ctx) {
-    LOG_WARNING(Shader, "(STUBBED) called");
-    return ctx.Const(0x00ff0000u);
 }
 
 Id EmitYDirection(EmitContext& ctx) {

@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2018 sudachi Emulator Project
+# SPDX-FileCopyrightText: 2018 yuzu Emulator Project
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 # Enable modules to include each other's files
@@ -107,7 +107,7 @@ if (MSVC)
     add_compile_options("$<$<CONFIG:Release>:/GS->")
 
     set(CMAKE_EXE_LINKER_FLAGS_DEBUG   "/DEBUG /MANIFEST:NO" CACHE STRING "" FORCE)
-    set(CMAKE_EXE_LINKER_FLAGS_RELEASE "/DEBUG /MANIFEST:NO /INCREMENTAL:NO /OPT:REF,ICF" CACHE STRING "" FORCE)
+    set(CMAKE_EXE_LINKER_FLAGS_RELEASE "/MANIFEST:NO /INCREMENTAL:NO /OPT:REF,ICF" CACHE STRING "" FORCE)
 else()
     add_compile_options(
         -fwrapv
@@ -126,12 +126,15 @@ else()
 
     if (CMAKE_CXX_COMPILER_ID MATCHES Clang) # Clang or AppleClang
         add_compile_options(
-            -Wno-braced-scalar-init
-            -Wno-unused-private-field
-            -Wno-nullability-completeness
-            -Werror=shadow-uncaptured-local
-            -Werror=implicit-fallthrough
-            -Werror=type-limits
+                -Wno-braced-scalar-init
+                -Wno-unused-private-field
+                -Wno-nullability-completeness
+                -Werror=shadow-uncaptured-local
+                -Werror=implicit-fallthrough
+                -Wno-unused-function
+                -Wno-unused-but-set-variable
+                -Wno-unused-variable
+                -Werror=type-limits
         )
     endif()
 
@@ -214,6 +217,6 @@ if (ENABLE_WEB_SERVICE)
 endif()
 
 if (ANDROID)
-    add_subdirectory(android/sudachi/src/main/jni)
-    target_include_directories(sudachi-android PRIVATE android/sudachi/src/main)
+    add_subdirectory(android/app/src/main/jni)
+    target_include_directories(sudachi-android PRIVATE android/app/src/main)
 endif()

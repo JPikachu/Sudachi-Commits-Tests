@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2018 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2018 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #pragma once
@@ -55,7 +55,6 @@ private:
                                     FileSys::SaveDataAttribute save_struct, u128 uid);
     Result CreateSaveDataFileSystemBySystemSaveDataId(
         FileSys::SaveDataAttribute save_struct, FileSys::SaveDataCreationInfo save_create_struct);
-    Result IsExFatSupported(bool is_exfat_supported);
     Result OpenSaveDataFileSystem(OutInterface<IFileSystem> out_interface,
                                   FileSys::SaveDataSpaceId space_id,
                                   FileSys::SaveDataAttribute attribute);

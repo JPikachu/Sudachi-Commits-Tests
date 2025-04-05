@@ -1,13 +1,13 @@
-/* 
- * SPDX-FileCopyrightText: 2020 sudachi Emulator Project
+/*
+ * SPDX-FileCopyrightText: 2020 yuzu Emulator Project
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
 
 /* Default visibility */
 #if defined(__GNUC__) || defined(__clang__)
-  #define DEFAULT_VISIBILITY __attribute__((visibility("default")))
+#define DEFAULT_VISIBILITY __attribute__((visibility("default")))
 #elif defined(_MSC_VER)
-  #define DEFAULT_VISIBILITY __declspec(dllexport)
+#define DEFAULT_VISIBILITY __declspec(dllexport)
 #endif
 
 /* Start with debug message logging enabled */
@@ -74,7 +74,7 @@
 #cmakedefine OS_WINDOWS 1
 
 /* type of second poll() argument */
-#define POLL_NFDS_TYPE @POLL_NFDS_TYPE@
+#define POLL_NFDS_TYPE @POLL_NFDS_TYPE @
 
 /* Use POSIX Threads */
 #cmakedefine THREADS_POSIX

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2022 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2022 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "common/assert.h"
@@ -17,8 +17,9 @@ namespace Service::AM::Applets {
 
 Cabinet::Cabinet(Core::System& system_, LibraryAppletMode applet_mode_,
                  const Core::Frontend::CabinetApplet& frontend_)
-    : Applet{system_, applet_mode_}, frontend{frontend_}, system{system_},
-      service_context{system_, "CabinetApplet"} {
+    : Applet{system_, applet_mode_}, frontend{frontend_}, system{system_}, service_context{
+                                                                               system_,
+                                                                               "CabinetApplet"} {
 
     availability_change_event =
         service_context.CreateEvent("CabinetApplet:AvailabilityChangeEvent");
@@ -122,7 +123,7 @@ void Cabinet::DisplayCompleted(bool apply_changes, std::string_view amiibo_name)
         std::memcpy(register_info.amiibo_name.data(), amiibo_name.data(),
                     std::min(amiibo_name.size(), register_info.amiibo_name.size() - 1));
         register_info.mii_store_data.BuildRandom(Mii::Age::All, Mii::Gender::All, Mii::Race::All);
-        register_info.mii_store_data.SetNickname({u's', u'u', u'd', u'a'});
+        register_info.mii_store_data.SetNickname({u'y', u'u', u'z', u'u'});
         nfp_device->SetRegisterInfoPrivate(register_info);
         break;
     }

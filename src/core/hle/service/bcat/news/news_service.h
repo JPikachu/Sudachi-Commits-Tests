@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2024 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2024 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #pragma once
@@ -18,8 +18,6 @@ public:
     ~INewsService() override;
 
 private:
-    Result PostLocalNews();
-
     Result GetSubscriptionStatus(Out<u32> out_status, InBuffer<BufferAttr_HipcPointer> buffer_data);
 
     Result IsSystemUpdateRequired(Out<bool> out_is_system_update_required);

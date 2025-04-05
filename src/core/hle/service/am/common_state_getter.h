@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2024 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2024 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #pragma once
@@ -55,12 +55,9 @@ private:
     void GetAcquiredSleepLockEvent(HLERequestContext& ctx);
     void GetReaderLockAccessorEx(HLERequestContext& ctx);
     void GetDefaultDisplayResolutionChangeEvent(HLERequestContext& ctx);
-    void GetHdcpAuthenticationState(HLERequestContext& ctx);
-    void GetHdcpAuthenticationStateChangeEvent(HLERequestContext& ctx);
     void GetOperationMode(HLERequestContext& ctx);
     void GetPerformanceMode(HLERequestContext& ctx);
     void GetBootMode(HLERequestContext& ctx);
-    void GetCradleFwVersion(HLERequestContext& ctx);
     void IsVrModeEnabled(HLERequestContext& ctx);
     void SetVrModeEnabled(HLERequestContext& ctx);
     void SetLcdBacklighOffEnabled(HLERequestContext& ctx);

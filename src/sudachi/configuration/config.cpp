@@ -471,13 +471,12 @@ void Config::ReadDataStorageValues() {
                     QString::fromStdString(FS::GetSudachiPathString(FS::SudachiPath::DumpDir)))
             .toString()
             .toStdString());
-    FS::SetSudachiPath(
-        FS::SudachiPath::TASDir,
-        qt_config
-            ->value(QStringLiteral("tas_directory"),
-                    QString::fromStdString(FS::GetSudachiPathString(FS::SudachiPath::TASDir)))
-            .toString()
-            .toStdString());
+    FS::SetSudachiPath(FS::SudachiPath::TASDir,
+                    qt_config
+                        ->value(QStringLiteral("tas_directory"),
+                                QString::fromStdString(FS::GetSudachiPathString(FS::SudachiPath::TASDir)))
+                        .toString()
+                        .toStdString());
 
     ReadCategory(Settings::Category::DataStorage);
 
@@ -598,13 +597,13 @@ void Config::ReadScreenshotValues() {
     qt_config->beginGroup(QStringLiteral("Screenshots"));
 
     ReadCategory(Settings::Category::Screenshots);
-    FS::SetSudachiPath(FS::SudachiPath::ScreenshotsDir,
-                       qt_config
-                           ->value(QStringLiteral("screenshot_path"),
-                                   QString::fromStdString(
-                                       FS::GetSudachiPathString(FS::SudachiPath::ScreenshotsDir)))
-                           .toString()
-                           .toStdString());
+    FS::SetSudachiPath(
+        FS::SudachiPath::ScreenshotsDir,
+        qt_config
+            ->value(QStringLiteral("screenshot_path"),
+                    QString::fromStdString(FS::GetSudachiPathString(FS::SudachiPath::ScreenshotsDir)))
+            .toString()
+            .toStdString());
 
     qt_config->endGroup();
 }

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2018 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2018 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <fstream>
@@ -27,7 +27,7 @@ namespace Service::Set {
 
 namespace {
 constexpr u32 SETTINGS_VERSION{4u};
-constexpr auto SETTINGS_MAGIC = Common::MakeMagic('s', 'u', 'd', 'a', '_', 's', 'e', 't');
+constexpr auto SETTINGS_MAGIC = Common::MakeMagic('y', 'u', 'z', 'u', '_', 's', 'e', 't');
 struct SettingsHeader {
     u64 magic;
     u32 version;
@@ -238,7 +238,7 @@ ISystemSettingsServer::ISystemSettingsServer(Core::System& system_)
         {146, nullptr, "SetConsoleSixAxisSensorAngularVelocityTimeBias"},
         {147, nullptr, "GetConsoleSixAxisSensorAngularAcceleration"},
         {148, nullptr, "SetConsoleSixAxisSensorAngularAcceleration"},
-        {149, C<&ISystemSettingsServer::GetRebootlessSystemUpdateVersion>, "GetRebootlessSystemUpdateVersion"},
+        {149, nullptr, "GetRebootlessSystemUpdateVersion"},
         {150, C<&ISystemSettingsServer::GetDeviceTimeZoneLocationUpdatedTime>, "GetDeviceTimeZoneLocationUpdatedTime"},
         {151, C<&ISystemSettingsServer::SetDeviceTimeZoneLocationUpdatedTime>, "SetDeviceTimeZoneLocationUpdatedTime"},
         {152, C<&ISystemSettingsServer::GetUserSystemClockAutomaticCorrectionUpdatedTime>, "GetUserSystemClockAutomaticCorrectionUpdatedTime"},
@@ -300,10 +300,6 @@ ISystemSettingsServer::ISystemSettingsServer(Core::System& system_)
         {208, nullptr, "SetHearingProtectionSafeguardFlag"},
         {209, nullptr, "GetHearingProtectionSafeguardRemainingTime"},
         {210, nullptr, "SetHearingProtectionSafeguardRemainingTime"},
-        {221, nullptr, "GetForceMonauralOutputFlag"}, // 17.0.0+
-        {222, nullptr, "SetForceMonauralOutputFlag"}, // 17.0.0+
-        {251, nullptr, "GetAccountIdentificationSettings"}, // 18.0.0+
-        {252, nullptr, "SetAccountIdentificationSettings"} // 18.0.0+
     };
     // clang-format on
 
@@ -936,7 +932,7 @@ Result ISystemSettingsServer::SetPrimaryAlbumStorage(PrimaryAlbumStorage primary
 Result ISystemSettingsServer::GetBatteryLot(Out<BatteryLot> out_battery_lot) {
     LOG_INFO(Service_SET, "called");
 
-    *out_battery_lot = BatteryLot{"SUDA0EMULATOR14022024"};
+    *out_battery_lot = BatteryLot{"YUZU0EMULATOR14022024"};
     R_SUCCEED();
 }
 
@@ -1198,14 +1194,6 @@ Result ISystemSettingsServer::SetKeyboardLayout(KeyboardLayout keyboard_layout) 
     R_SUCCEED();
 }
 
-Result ISystemSettingsServer::GetRebootlessSystemUpdateVersion(
-    Out<RebootlessSystemUpdateVersion> out_rebootless_update_version) {
-    LOG_INFO(Service_SET, "called");
-
-    *out_rebootless_update_version = m_system_settings.rebootless_system_version;
-    R_SUCCEED();
-}
-
 Result ISystemSettingsServer::GetDeviceTimeZoneLocationUpdatedTime(
     Out<Service::PSC::Time::SteadyClockTimePoint> out_time_point) {
     LOG_INFO(Service_SET, "called");
@@ -1319,52 +1307,52 @@ Result ISystemSettingsServer::SetPanelCrcMode(s32 panel_crc_mode) {
 }
 
 void ISystemSettingsServer::SetupSettings() {
-    auto system_dir = Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) /
-                      "system/save/8000000000000050";
+    auto system_dir =
+        Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) / "system/save/8000000000000050";
     if (!LoadSettingsFile(system_dir, []() { return DefaultSystemSettings(); })) {
         ASSERT(false);
     }
 
-    auto private_dir = Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) /
-                       "system/save/8000000000000052";
+    auto private_dir =
+        Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) / "system/save/8000000000000052";
     if (!LoadSettingsFile(private_dir, []() { return DefaultPrivateSettings(); })) {
         ASSERT(false);
     }
 
-    auto device_dir = Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) /
-                      "system/save/8000000000000053";
+    auto device_dir =
+        Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) / "system/save/8000000000000053";
     if (!LoadSettingsFile(device_dir, []() { return DefaultDeviceSettings(); })) {
         ASSERT(false);
     }
 
-    auto appln_dir = Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) /
-                     "system/save/8000000000000054";
+    auto appln_dir =
+        Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) / "system/save/8000000000000054";
     if (!LoadSettingsFile(appln_dir, []() { return DefaultApplnSettings(); })) {
         ASSERT(false);
     }
 }
 
 void ISystemSettingsServer::StoreSettings() {
-    auto system_dir = Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) /
-                      "system/save/8000000000000050";
+    auto system_dir =
+        Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) / "system/save/8000000000000050";
     if (!StoreSettingsFile(system_dir, m_system_settings)) {
         LOG_ERROR(Service_SET, "Failed to store System settings");
     }
 
-    auto private_dir = Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) /
-                       "system/save/8000000000000052";
+    auto private_dir =
+        Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) / "system/save/8000000000000052";
     if (!StoreSettingsFile(private_dir, m_private_settings)) {
         LOG_ERROR(Service_SET, "Failed to store Private settings");
     }
 
-    auto device_dir = Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) /
-                      "system/save/8000000000000053";
+    auto device_dir =
+        Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) / "system/save/8000000000000053";
     if (!StoreSettingsFile(device_dir, m_device_settings)) {
         LOG_ERROR(Service_SET, "Failed to store Device settings");
     }
 
-    auto appln_dir = Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) /
-                     "system/save/8000000000000054";
+    auto appln_dir =
+        Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) / "system/save/8000000000000054";
     if (!StoreSettingsFile(appln_dir, m_appln_settings)) {
         LOG_ERROR(Service_SET, "Failed to store ApplLn settings");
     }

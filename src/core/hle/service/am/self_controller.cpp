@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2024 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2024 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "common/logging/log.h"
@@ -18,8 +18,8 @@ namespace Service::AM {
 
 ISelfController::ISelfController(Core::System& system_, std::shared_ptr<Applet> applet_,
                                  Nvnflinger::Nvnflinger& nvnflinger_)
-    : ServiceFramework{system_, "ISelfController"}, nvnflinger{nvnflinger_},
-      applet{std::move(applet_)} {
+    : ServiceFramework{system_, "ISelfController"}, nvnflinger{nvnflinger_}, applet{std::move(
+                                                                                 applet_)} {
     // clang-format off
     static const FunctionInfo functions[] = {
         {0, &ISelfController::Exit, "Exit"},

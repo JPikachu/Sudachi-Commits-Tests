@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2022 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2022 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #pragma once
@@ -13,7 +13,7 @@
 #include "common/polyfill_ranges.h"
 
 namespace AudioCore {
-constexpr u32 CurrentRevision = 12; // 11
+constexpr u32 CurrentRevision = 12;
 
 enum class SupportTags {
     CommandProcessingTimeEstimatorVersion4,
@@ -54,7 +54,6 @@ constexpr u32 GetRevisionNum(u32 user_revision) {
         user_revision -= Common::MakeMagic('R', 'E', 'V', '0');
         user_revision >>= 24;
     }
-
     return user_revision;
 };
 

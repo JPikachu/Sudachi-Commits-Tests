@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2021 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2021 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <QFileDialog>
@@ -6,9 +6,9 @@
 #include "common/fs/fs.h"
 #include "common/fs/path_util.h"
 #include "common/settings.h"
+#include "ui_configure_tas.h"
 #include "sudachi/configuration/configure_tas.h"
 #include "sudachi/uisettings.h"
-#include "ui_configure_tas.h"
 
 ConfigureTasDialog::ConfigureTasDialog(QWidget* parent)
     : QDialog(parent), ui(std::make_unique<Ui::ConfigureTas>()) {
@@ -35,8 +35,7 @@ void ConfigureTasDialog::LoadConfiguration() {
 }
 
 void ConfigureTasDialog::ApplyConfiguration() {
-    Common::FS::SetSudachiPath(Common::FS::SudachiPath::TASDir,
-                               ui->tas_path_edit->text().toStdString());
+    Common::FS::SetSudachiPath(Common::FS::SudachiPath::TASDir, ui->tas_path_edit->text().toStdString());
     Settings::values.tas_enable.SetValue(ui->tas_enable->isChecked());
     Settings::values.tas_loop.SetValue(ui->tas_loop_script->isChecked());
     Settings::values.pause_tas_on_load.SetValue(ui->tas_pause_on_load->isChecked());

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2021 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2021 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <algorithm>
@@ -25,7 +25,7 @@
 
 namespace VideoCommon {
 
-constexpr std::array<char, 8> MAGIC_NUMBER{'s', 'u', 'd', 'a', 'c', 'h', 'i', '0'};
+constexpr std::array<char, 8> MAGIC_NUMBER{'y', 'u', 'z', 'u', 'c', 'a', 'c', 'h'};
 
 constexpr size_t INST_SIZE = sizeof(u64);
 
@@ -398,8 +398,8 @@ u32 GraphicsEnvironment::ReadViewportTransformState() {
 ComputeEnvironment::ComputeEnvironment(Tegra::Engines::KeplerCompute& kepler_compute_,
                                        Tegra::MemoryManager& gpu_memory_, GPUVAddr program_base_,
                                        u32 start_address_)
-    : GenericEnvironment{gpu_memory_, program_base_, start_address_},
-      kepler_compute{&kepler_compute_} {
+    : GenericEnvironment{gpu_memory_, program_base_, start_address_}, kepler_compute{
+                                                                          &kepler_compute_} {
     const auto& qmd{kepler_compute->launch_description};
     stage = Shader::Stage::Compute;
     local_memory_size = qmd.local_pos_alloc + qmd.local_crs_alloc;

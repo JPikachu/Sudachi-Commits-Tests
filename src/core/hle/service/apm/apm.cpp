@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2018 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2018 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "core/core.h"
@@ -15,8 +15,6 @@ void LoopProcess(Core::System& system) {
     auto module = std::make_shared<Module>();
     auto server_manager = std::make_unique<ServerManager>(system);
 
-    server_manager->RegisterNamedService(
-        "apm", std::make_shared<APM>(system, module, system.GetAPMController(), "apm"));
     server_manager->RegisterNamedService(
         "apm:am", std::make_shared<APM>(system, module, system.GetAPMController(), "apm:am"));
     server_manager->RegisterNamedService(

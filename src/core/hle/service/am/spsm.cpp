@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2018 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2018 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "core/hle/service/am/spsm.h"
@@ -20,9 +20,6 @@ SPSM::SPSM(Core::System& system_) : ServiceFramework{system_, "spsm"} {
         {9, nullptr, "ChangeHomeButtonLongPressingTime"},
         {10, nullptr, "PutErrorState"},
         {11, nullptr, "InvalidateCurrentHomeButtonPressing"},
-        {12, nullptr, "Unknown12"}, // 17.0.0+
-        {13, nullptr, "Unknown13"}, // 17.0.0+
-        {14, nullptr, "Unknown14"} // 17.0.0+
     };
     // clang-format on
 

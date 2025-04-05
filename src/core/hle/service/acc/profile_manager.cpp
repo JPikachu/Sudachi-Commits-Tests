@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2018 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2018 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <cstring>
@@ -429,8 +429,7 @@ void ProfileManager::WriteUserSaveFile() {
         };
     }
 
-    const auto raw_path(FS::GetSudachiPath(FS::SudachiPath::NANDDir) /
-                        "system/save/8000000000000010");
+    const auto raw_path(FS::GetSudachiPath(FS::SudachiPath::NANDDir) / "system/save/8000000000000010");
     if (FS::IsFile(raw_path) && !FS::RemoveFile(raw_path)) {
         return;
     }

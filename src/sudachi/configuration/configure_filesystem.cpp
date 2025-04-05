@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2019 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2019 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <QFileDialog>
@@ -6,9 +6,9 @@
 #include "common/fs/fs.h"
 #include "common/fs/path_util.h"
 #include "common/settings.h"
+#include "ui_configure_filesystem.h"
 #include "sudachi/configuration/configure_filesystem.h"
 #include "sudachi/uisettings.h"
-#include "ui_configure_filesystem.h"
 
 ConfigureFilesystem::ConfigureFilesystem(QWidget* parent)
     : QWidget(parent), ui(std::make_unique<Ui::ConfigureFilesystem>()) {
@@ -69,13 +69,13 @@ void ConfigureFilesystem::SetConfiguration() {
 
 void ConfigureFilesystem::ApplyConfiguration() {
     Common::FS::SetSudachiPath(Common::FS::SudachiPath::NANDDir,
-                               ui->nand_directory_edit->text().toStdString());
+                            ui->nand_directory_edit->text().toStdString());
     Common::FS::SetSudachiPath(Common::FS::SudachiPath::SDMCDir,
-                               ui->sdmc_directory_edit->text().toStdString());
+                            ui->sdmc_directory_edit->text().toStdString());
     Common::FS::SetSudachiPath(Common::FS::SudachiPath::DumpDir,
-                               ui->dump_path_edit->text().toStdString());
+                            ui->dump_path_edit->text().toStdString());
     Common::FS::SetSudachiPath(Common::FS::SudachiPath::LoadDir,
-                               ui->load_path_edit->text().toStdString());
+                            ui->load_path_edit->text().toStdString());
 
     Settings::values.gamecard_inserted = ui->gamecard_inserted->isChecked();
     Settings::values.gamecard_current_game = ui->gamecard_current_game->isChecked();

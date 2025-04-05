@@ -24,7 +24,6 @@ enum class ErrorModule : u32 {
     HTCS = 4,
     NCM = 5,
     DD = 6,
-    OSDBG = 7,
     LR = 8,
     Loader = 9,
     CMIF = 10,
@@ -52,7 +51,6 @@ enum class ErrorModule : u32 {
     Util = 33,
     TIPC = 35,
     ANIF = 37,
-    CRT = 39,
     ETHC = 100,
     I2C = 101,
     GPIO = 102,
@@ -108,7 +106,6 @@ enum class ErrorModule : u32 {
     Audio = 153,
     NPNS = 154,
     NPNSHTTPSTREAM = 155,
-    IDLE = 156,
     ARP = 157,
     SWKBD = 158,
     BOOT = 159,
@@ -118,7 +115,6 @@ enum class ErrorModule : u32 {
     Fatal = 163,
     NIMShop = 164,
     SPSM = 165,
-    AOC = 166,
     BGTC = 167,
     UserlandCrash = 168,
     SASBUS = 169,
@@ -180,22 +176,13 @@ enum class ErrorModule : u32 {
     DP2HDMI = 244,
     Cradle = 245,
     SProfile = 246,
-    Icm42607p = 248,
     NDRM = 250,
-    Fst2 = 251,
-    Nex = 306,
-    NPLN = 321,
     TSPM = 499,
     DevMenu = 500,
-    Nverpt = 520,
-    Am_StuckMonitor = 521,
-    Pia = 618,
-    Eagle = 623,
     GeneralWebApplet = 800,
     WifiWebAuthApplet = 809,
     WhitelistedApplet = 810,
     ShopN = 811,
-    Coral = 815
 };
 
 /// Encapsulates a Horizon OS error code, allowing it to be separated into its constituent fields.
@@ -471,13 +458,9 @@ constexpr inline Result __TmpCurrentResultReference = ResultSuccess;
         if (true)
 
 #define R_CONVERT(catch_type, convert_type)                                                        \
-    R_CATCH(catch_type) {                                                                          \
-        R_THROW(static_cast<Result>(convert_type));                                                \
-    }
+    R_CATCH(catch_type) { R_THROW(static_cast<Result>(convert_type)); }
 
 #define R_CONVERT_ALL(convert_type)                                                                \
-    R_CATCH_ALL() {                                                                                \
-        R_THROW(static_cast<Result>(convert_type));                                                \
-    }
+    R_CATCH_ALL() { R_THROW(static_cast<Result>(convert_type)); }
 
 #define R_ASSERT(res_expr) ASSERT(R_SUCCEEDED(res_expr))

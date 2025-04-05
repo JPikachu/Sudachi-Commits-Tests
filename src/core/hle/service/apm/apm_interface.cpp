@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2018 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2018 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "common/logging/log.h"
@@ -109,7 +109,6 @@ APM_Sys::APM_Sys(Core::System& system_, Controller& controller_)
         {5, nullptr, "LoadAndApplySettings"},
         {6, &APM_Sys::SetCpuBoostMode, "SetCpuBoostMode"},
         {7, &APM_Sys::GetCurrentPerformanceConfiguration, "GetCurrentPerformanceConfiguration"},
-        {8, nullptr, "GetCurrentPerformanceMode"} // 17.0.0+
     };
     // clang-format on
 

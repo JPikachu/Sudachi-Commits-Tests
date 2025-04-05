@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2023 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2023 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #pragma once
@@ -95,7 +95,6 @@ enum class NpadRevision : u32 {
     Revision1 = 1,
     Revision2 = 2,
     Revision3 = 3,
-    Revision5 = 5 // 18.0.0+
 };
 
 // This is nn::hid::detail::ColorAttribute

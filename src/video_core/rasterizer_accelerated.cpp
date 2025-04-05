@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2019 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2019 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <atomic>
@@ -57,14 +57,12 @@ void RasterizerAccelerated::UpdatePagesCachedCount(VAddr addr, u64 size, int del
             }
             cache_bytes += SUDACHI_PAGESIZE;
         } else if (cache_bytes > 0) {
-            cpu_memory.RasterizerMarkRegionCached(cache_begin << SUDACHI_PAGEBITS, cache_bytes,
-                                                  true);
+            cpu_memory.RasterizerMarkRegionCached(cache_begin << SUDACHI_PAGEBITS, cache_bytes, true);
             cache_bytes = 0;
         }
     }
     if (uncache_bytes > 0) {
-        cpu_memory.RasterizerMarkRegionCached(uncache_begin << SUDACHI_PAGEBITS, uncache_bytes,
-                                              false);
+        cpu_memory.RasterizerMarkRegionCached(uncache_begin << SUDACHI_PAGEBITS, uncache_bytes, false);
     }
     if (cache_bytes > 0) {
         cpu_memory.RasterizerMarkRegionCached(cache_begin << SUDACHI_PAGEBITS, cache_bytes, true);

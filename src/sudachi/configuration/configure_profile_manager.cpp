@@ -17,9 +17,9 @@
 #include "common/string_util.h"
 #include "core/core.h"
 #include "core/hle/service/acc/profile_manager.h"
+#include "ui_configure_profile_manager.h"
 #include "sudachi/configuration/configure_profile_manager.h"
 #include "sudachi/util/limitable_input_dialog.h"
-#include "ui_configure_profile_manager.h"
 
 namespace {
 // Same backup JPEG used by acc IProfile::GetImage if no jpeg found
@@ -287,9 +287,8 @@ void ConfigureProfileManager::SetUserImage() {
         return;
     }
 
-    const auto raw_path = QString::fromStdString(
-        Common::FS::PathToUTF8String(Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) /
-                                     "system/save/8000000000000010"));
+    const auto raw_path = QString::fromStdString(Common::FS::PathToUTF8String(
+        Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) / "system/save/8000000000000010"));
     const QFileInfo raw_info{raw_path};
     if (raw_info.exists() && !raw_info.isDir() && !QFile::remove(raw_path)) {
         QMessageBox::warning(this, tr("Error deleting file"),

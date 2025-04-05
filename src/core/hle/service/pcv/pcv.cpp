@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2018 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2018 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <memory>
@@ -70,8 +70,6 @@ public:
             {9, nullptr, "SetMinVClockRate"},
             {10, nullptr, "GetPossibleClockRates"},
             {11, nullptr, "GetDvfsTable"},
-            {14, nullptr, "Unknown14"}, // 18.0.0+
-            {15, nullptr, "Unknown15"} // 18.0.0+
         };
         // clang-format on
         RegisterHandlers(functions);

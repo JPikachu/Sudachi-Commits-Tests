@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2021 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2021 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <string_view>
@@ -7,6 +7,7 @@
 #include "shader_recompiler/backend/glasm/glasm_emit_context.h"
 #include "shader_recompiler/frontend/ir/value.h"
 #include "shader_recompiler/profile.h"
+#include "shader_recompiler/runtime_info.h"
 #include "shader_recompiler/shader_info.h"
 
 namespace Shader::Backend::GLASM {
@@ -408,11 +409,12 @@ void EmitInvocationInfo(EmitContext& ctx, IR::Inst& inst) {
         break;
     case Stage::Geometry:
         ctx.Add("SHL.U {}.x,{},16;", inst,
-            InputTopologyVertices::vertices(ctx.runtime_info.input_topology));
+                InputTopologyVertices::vertices(ctx.runtime_info.input_topology));
         break;
     default:
         LOG_WARNING(Shader, "(STUBBED) called");
         ctx.Add("MOV.S {}.x,0x00ff0000;", inst);
+        break;
     }
 }
 
@@ -422,14 +424,6 @@ void EmitSampleId(EmitContext& ctx, IR::Inst& inst) {
 
 void EmitIsHelperInvocation(EmitContext& ctx, IR::Inst& inst) {
     ctx.Add("MOV.S {}.x,fragment.helperthread.x;", inst);
-}
-
-void EmitSR_WScaleFactorXY(EmitContext& ctx, IR::Inst& inst) {
-    LOG_WARNING(Shader, "(STUBBED) called");
-}
-
-void EmitSR_WScaleFactorZ(EmitContext& ctx, IR::Inst& inst) {
-    LOG_WARNING(Shader, "(STUBBED) called");
 }
 
 void EmitYDirection(EmitContext& ctx, IR::Inst& inst) {

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2018 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2018 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "common/settings.h"
@@ -11,9 +11,6 @@ SystemSettings DefaultSystemSettings() {
 
     settings.version = 0x140000;
     settings.flags = 7;
-
-    settings.rebootless_system_version =
-        RebootlessSystemUpdateVersion{.version = 38, .reserved = {1}, .display_version = {38}};
 
     settings.mii_author_id = Common::UUID::MakeDefault();
 

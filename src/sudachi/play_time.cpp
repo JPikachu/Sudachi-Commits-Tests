@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 sudachi Emulator Project
+// SPDX-FileCopyrightText: 2023 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "common/fs/file.h"
@@ -18,7 +18,6 @@ void PlayTimeManager::SetProgramId(u64 program_id) {
 
 inline void PlayTimeManager::UpdateTimestamp() {
     this->last_timestamp = std::chrono::steady_clock::now();
-    this->last_total_times = GetTotalTimes(this->running_program_id);
 }
 
 void PlayTimeManager::Start() {
@@ -51,12 +50,12 @@ void PlayTimeManager::Save() {
                              std::chrono::steady_clock::duration(now - this->last_timestamp))
                              .count());
     UpdateTimestamp();
-    if (!UpdatePlayTime(running_program_id, duration, 1)) {
+    if (!UpdatePlayTime(running_program_id, duration)) {
         LOG_ERROR(Common, "Failed to update play time");
     }
 }
 
-bool UpdatePlayTime(u64 program_id, u64 add_play_time, u64 add_total_times) {
+bool UpdatePlayTime(u64 program_id, u64 add_play_time) {
     std::vector<PlayTimeElement> play_time_elements;
     if (!ReadPlayTimeFile(play_time_elements)) {
         return false;
@@ -64,11 +63,9 @@ bool UpdatePlayTime(u64 program_id, u64 add_play_time, u64 add_total_times) {
     const auto it = std::find(play_time_elements.begin(), play_time_elements.end(), program_id);
 
     if (it == play_time_elements.end()) {
-        play_time_elements.push_back(
-            {.program_id = program_id, .play_time = add_play_time, .total_times = add_total_times});
+        play_time_elements.push_back({.program_id = program_id, .play_time = add_play_time});
     } else {
         play_time_elements.at(it - play_time_elements.begin()).play_time += add_play_time;
-        play_time_elements.at(it - play_time_elements.begin()).total_times += add_total_times;
     }
     if (!WritePlayTimeFile(play_time_elements)) {
         return false;
@@ -87,19 +84,6 @@ u64 GetPlayTime(u64 program_id) {
         return 0;
     }
     return play_time_elements.at(it - play_time_elements.begin()).play_time;
-}
-
-u64 GetTotalTimes(u64 program_id) {
-    std::vector<PlayTimeElement> play_time_elements;
-
-    if (!ReadPlayTimeFile(play_time_elements)) {
-        return 0;
-    }
-    const auto it = std::find(play_time_elements.begin(), play_time_elements.end(), program_id);
-    if (it == play_time_elements.end()) {
-        return 0;
-    }
-    return play_time_elements.at(it - play_time_elements.begin()).total_times;
 }
 
 bool PlayTimeManager::ResetProgramPlayTime(u64 program_id) {
@@ -188,10 +172,6 @@ QString ReadablePlayTime(qulonglong time_seconds) {
     return QStringLiteral("%L1 %2")
         .arg(value, 0, 'f', unit && time_seconds % 60 != 0)
         .arg(QString::fromUtf8(units[unit]));
-}
-
-QString ReadableTotalTimes(qulonglong times_count) {
-    return QStringLiteral("%L1").arg((double)times_count, 0, 'f', 0);
 }
 
 } // namespace PlayTime

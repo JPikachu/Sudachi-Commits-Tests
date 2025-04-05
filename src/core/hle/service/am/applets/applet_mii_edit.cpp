@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2022 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2022 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "common/assert.h"
@@ -93,7 +93,7 @@ void MiiEdit::Execute() {
     case MiiEditAppletMode::AppendMii: {
         Mii::StoreData store_data{};
         store_data.BuildRandom(Mii::Age::All, Mii::Gender::All, Mii::Race::All);
-        store_data.SetNickname({u's', u'u', u'd', u'a'});
+        store_data.SetNickname({u'y', u'u', u'z', u'u'});
         store_data.SetChecksum();
         const auto result = manager->AddOrReplace(metadata, store_data);
 

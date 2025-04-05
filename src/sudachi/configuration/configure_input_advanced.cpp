@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2020 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2020 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <QColorDialog>
@@ -6,8 +6,8 @@
 #include "core/core.h"
 #include "hid_core/frontend/emulated_controller.h"
 #include "hid_core/hid_core.h"
-#include "sudachi/configuration/configure_input_advanced.h"
 #include "ui_configure_input_advanced.h"
+#include "sudachi/configuration/configure_input_advanced.h"
 
 ConfigureInputAdvanced::ConfigureInputAdvanced(Core::HID::HIDCore& hid_core_, QWidget* parent)
     : QWidget(parent), ui(std::make_unique<Ui::ConfigureInputAdvanced>()), hid_core{hid_core_} {

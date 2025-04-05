@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2024 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2024 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "core/hle/service/cmif_serialization.h"
@@ -34,7 +34,6 @@ IDynamicRightsInterface::IDynamicRightsInterface(Core::System& system_)
         {23, nullptr, "GetLimitedApplicationLicenseUpgradableEvent"},
         {24, nullptr, "NotifyLimitedApplicationLicenseUpgradableEventForDebug"},
         {25, nullptr, "RequestProceedDynamicRightsState"},
-        {26, nullptr, "HasAccountRestrictedRightsInRunningApplications"} // 18.0.0+
     };
     // clang-format on
 

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2021 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2021 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #pragma once
@@ -656,7 +656,7 @@ public:
         void* native_context{};
         std::atomic<u32> lock{1};
         bool is_running{};
-        u32 magic{Common::MakeMagic('S', 'U', 'D', 'A')};
+        u32 magic{Common::MakeMagic('Y', 'U', 'Z', 'U')};
     };
 
     NativeExecutionParameters& GetNativeExecutionParameters() {

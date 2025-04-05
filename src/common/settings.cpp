@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2021 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2021 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <version>
@@ -131,8 +131,7 @@ void LogSettings() {
         }
     }
     log_path("DataStorage_CacheDir", Common::FS::GetSudachiPath(Common::FS::SudachiPath::CacheDir));
-    log_path("DataStorage_ConfigDir",
-             Common::FS::GetSudachiPath(Common::FS::SudachiPath::ConfigDir));
+    log_path("DataStorage_ConfigDir", Common::FS::GetSudachiPath(Common::FS::SudachiPath::ConfigDir));
     log_path("DataStorage_LoadDir", Common::FS::GetSudachiPath(Common::FS::SudachiPath::LoadDir));
     log_path("DataStorage_NANDDir", Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir));
     log_path("DataStorage_SDMCDir", Common::FS::GetSudachiPath(Common::FS::SudachiPath::SDMCDir));

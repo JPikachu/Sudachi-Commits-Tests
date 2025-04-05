@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2023 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2023 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "common/scope_exit.h"
@@ -165,7 +165,6 @@ Result KPageTableBase::InitializeForKernel(bool is_64_bit, KVirtualAddress start
     m_kernel_map_region_end = 0;
     m_alias_code_region_start = 0;
     m_alias_code_region_end = 0;
-    m_reserved_region_extra_size = 0;
     m_code_region_start = 0;
     m_code_region_end = 0;
     m_max_heap_size = 0;
@@ -254,15 +253,6 @@ Result KPageTableBase::InitializeForProcess(Svc::CreateProcessFlag as_type, bool
         m_alias_code_region_end = m_code_region_end;
         process_code_start = Common::AlignDown(GetInteger(code_address), RegionAlignment);
         process_code_end = Common::AlignUp(GetInteger(code_address) + code_size, RegionAlignment);
-
-        // TODO: (jarrodnorwell)
-        // [switchbrew.org][0] Address space type must be 39-bit
-        // [switchbrew.org][1] System resource size must be > 0
-        // [switchbrew.org][2] KTargetSystem::IsDebugMode() must be true
-        if ((as_type & Svc::CreateProcessFlag::AddressSpaceMask) ==
-            Svc::CreateProcessFlag::EnableReservedRegionExtraSize) {
-            m_reserved_region_extra_size += GetAddressSpaceSize() / 8;
-        }
     } else {
         stack_region_size = 0;
         kernel_map_region_size = 0;

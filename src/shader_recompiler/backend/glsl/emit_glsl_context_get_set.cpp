@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2021 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2021 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <string_view>
@@ -7,6 +7,7 @@
 #include "shader_recompiler/backend/glsl/glsl_emit_context.h"
 #include "shader_recompiler/frontend/ir/value.h"
 #include "shader_recompiler/profile.h"
+#include "shader_recompiler/runtime_info.h"
 #include "shader_recompiler/runtime_info.h"
 
 namespace Shader::Backend::GLSL {
@@ -433,6 +434,7 @@ void EmitInvocationInfo(EmitContext& ctx, IR::Inst& inst) {
     default:
         LOG_WARNING(Shader, "(STUBBED) called");
         ctx.AddU32("{}=uint(0x00ff0000);", inst);
+        break;
     }
 }
 
@@ -442,14 +444,6 @@ void EmitSampleId(EmitContext& ctx, IR::Inst& inst) {
 
 void EmitIsHelperInvocation(EmitContext& ctx, IR::Inst& inst) {
     ctx.AddU1("{}=gl_HelperInvocation;", inst);
-}
-
-void EmitSR_WScaleFactorXY(EmitContext& ctx, IR::Inst& inst) {
-    LOG_WARNING(Shader, "(STUBBED) called");
-}
-
-void EmitSR_WScaleFactorZ(EmitContext& ctx, IR::Inst& inst) {
-    LOG_WARNING(Shader, "(STUBBED) called");
 }
 
 void EmitYDirection(EmitContext& ctx, IR::Inst& inst) {

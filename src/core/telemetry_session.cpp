@@ -35,7 +35,7 @@ static u64 GenerateTelemetryId() {
     mbedtls_entropy_context entropy;
     mbedtls_entropy_init(&entropy);
     mbedtls_ctr_drbg_context ctr_drbg;
-    static constexpr std::array<char, 18> personalization{{"Suda Telemetry ID"}};
+    static constexpr std::array<char, 18> personalization{{"yuzu Telemetry ID"}};
 
     mbedtls_ctr_drbg_init(&ctr_drbg);
     ASSERT(mbedtls_ctr_drbg_seed(&ctr_drbg, mbedtls_entropy_func, &entropy,
@@ -114,8 +114,7 @@ static constexpr const char* TranslateASTCDecodeMode(Settings::AstcDecodeMode mo
 
 u64 GetTelemetryId() {
     u64 telemetry_id{};
-    const auto filename =
-        Common::FS::GetSudachiPath(Common::FS::SudachiPath::ConfigDir) / "telemetry_id";
+    const auto filename = Common::FS::GetSudachiPath(Common::FS::SudachiPath::ConfigDir) / "telemetry_id";
 
     bool generate_new_id = !Common::FS::Exists(filename);
 
@@ -157,8 +156,7 @@ u64 GetTelemetryId() {
 
 u64 RegenerateTelemetryId() {
     const u64 new_telemetry_id{GenerateTelemetryId()};
-    const auto filename =
-        Common::FS::GetSudachiPath(Common::FS::SudachiPath::ConfigDir) / "telemetry_id";
+    const auto filename = Common::FS::GetSudachiPath(Common::FS::SudachiPath::ConfigDir) / "telemetry_id";
 
     Common::FS::IOFile file{filename, Common::FS::FileAccessMode::Write,
                             Common::FS::FileType::BinaryFile};

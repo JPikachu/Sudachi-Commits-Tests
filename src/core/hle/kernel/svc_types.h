@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2020 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2020 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #pragma once
@@ -153,7 +153,7 @@ enum class InfoType : u32 {
     ThreadTickCount = 25,
     IsSvcPermitted = 26,
     IoRegionHint = 27,
-    ReservedRegionExtraSize = 28,
+    AliasRegionExtraSize = 28,
 
     MesosphereMeta = 65000,
     MesosphereCurrentProcess = 65001,
@@ -643,13 +643,9 @@ enum class CreateProcessFlag : u32 {
     // 11.x+ DisableDeviceAddressSpaceMerge.
     DisableDeviceAddressSpaceMerge = (1 << 12),
 
-    // 18.x+ EnableReservedRegionExtraSize.
-    EnableReservedRegionExtraSize = (1 << 13),
-
     // Mask of all flags.
     All = Is64Bit | AddressSpaceMask | EnableDebug | EnableAslr | IsApplication |
-          PoolPartitionMask | OptimizeMemoryAllocation | DisableDeviceAddressSpaceMerge |
-          EnableReservedRegionExtraSize,
+          PoolPartitionMask | OptimizeMemoryAllocation | DisableDeviceAddressSpaceMerge
 };
 DECLARE_ENUM_FLAG_OPERATORS(CreateProcessFlag);
 

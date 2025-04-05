@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2021 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2021 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 //     opcode name,                                         return type,    arg1 type,      arg2 type,      arg3 type,      arg4 type,      arg4 type,      ...
@@ -62,8 +62,6 @@ OPCODE(InvocationId,                                        U32,                
 OPCODE(InvocationInfo,                                      U32,                                                                                            )
 OPCODE(SampleId,                                            U32,                                                                                            )
 OPCODE(IsHelperInvocation,                                  U1,                                                                                             )
-OPCODE(SR_WScaleFactorXY,                                   U32,                                                                                            )
-OPCODE(SR_WScaleFactorZ,                                    U32,                                                                                            )
 OPCODE(YDirection,                                          F32,                                                                                            )
 OPCODE(ResolutionDownFactor,                                F32,                                                                                            )
 OPCODE(RenderArea,                                          F32x4,                                                                                          )

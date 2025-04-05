@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2024 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2024 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "core/hle/service/cmif_serialization.h"
@@ -21,7 +21,6 @@ ISystemLocalCommunicationService::ISystemLocalCommunicationService(Core::System&
             {102, nullptr, "Scan"},
             {103, nullptr, "ScanPrivate"},
             {104, nullptr, "SetWirelessControllerRestriction"},
-            {106, nullptr, "Unknown106"}, // 18.0.0+
             {200, nullptr, "OpenAccessPoint"},
             {201, nullptr, "CloseAccessPoint"},
             {202, nullptr, "CreateNetwork"},
@@ -41,13 +40,6 @@ ISystemLocalCommunicationService::ISystemLocalCommunicationService(Core::System&
             {401, nullptr, "FinalizeSystem"},
             {402, nullptr, "SetOperationMode"},
             {403, C<&ISystemLocalCommunicationService::InitializeSystem2>, "InitializeSystem2"},
-            {500, nullptr, "Unknown500"}, // 18.0.0+
-            {501, nullptr, "Unknown501"}, // 18.0.0+
-            {502, nullptr, "Unknown502"}, // 18.0.0+
-            {503, nullptr, "Unknown503"}, // 18.0.0+
-            {505, nullptr, "Unknown505"}, // 18.0.0+
-            {600, nullptr, "Unknown600"}, // 18.0.0+
-            {601, nullptr, "Unknown601"} // 18.0.0+
         };
     // clang-format on
 

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2021 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2021 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #pragma once
@@ -11,7 +11,7 @@
 namespace Common::FS {
 
 enum class SudachiPath {
-    SudachiDir,     // Where sudachi stores its data.
+    SudachiDir,        // Where sudachi stores its data.
     AmiiboDir,      // Where Amiibo backups are stored.
     CacheDir,       // Where cached filesystem data is stored.
     ConfigDir,      // Where config files are stored.
@@ -257,8 +257,8 @@ void SetSudachiPath(SudachiPath sudachi_path, const Path& new_path) {
 [[nodiscard]] std::filesystem::path GetHomeDirectory();
 
 /**
- * Gets the relevant paths for sudachi to store its data based on the given XDG environment
- * variable. See https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
+ * Gets the relevant paths for sudachi to store its data based on the given XDG environment variable.
+ * See https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
  * Defaults to $HOME/.local/share for main application data,
  * $HOME/.cache for cached data, and $HOME/.config for configuration files.
  *
@@ -288,13 +288,11 @@ enum class DirectorySeparator {
 };
 
 // Splits the path on '/' or '\' and put the components into a vector
-// i.e. "C:\Users\Sudachi\Documents\save.bin" becomes {"C:", "Users", "Sudachi", "Documents",
-// "save.bin" }
+// i.e. "C:\Users\Sudachi\Documents\save.bin" becomes {"C:", "Users", "Sudachi", "Documents", "save.bin" }
 [[nodiscard]] std::vector<std::string_view> SplitPathComponents(std::string_view filename);
 
 // Splits the path on '/' or '\' and put the components into a vector
-// i.e. "C:\Users\Sudachi\Documents\save.bin" becomes {"C:", "Users", "Sudachi", "Documents",
-// "save.bin" }
+// i.e. "C:\Users\Sudachi\Documents\save.bin" becomes {"C:", "Users", "Sudachi", "Documents", "save.bin" }
 [[nodiscard]] std::vector<std::string> SplitPathComponentsCopy(std::string_view filename);
 
 // Removes trailing slash, makes all '\\' into '/', and removes duplicate '/'. Makes '/' into '\\'

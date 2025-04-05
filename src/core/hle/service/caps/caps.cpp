@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2018 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2018 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "core/hle/service/caps/caps.h"
@@ -7,7 +7,6 @@
 #include "core/hle/service/caps/caps_manager.h"
 #include "core/hle/service/caps/caps_sc.h"
 #include "core/hle/service/caps/caps_ss.h"
-#include "core/hle/service/caps/caps_su.h"
 #include "core/hle/service/caps/caps_u.h"
 #include "core/hle/service/server_manager.h"
 #include "core/hle/service/service.h"
@@ -29,8 +28,6 @@ void LoopProcess(Core::System& system) {
         "caps:ss", std::make_shared<IScreenShotService>(system, album_manager));
     server_manager->RegisterNamedService("caps:sc",
                                          std::make_shared<IScreenShotControlService>(system));
-    server_manager->RegisterNamedService(
-        "caps:su", std::make_shared<IScreenShotApplicationService>(system, album_manager));
 
     ServerManager::RunServer(std::move(server_manager));
 }

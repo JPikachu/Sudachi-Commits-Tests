@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2021 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2021 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #pragma once
@@ -72,8 +72,6 @@ void EmitInvocationId(EmitContext& ctx, IR::Inst& inst);
 void EmitInvocationInfo(EmitContext& ctx, IR::Inst& inst);
 void EmitSampleId(EmitContext& ctx, IR::Inst& inst);
 void EmitIsHelperInvocation(EmitContext& ctx, IR::Inst& inst);
-void EmitSR_WScaleFactorXY(EmitContext& ctx, IR::Inst& inst);
-void EmitSR_WScaleFactorZ(EmitContext& ctx, IR::Inst& inst);
 void EmitYDirection(EmitContext& ctx, IR::Inst& inst);
 void EmitResolutionDownFactor(EmitContext& ctx, IR::Inst& inst);
 void EmitRenderArea(EmitContext& ctx, IR::Inst& inst);

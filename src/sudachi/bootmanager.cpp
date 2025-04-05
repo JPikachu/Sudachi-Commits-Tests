@@ -54,12 +54,12 @@
 #include "input_common/drivers/tas_input.h"
 #include "input_common/drivers/touch_screen.h"
 #include "input_common/main.h"
-#include "sudachi/bootmanager.h"
-#include "sudachi/main.h"
-#include "sudachi/qt_common.h"
 #include "video_core/gpu.h"
 #include "video_core/rasterizer_interface.h"
 #include "video_core/renderer_base.h"
+#include "sudachi/bootmanager.h"
+#include "sudachi/main.h"
+#include "sudachi/qt_common.h"
 
 class QObject;
 class QPaintEngine;

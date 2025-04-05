@@ -9,10 +9,10 @@
 #include "common/logging/filter.h"
 #include "common/settings.h"
 #include "core/core.h"
+#include "ui_configure_debug.h"
 #include "sudachi/configuration/configure_debug.h"
 #include "sudachi/debugger/console.h"
 #include "sudachi/uisettings.h"
-#include "ui_configure_debug.h"
 
 ConfigureDebug::ConfigureDebug(const Core::System& system_, QWidget* parent)
     : QScrollArea(parent), ui{std::make_unique<Ui::ConfigureDebug>()}, system{system_} {
@@ -20,8 +20,8 @@ ConfigureDebug::ConfigureDebug(const Core::System& system_, QWidget* parent)
     SetConfiguration();
 
     connect(ui->open_log_button, &QPushButton::clicked, []() {
-        const auto path = QString::fromStdString(
-            Common::FS::GetSudachiPathString(Common::FS::SudachiPath::LogDir));
+        const auto path =
+            QString::fromStdString(Common::FS::GetSudachiPathString(Common::FS::SudachiPath::LogDir));
         QDesktopServices::openUrl(QUrl::fromLocalFile(path));
     });
 

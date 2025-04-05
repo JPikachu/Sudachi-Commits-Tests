@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2024 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2024 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #pragma once
@@ -500,12 +500,5 @@ struct TvSettings {
     f32 contrast_ratio;
 };
 static_assert(sizeof(TvSettings) == 0x20, "TvSettings is an invalid size");
-
-// https://github.com/switchbrew/libnx/blob/master/nx/include/switch/services/set.h#L714-L719
-struct RebootlessSystemUpdateVersion {
-    u32 version;
-    u8 reserved[0x1C];
-    char display_version[0x20];
-};
 
 } // namespace Service::Set

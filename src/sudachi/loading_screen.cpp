@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2019 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2019 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <unordered_map>
@@ -13,9 +13,9 @@
 #include <QStyleOption>
 #include "core/frontend/framebuffer_layout.h"
 #include "core/loader/loader.h"
-#include "sudachi/loading_screen.h"
 #include "ui_loading_screen.h"
 #include "video_core/rasterizer_interface.h"
+#include "sudachi/loading_screen.h"
 
 // Mingw seems to not have QMovie at all. If QMovie is missing then use a single frame instead of an
 // showing the full animation

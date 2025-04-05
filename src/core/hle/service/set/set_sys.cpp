@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2018 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2018 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <fstream>
@@ -20,13 +20,13 @@
 #include "core/hle/service/filesystem/filesystem.h"
 #include "core/hle/service/ipc_helpers.h"
 #include "core/hle/service/set/set.h"
-#include "core/hle/service/set/settings_types.h"
+#include "core/hle/service/set/set_sys.h"
 
 namespace Service::Set {
 
 namespace {
 constexpr u32 SETTINGS_VERSION{1u};
-constexpr auto SETTINGS_MAGIC = Common::MakeMagic('s', 'u', 'd', 'a', '_', 's', 'e', 't');
+constexpr auto SETTINGS_MAGIC = Common::MakeMagic('y', 'u', 'z', 'u', '_', 's', 'e', 't');
 struct SettingsHeader {
     u64 magic;
     u32 version;
@@ -786,14 +786,6 @@ void SET_SYS::GetKeyboardLayout(HLERequestContext& ctx) {
     rb.Push(static_cast<u32>(selected_keyboard_layout));
 }
 
-void SET_SYS::GetRebootlessSystemUpdateVersion(HLERequestContext& ctx) {
-    LOG_WARNING(Service_SET, "(STUBBED) called.");
-
-    IPC::ResponseBuilder rb{ctx, 3};
-    rb.Push(ResultSuccess);
-    rb.PushRaw<RebootlessSystemUpdateVersion>(m_system_settings.rebootless_system_version);
-}
-
 void SET_SYS::GetDeviceTimeZoneLocationUpdatedTime(HLERequestContext& ctx) {
     LOG_WARNING(Service_SET, "called.");
 
@@ -1029,7 +1021,7 @@ SET_SYS::SET_SYS(Core::System& system_) : ServiceFramework{system_, "set:sys"}, 
         {146, nullptr, "SetConsoleSixAxisSensorAngularVelocityTimeBias"},
         {147, nullptr, "GetConsoleSixAxisSensorAngularAcceleration"},
         {148, nullptr, "SetConsoleSixAxisSensorAngularAcceleration"},
-        {149, &SET_SYS::GetRebootlessSystemUpdateVersion, "GetRebootlessSystemUpdateVersion"},
+        {149, nullptr, "GetRebootlessSystemUpdateVersion"},
         {150, &SET_SYS::GetDeviceTimeZoneLocationUpdatedTime, "GetDeviceTimeZoneLocationUpdatedTime"},
         {151, &SET_SYS::SetDeviceTimeZoneLocationUpdatedTime, "SetDeviceTimeZoneLocationUpdatedTime"},
         {152, &SET_SYS::GetUserSystemClockAutomaticCorrectionUpdatedTime, "GetUserSystemClockAutomaticCorrectionUpdatedTime"},
@@ -1107,52 +1099,52 @@ SET_SYS::~SET_SYS() {
 }
 
 void SET_SYS::SetupSettings() {
-    auto system_dir = Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) /
-                      "system/save/8000000000000050";
+    auto system_dir =
+        Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) / "system/save/8000000000000050";
     if (!LoadSettingsFile(system_dir, []() { return DefaultSystemSettings(); })) {
         ASSERT(false);
     }
 
-    auto private_dir = Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) /
-                       "system/save/8000000000000052";
+    auto private_dir =
+        Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) / "system/save/8000000000000052";
     if (!LoadSettingsFile(private_dir, []() { return DefaultPrivateSettings(); })) {
         ASSERT(false);
     }
 
-    auto device_dir = Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) /
-                      "system/save/8000000000000053";
+    auto device_dir =
+        Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) / "system/save/8000000000000053";
     if (!LoadSettingsFile(device_dir, []() { return DefaultDeviceSettings(); })) {
         ASSERT(false);
     }
 
-    auto appln_dir = Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) /
-                     "system/save/8000000000000054";
+    auto appln_dir =
+        Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) / "system/save/8000000000000054";
     if (!LoadSettingsFile(appln_dir, []() { return DefaultApplnSettings(); })) {
         ASSERT(false);
     }
 }
 
 void SET_SYS::StoreSettings() {
-    auto system_dir = Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) /
-                      "system/save/8000000000000050";
+    auto system_dir =
+        Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) / "system/save/8000000000000050";
     if (!StoreSettingsFile(system_dir, m_system_settings)) {
         LOG_ERROR(HW_GPU, "Failed to store System settings");
     }
 
-    auto private_dir = Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) /
-                       "system/save/8000000000000052";
+    auto private_dir =
+        Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) / "system/save/8000000000000052";
     if (!StoreSettingsFile(private_dir, m_private_settings)) {
         LOG_ERROR(HW_GPU, "Failed to store Private settings");
     }
 
-    auto device_dir = Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) /
-                      "system/save/8000000000000053";
+    auto device_dir =
+        Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) / "system/save/8000000000000053";
     if (!StoreSettingsFile(device_dir, m_device_settings)) {
         LOG_ERROR(HW_GPU, "Failed to store Device settings");
     }
 
-    auto appln_dir = Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) /
-                     "system/save/8000000000000054";
+    auto appln_dir =
+        Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) / "system/save/8000000000000054";
     if (!StoreSettingsFile(appln_dir, m_appln_settings)) {
         LOG_ERROR(HW_GPU, "Failed to store ApplLn settings");
     }

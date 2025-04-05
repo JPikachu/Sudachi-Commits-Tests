@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2024 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2024 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "core/hle/service/am/service/debug_functions.h"
@@ -18,8 +18,6 @@ IDebugFunctions::IDebugFunctions(Core::System& system_)
         {40, nullptr, "GetAppletResourceUsageInfo"},
         {50, nullptr, "AddSystemProgramIdAndAppletIdForDebug"},
         {51, nullptr, "AddOperationConfirmedLibraryAppletIdForDebug"},
-        {52, nullptr, "GetProgramIdFromAppletIdForDebug"}, // 17.0.0+
-        {53, nullptr, "Unknown53"}, // 18.0.0+
         {100, nullptr, "SetCpuBoostModeForApplet"},
         {101, nullptr, "CancelCpuBoostModeForApplet"},
         {110, nullptr, "PushToAppletBoundChannelForDebug"},
@@ -33,9 +31,6 @@ IDebugFunctions::IDebugFunctions(Core::System& system_)
         {140, nullptr, "RestrictPowerOperationForSecureLaunchModeForDebug"},
         {200, nullptr, "CreateFloatingLibraryAppletAccepterForDebug"},
         {300, nullptr, "TerminateAllRunningApplicationsForDebug"},
-        {410, nullptr, "Unknown410"}, // 18.0.0+
-        {411, nullptr, "Unknown411"}, // 18.0.0+
-        {412, nullptr, "Unknown412"}, // 18.0.0+
         {900, nullptr, "GetGrcProcessLaunchedSystemEvent"},
     };
     // clang-format on

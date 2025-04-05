@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2021 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2021 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "common/bit_cast.h"
@@ -380,14 +380,6 @@ U32 IREmitter::SampleId() {
 
 U1 IREmitter::IsHelperInvocation() {
     return Inst<U1>(Opcode::IsHelperInvocation);
-}
-
-U32 IREmitter::SR_WScaleFactorXY() {
-    return Inst<U32>(Opcode::SR_WScaleFactorXY);
-}
-
-U32 IREmitter::SR_WScaleFactorZ() {
-    return Inst<U32>(Opcode::SR_WScaleFactorZ);
 }
 
 F32 IREmitter::YDirection() {

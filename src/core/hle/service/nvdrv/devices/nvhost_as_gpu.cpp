@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2021 sudachi Emulator Project
+// SPDX-FileCopyrightText: 2021 yuzu Emulator Project
 // SPDX-FileCopyrightText: 2021 Skyline Team and Contributors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -163,10 +163,10 @@ NvResult nvhost_as_gpu::AllocateSpace(IoctlAllocSpace& params) {
     }
 
     const u32 page_size_bits{params.page_size == VM::SUDACHI_PAGESIZE ? VM::PAGE_SIZE_BITS
-                                                                      : vm.big_page_size_bits};
+                                                                   : vm.big_page_size_bits};
 
     auto& allocator{params.page_size == VM::SUDACHI_PAGESIZE ? *vm.small_page_allocator
-                                                             : *vm.big_page_allocator};
+                                                          : *vm.big_page_allocator};
 
     if ((params.flags & MappingFlags::Fixed) != MappingFlags::None) {
         allocator.AllocateFixed(static_cast<u32>(params.offset >> page_size_bits), params.pages);
@@ -249,9 +249,9 @@ NvResult nvhost_as_gpu::FreeSpace(IoctlFreeSpace& params) {
         }
 
         auto& allocator{params.page_size == VM::SUDACHI_PAGESIZE ? *vm.small_page_allocator
-                                                                 : *vm.big_page_allocator};
+                                                              : *vm.big_page_allocator};
         u32 page_size_bits{params.page_size == VM::SUDACHI_PAGESIZE ? VM::PAGE_SIZE_BITS
-                                                                    : vm.big_page_size_bits};
+                                                                 : vm.big_page_size_bits};
 
         allocator.Free(static_cast<u32>(params.offset >> page_size_bits),
                        static_cast<u32>(allocation.size >> page_size_bits));

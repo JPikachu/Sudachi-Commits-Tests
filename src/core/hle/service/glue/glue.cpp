@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2019 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2019 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <memory>
@@ -10,6 +10,8 @@
 #include "core/hle/service/glue/notif.h"
 #include "core/hle/service/glue/time/manager.h"
 #include "core/hle/service/glue/time/static.h"
+#include "core/hle/service/ns/ns.h"
+#include "core/hle/service/ns/platform_service_manager.h"
 #include "core/hle/service/psc/time/common.h"
 #include "core/hle/service/server_manager.h"
 
@@ -36,6 +38,9 @@ void LoopProcess(Core::System& system) {
         "notif:a", std::make_shared<INotificationServicesForApplication>(system));
     server_manager->RegisterNamedService("notif:s",
                                          std::make_shared<INotificationServices>(system));
+
+    server_manager->RegisterNamedService(
+        "pl:u", std::make_shared<Service::NS::IPlatformServiceManager>(system, "pl:u"));
 
     // Time
     auto time = std::make_shared<Time::TimeManager>(system);

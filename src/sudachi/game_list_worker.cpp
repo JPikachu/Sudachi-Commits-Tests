@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2018 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2018 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <memory>
@@ -215,7 +215,7 @@ QList<QStandardItem*> MakeGameListEntry(const std::string& path, const std::stri
         new GameListItem(file_type_string),
         new GameListItemSize(size),
         new GameListItemPlayTime(play_time_manager.GetPlayTime(program_id)),
-        new GameListItemTotalTimes(play_time_manager.GetTotalTimes(program_id))};
+    };
 
     const auto patch_versions = GetGameListCachedObject(
         fmt::format("{:016X}", patch.GetTitleID()), "pv.txt", [&patch, &loader] {
@@ -234,8 +234,8 @@ GameListWorker::GameListWorker(FileSys::VirtualFilesystem vfs_,
                                const PlayTime::PlayTimeManager& play_time_manager_,
                                Core::System& system_)
     : vfs{std::move(vfs_)}, provider{provider_}, game_dirs{game_dirs_},
-      compatibility_list{compatibility_list_}, play_time_manager{play_time_manager_},
-      system{system_} {
+      compatibility_list{compatibility_list_}, play_time_manager{play_time_manager_}, system{
+                                                                                          system_} {
     // We want the game list to manage our lifetime.
     setAutoDelete(false);
 }

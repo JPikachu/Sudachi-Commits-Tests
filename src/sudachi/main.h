@@ -398,8 +398,8 @@ private slots:
     void OnAlbum();
     void OnCabinet(Service::NFP::CabinetMode mode);
     void OnMiiEdit();
+    void OnQLaunch();
     void OnOpenControllerMenu();
-    void OnHomeMenu();
     void OnCaptureScreenshot();
     void OnCheckFirmwareDecryption();
     void OnLanguageChanged(const QString& locale);

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2020 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2020 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "core/hle/service/caps/caps_sc.h"
@@ -22,11 +22,9 @@ IScreenShotControlService::IScreenShotControlService(Core::System& system_)
         {1010, nullptr, "SetTakingScreenShotCancelState"},
         {1011, nullptr, "NotifyTakingScreenShotRefused"},
         {1012, nullptr, "NotifyTakingScreenShotFailed"},
-        {1100, nullptr, "Unknown1100"}, // 18.0.0+
         {1101, nullptr, "SetupOverlayMovieThumbnail"},
         {1106, nullptr, "Unknown1106"},
         {1107, nullptr, "Unknown1107"},
-        {1108, nullptr, "Unknown1108"}, // 18.0.0+
         {1201, nullptr, "OpenRawScreenShotReadStream"},
         {1202, nullptr, "CloseRawScreenShotReadStream"},
         {1203, nullptr, "ReadRawScreenShotReadStream"},

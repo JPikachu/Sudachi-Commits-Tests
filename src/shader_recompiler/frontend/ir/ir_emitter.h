@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2021 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2021 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #pragma once
@@ -102,8 +102,6 @@ public:
     [[nodiscard]] U32 InvocationInfo();
     [[nodiscard]] U32 SampleId();
     [[nodiscard]] U1 IsHelperInvocation();
-    [[nodiscard]] U32 SR_WScaleFactorXY();
-    [[nodiscard]] U32 SR_WScaleFactorZ();
     [[nodiscard]] F32 YDirection();
 
     [[nodiscard]] F32 ResolutionDownFactor();

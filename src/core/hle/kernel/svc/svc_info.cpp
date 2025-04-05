@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2023 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2023 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "core/core.h"
@@ -38,7 +38,7 @@ Result GetInfo(Core::System& system, u64* result, InfoType info_id_type, Handle 
     case InfoType::UsedNonSystemMemorySize:
     case InfoType::IsApplication:
     case InfoType::FreeThreadCount:
-    case InfoType::ReservedRegionExtraSize: {
+    case InfoType::AliasRegionExtraSize: {
         R_UNLESS(info_sub_id == 0, ResultInvalidEnumValue);
 
         const auto& handle_table = GetCurrentProcess(system.Kernel()).GetHandleTable();
@@ -135,8 +135,8 @@ Result GetInfo(Core::System& system, u64* result, InfoType info_id_type, Handle 
             }
             R_SUCCEED();
 
-        case InfoType::ReservedRegionExtraSize:
-            *result = process->GetPageTable().GetReservedRegionExtraSize();
+        case InfoType::AliasRegionExtraSize:
+            // TODO (jarrodnorwell): do this when KIP's NPDM header is finished
             R_SUCCEED();
 
         default:

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2020 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2020 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "common/alignment.h"
@@ -100,8 +100,8 @@ constexpr size_t GetAddressSpaceWidthFromType(Svc::CreateProcessFlag as_type) {
 } // namespace
 
 KPageTable::KPageTable(Core::System& system_)
-    : m_general_lock{system_.Kernel()}, m_map_physical_memory_lock{system_.Kernel()},
-      m_system{system_}, m_kernel{system_.Kernel()} {}
+    : m_general_lock{system_.Kernel()},
+      m_map_physical_memory_lock{system_.Kernel()}, m_system{system_}, m_kernel{system_.Kernel()} {}
 
 KPageTable::~KPageTable() = default;
 

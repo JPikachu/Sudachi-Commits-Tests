@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2024 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2024 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #pragma once
@@ -42,7 +42,6 @@ public:
 public:
     Event& GetSystemEvent();
     Event& GetOperationModeChangedSystemEvent();
-    Event& GetHDCPStateChangedEvent();
 
 public:
     bool IsApplication() {
@@ -146,14 +145,12 @@ private:
 private:
     Event m_system_event;
     Event m_operation_mode_changed_system_event;
-    Event m_hdcp_state_changed_event;
 
     std::list<AppletMessage> m_unordered_messages{};
 
     bool m_is_application{};
     bool m_focus_state_changed_notification_enabled{true};
     bool m_operation_mode_changed_notification_enabled{true};
-    bool m_hdcp_state_changed_notification_enabled{true};
     bool m_performance_mode_changed_notification_enabled{true};
     bool m_resume_notification_enabled{};
 

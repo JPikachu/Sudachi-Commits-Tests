@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2024 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2024 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "core/hle/service/services.h"
@@ -13,7 +13,6 @@
 #include "core/hle/service/btdrv/btdrv.h"
 #include "core/hle/service/btm/btm.h"
 #include "core/hle/service/caps/caps.h"
-#include "core/hle/service/diag/diag.h"
 #include "core/hle/service/erpt/erpt.h"
 #include "core/hle/service/es/es.h"
 #include "core/hle/service/eupld/eupld.h"
@@ -26,7 +25,6 @@
 #include "core/hle/service/hid/hid.h"
 #include "core/hle/service/ipc_helpers.h"
 #include "core/hle/service/jit/jit.h"
-#include "core/hle/service/lbl/lbl.h"
 #include "core/hle/service/ldn/ldn.h"
 #include "core/hle/service/ldr/ldr.h"
 #include "core/hle/service/lm/lm.h"
@@ -61,6 +59,7 @@
 #include "core/hle/service/spl/spl_module.h"
 #include "core/hle/service/ssl/ssl.h"
 #include "core/hle/service/usb/usb.h"
+#include "core/hle/service/vi/lbl.h"
 #include "core/hle/service/vi/vi.h"
 
 namespace Service {
@@ -81,7 +80,6 @@ Services::Services(std::shared_ptr<SM::ServiceManager>& sm, Core::System& system
     kernel.RunOnHostCoreProcess("bsdsocket",  [&] { Sockets::LoopProcess(system); }).detach();
     kernel.RunOnHostCoreProcess("vi",         [&, token] { VI::LoopProcess(system, token); }).detach();
 
-    kernel.RunOnGuestCoreProcess("diag",       [&] { Diag::LoopProcess(system); });
     kernel.RunOnGuestCoreProcess("sm",         [&] { SM::LoopProcess(system); });
     kernel.RunOnGuestCoreProcess("account",    [&] { Account::LoopProcess(system); });
     kernel.RunOnGuestCoreProcess("am",         [&] { AM::LoopProcess(system); });

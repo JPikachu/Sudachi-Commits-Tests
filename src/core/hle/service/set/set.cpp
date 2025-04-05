@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2018 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2018 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <algorithm>
@@ -155,7 +155,6 @@ SET::SET(Core::System& system_) : ServiceFramework{system_, "set"} {
         {9, &SET::GetKeyCodeMap2, "GetKeyCodeMap2"},
         {10, nullptr, "GetFirmwareVersionForDebug"},
         {11, &SET::GetDeviceNickName, "GetDeviceNickName"},
-        {12, nullptr, "GetKeyCodeMapByPort"} // 18.0.0+
     };
     // clang-format on
 

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2018 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2018 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <memory>
@@ -25,13 +25,10 @@ public:
             {5, C<&INpnsSystem::GetReceiveEvent>, "GetReceiveEvent"},
             {6, nullptr, "ListenUndelivered"},
             {7, nullptr, "GetStateChangeEvent"},
-            {8, C<&INpnsSystem::ListenToByName>, "ListenToByName"}, // 18.0.0+
+            {8, C<&INpnsSystem::ListenToByName>, "ListenToByName"},
             {11, nullptr, "SubscribeTopic"},
             {12, nullptr, "UnsubscribeTopic"},
             {13, nullptr, "QueryIsTopicExist"},
-            {14, nullptr, "SubscribeTopicByAccount"}, // 18.0.0+
-            {15, nullptr, "UnsubscribeTopicByAccount"}, // 18.0.0+
-            {16, nullptr, "DownloadSubscriptionList"}, // 18.0.0+
             {21, nullptr, "CreateToken"},
             {22, nullptr, "CreateTokenWithApplicationId"},
             {23, nullptr, "DestroyToken"},
@@ -39,29 +36,15 @@ public:
             {25, nullptr, "QueryIsTokenValid"},
             {26, nullptr, "ListenToMyApplicationId"},
             {27, nullptr, "DestroyTokenAll"},
-            {28, nullptr, "CreateTokenWithName"}, // 18.0.0+
-            {29, nullptr, "DestroyTokenWithName"}, // 18.0.0+
             {31, nullptr, "UploadTokenToBaaS"},
             {32, nullptr, "DestroyTokenForBaaS"},
             {33, nullptr, "CreateTokenForBaaS"},
             {34, nullptr, "SetBaaSDeviceAccountIdList"},
-            {35, nullptr, "LinkNsaId"}, // 17.0.0+
-            {36, nullptr, "UnlinkNsaId"}, // 17.0.0+
-            {37, nullptr, "RelinkNsaId"}, // 18.0.0+
-            {40, nullptr, "GetNetworkServiceAccountIdTokenRequestEvent"}, // 17.0.0+
-            {41, nullptr, "TryPopNetworkServiceAccountIdTokenRequestUid"}, // 17.0.0+
-            {42, nullptr, "SetNetworkServiceAccountIdTokenSuccess"}, // 17.0.0+
-            {43, nullptr, "SetNetworkServiceAccountIdTokenFailure"}, // 17.0.0+
-            {44, nullptr, "SetUidList"}, // 17.0.0+
-            {45, nullptr, "PutDigitalTwinKeyValue"}, // 17.0.0+
-            {51, nullptr, "DeleteDigitalTwinKeyValue"}, // 18.0.0+
             {101, nullptr, "Suspend"},
             {102, nullptr, "Resume"},
-            {103, C<&INpnsSystem::GetState>, "GetState"},
+            {103, nullptr, "GetState"},
             {104, nullptr, "GetStatistics"},
             {105, nullptr, "GetPlayReportRequestEvent"},
-            {106, C<&INpnsSystem::GetLastNotifiedTime>, "GetLastNotifiedTime"}, // 18.0.0+
-            {107, nullptr, "SetLastNotifiedTime"}, // 18.0.0+
             {111, nullptr, "GetJid"},
             {112, nullptr, "CreateJid"},
             {113, nullptr, "DestroyJid"},
@@ -73,17 +56,10 @@ public:
             {153, nullptr, "GetDropEventWithHandover"},
             {154, nullptr, "CreateTokenAsync"},
             {155, nullptr, "CreateTokenAsyncWithApplicationId"},
-            {156, nullptr, "CreateTokenWithNameAsync"}, // 18.0.0+
             {161, nullptr, "GetRequestChangeStateCancelEvent"},
             {162, nullptr, "RequestChangeStateForceTimedWithCancelEvent"},
             {201, nullptr, "RequestChangeStateForceTimed"},
             {202, nullptr, "RequestChangeStateForceAsync"},
-            {301, nullptr, "GetPassword"}, // 18.0.0+
-            {302, nullptr, "GetAllImmigration"}, // 18.0.0+
-            {303, nullptr, "GetNotificationHistories"}, // 18.0.0+
-            {304, nullptr, "GetPersistentConnectionSummary"}, // 18.0.0+
-            {305, nullptr, "GetDigitalTwinSummary"}, // 18.0.0+
-            {306, nullptr, "GetDigitalTwinValue"}, // 18.0.0+
         };
         // clang-format on
 
@@ -110,17 +86,10 @@ private:
     }
 
     Result ListenToByName() {
-        LOG_WARNING(Service_AM, "(STUBBED) called");
-        R_SUCCEED();
-    }
+        LOG_DEBUG(Service_AM, "(STUBBED) called.");
 
-    Result GetState() {
-        LOG_WARNING(Service_AM, "(STUBBED) called");
-        R_SUCCEED();
-    }
+        // TODO (jarrodnorwell)
 
-    Result GetLastNotifiedTime() {
-        LOG_WARNING(Service_AM, "(STUBBED) called");
         R_SUCCEED();
     }
 
@@ -139,7 +108,6 @@ public:
             {4, nullptr, "ReceiveRaw"},
             {5, nullptr, "GetReceiveEvent"},
             {7, nullptr, "GetStateChangeEVent"},
-            {8, nullptr, "ListenToByName"}, // 18.0.0+
             {21, nullptr, "CreateToken"},
             {23, nullptr, "DestroyToken"},
             {25, nullptr, "QueryIsTokenValid"},

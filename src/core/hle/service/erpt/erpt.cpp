@@ -1,15 +1,13 @@
-// SPDX-FileCopyrightText: Copyright 2018 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2018 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <memory>
 
 #include "common/logging/log.h"
 #include "core/hle/service/cmif_serialization.h"
-#include "core/hle/service/cmif_types.h"
 #include "core/hle/service/erpt/erpt.h"
 #include "core/hle/service/server_manager.h"
 #include "core/hle/service/service.h"
-#include "core/hle/service/set/system_settings_server.h"
 #include "core/hle/service/sm/sm.h"
 
 namespace Service::ERPT {
@@ -17,15 +15,6 @@ namespace Service::ERPT {
 class ErrorReportContext final : public ServiceFramework<ErrorReportContext> {
 public:
     explicit ErrorReportContext(Core::System& system_) : ServiceFramework{system_, "erpt:c"} {
-        Service::Set::FirmwareVersionFormat firmware_version{};
-        Service::Set::GetFirmwareVersionImpl(firmware_version, system,
-                                             Service::Set::GetFirmwareVersionType::Version2);
-
-        FunctionInfo create_report = {11, C<&ErrorReportContext::CreateReport>, "CreateReport"};
-        if (firmware_version.major >= 17)
-            create_report = {11, C<&ErrorReportContext::CreateReportV1>,
-                             "CreateReportV1"}; // 17.0.0+
-
         // clang-format off
         static const FunctionInfo functions[] = {
             {0, C<&ErrorReportContext::SubmitContext>, "SubmitContext"},
@@ -39,8 +28,8 @@ public:
             {8, nullptr, "ClearApplicationLaunchTime"},
             {9, nullptr, "SubmitAttachment"},
             {10, nullptr, "CreateReportWithAttachments"},
-            create_report,
-            {12, C<&ErrorReportContext::CreateReport>, "CreateReport"}, // 17.0.0+
+            {11, C<&ErrorReportContext::CreateReportV1>, "CreateReportV1"},
+            {12, C<&ErrorReportContext::CreateReport>, "CreateReport"},
             {20, nullptr, "RegisterRunningApplet"},
             {21, nullptr, "UnregisterRunningApplet"},
             {22, nullptr, "UpdateAppletSuspendedDuration"},

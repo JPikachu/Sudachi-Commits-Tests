@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 sudachi Emulator Project
+// SPDX-FileCopyrightText: 2023 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #pragma once
@@ -7,12 +7,13 @@
 #include <map>
 #include <vector>
 
-namespace NxTzdb {
+namespace NxTzdb
+{
 
-// clang-format off
+    // clang-format off
 const static std::map<const char*, const std::vector<uint8_t>> @DIRECTORY_NAME@ = 
 {
 @FILE_DATA@};
-// clang-format on
+    // clang-format on
 
 } // namespace NxTzdb

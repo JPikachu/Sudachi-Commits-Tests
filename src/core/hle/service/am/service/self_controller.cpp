@@ -1,12 +1,12 @@
-// SPDX-FileCopyrightText: Copyright 2024 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2024 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "common/logging/log.h"
 #include "core/hle/result.h"
 #include "core/hle/service/am/am_results.h"
+#include "core/hle/service/am/caps_su.h"
 #include "core/hle/service/am/frontend/applets.h"
 #include "core/hle/service/am/service/self_controller.h"
-#include "core/hle/service/caps/caps_su.h"
 #include "core/hle/service/cmif_serialization.h"
 #include "core/hle/service/nvnflinger/nvnflinger.h"
 #include "core/hle/service/sm/sm.h"

@@ -26,8 +26,8 @@
 #include "common/settings_enums.h"
 #include "core/core.h"
 #include "core/frontend/framebuffer_layout.h"
-#include "sudachi/uisettings.h"
 #include "ui_configure_ui.h"
+#include "sudachi/uisettings.h"
 
 namespace {
 constexpr std::array default_game_icon_sizes{
@@ -125,8 +125,6 @@ ConfigureUi::ConfigureUi(Core::System& system_, QWidget* parent)
     connect(ui->show_types, &QCheckBox::stateChanged, this, &ConfigureUi::RequestGameListUpdate);
     connect(ui->show_play_time, &QCheckBox::stateChanged, this,
             &ConfigureUi::RequestGameListUpdate);
-    connect(ui->show_total_times, &QCheckBox::stateChanged, this,
-            &ConfigureUi::RequestGameListUpdate);
     connect(ui->game_icon_size_combobox, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
             &ConfigureUi::RequestGameListUpdate);
     connect(ui->folder_icon_size_combobox, QOverload<int>::of(&QComboBox::currentIndexChanged),
@@ -144,10 +142,10 @@ ConfigureUi::ConfigureUi(Core::System& system_, QWidget* parent)
 
     // Set screenshot path to user specification.
     connect(ui->screenshot_path_button, &QToolButton::pressed, this, [this] {
-        auto dir = QFileDialog::getExistingDirectory(
-            this, tr("Select Screenshots Path..."),
-            QString::fromStdString(
-                Common::FS::GetSudachiPathString(Common::FS::SudachiPath::ScreenshotsDir)));
+        auto dir =
+            QFileDialog::getExistingDirectory(this, tr("Select Screenshots Path..."),
+                                              QString::fromStdString(Common::FS::GetSudachiPathString(
+                                                  Common::FS::SudachiPath::ScreenshotsDir)));
         if (!dir.isEmpty()) {
             if (dir.back() != QChar::fromLatin1('/')) {
                 dir.append(QChar::fromLatin1('/'));
@@ -172,7 +170,6 @@ void ConfigureUi::ApplyConfiguration() {
     UISettings::values.show_size = ui->show_size->isChecked();
     UISettings::values.show_types = ui->show_types->isChecked();
     UISettings::values.show_play_time = ui->show_play_time->isChecked();
-    UISettings::values.show_total_times = ui->show_total_times->isChecked();
     UISettings::values.game_icon_size = ui->game_icon_size_combobox->currentData().toUInt();
     UISettings::values.folder_icon_size = ui->folder_icon_size_combobox->currentData().toUInt();
     UISettings::values.row_1_text_id = ui->row_1_text_combobox->currentData().toUInt();
@@ -180,7 +177,7 @@ void ConfigureUi::ApplyConfiguration() {
 
     UISettings::values.enable_screenshot_save_as = ui->enable_screenshot_save_as->isChecked();
     Common::FS::SetSudachiPath(Common::FS::SudachiPath::ScreenshotsDir,
-                               ui->screenshot_path_edit->text().toStdString());
+                            ui->screenshot_path_edit->text().toStdString());
 
     const u32 height = ScreenshotDimensionToInt(ui->screenshot_height->currentText());
     UISettings::values.screenshot_height.SetValue(height);
@@ -203,7 +200,6 @@ void ConfigureUi::SetConfiguration() {
     ui->show_size->setChecked(UISettings::values.show_size.GetValue());
     ui->show_types->setChecked(UISettings::values.show_types.GetValue());
     ui->show_play_time->setChecked(UISettings::values.show_play_time.GetValue());
-    ui->show_total_times->setChecked(UISettings::values.show_total_times.GetValue());
     ui->game_icon_size_combobox->setCurrentIndex(
         ui->game_icon_size_combobox->findData(UISettings::values.game_icon_size.GetValue()));
     ui->folder_icon_size_combobox->setCurrentIndex(

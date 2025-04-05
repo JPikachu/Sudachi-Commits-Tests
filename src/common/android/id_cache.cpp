@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2023 sudachi Emulator Project
+// SPDX-FileCopyrightText: Copyright 2023 yuzu Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <jni.h>
@@ -538,12 +538,10 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
         env->GetMethodID(sudachi_input_device_interface, "getName", "()Ljava/lang/String;");
     s_sudachi_input_device_get_guid =
         env->GetMethodID(sudachi_input_device_interface, "getGUID", "()Ljava/lang/String;");
-    s_sudachi_input_device_get_port =
-        env->GetMethodID(sudachi_input_device_interface, "getPort", "()I");
+    s_sudachi_input_device_get_port = env->GetMethodID(sudachi_input_device_interface, "getPort", "()I");
     s_sudachi_input_device_get_supports_vibration =
         env->GetMethodID(sudachi_input_device_interface, "getSupportsVibration", "()Z");
-    s_sudachi_input_device_vibrate =
-        env->GetMethodID(sudachi_input_device_interface, "vibrate", "(F)V");
+    s_sudachi_input_device_vibrate = env->GetMethodID(sudachi_input_device_interface, "vibrate", "(F)V");
     s_sudachi_input_device_get_axes =
         env->GetMethodID(sudachi_input_device_interface, "getAxes", "()[Ljava/lang/Integer;");
     s_sudachi_input_device_has_keys =
